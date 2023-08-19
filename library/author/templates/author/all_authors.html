@@ -1,0 +1,80 @@
+{% extends "author/index.html" %}
+{% block title %}All authors{% endblock %}
+{% block content %}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        form {
+            margin-top: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <h1>Authors</h1>
+
+    <table border="1">
+        {% for author in authors %}
+            <tr>
+                <td>{{ author.id }}</td>
+                <td>{{ author.name }}</td>
+                <td>{{ author.patronymic }}</td>
+                <td>{{ author.surname }}</td>
+                <td><a href="delete/{{ author.id }}">delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Create Author</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <button type="submit">Create Author</button>
+    </form>
+{% endblock %}

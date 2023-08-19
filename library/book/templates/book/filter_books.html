@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Books</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            color: #333;
+            margin-top: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+
+        hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid #ccc;
+        }
+
+        .no-results {
+            color: #888;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .return-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .return-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form method="GET" action="{% url 'filter_books' %}">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <br>
+            <label for="Description">Description:</label>
+            <input type="text" id="description" name="description">
+            <br>
+            <button type="submit">Filter</button>
+        </form>
+
+        {% if books %}
+            <h3>Filtered Books:</h3>
+            {% for book in books %}
+                <h4>{{ book.title }}</h4>
+                <p>Name: {{ book.name }}</p>
+                <p>Count: {{ book.count }}</p>
+                <p>Description: {{ book.description }}</p>
+                <hr>
+            {% empty %}
+                <p class="no-results">No books match the filter criteria.</p>
+            {% endfor %}
+        {% else %}
+            <p class="no-results">No filter results.</p>
+        {% endif %}
+
+        <a href="/books" class="return-button">Return to Book List</a>
+    </div>
+</body>
+
+</html>

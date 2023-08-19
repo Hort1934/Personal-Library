@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Order</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+
+        .create-order-form {
+            margin-bottom: 1rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.5rem;
+        }
+
+        .submit-button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .return-button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Order</h2>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        <form class="create-order-form" method="post" action="{% url 'create_order' %}">
+            {% csrf_token %}
+            <label for="user_id">User ID:</label>
+            <input type="text" id="user_id" name="user_id" class="input-field">
+            <br>
+            <label for="book_id">Book ID:</label>
+            <input type="text" id="book_id" name="book_id" class="input-field">
+            <br>
+            <label for="plated_end_at">Planned End Date:</label>
+            <input type="date" id="plated_end_at" name="plated_end_at" class="input-field">
+            <br>
+            <button type="submit" class="submit-button">Create Order</button>
+        </form>
+        <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>
+    </div>
+</body>
+</html>

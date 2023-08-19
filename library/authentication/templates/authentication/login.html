@@ -1,0 +1,20 @@
+{% extends "authentication/index.html" %}
+{% block title %}Login form{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="container">
+        <h1>Login</h1>
+        <hr>
+        <p>Sign in with your email and password</p>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        <br><br>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        <hr>
+        <button type="submit">Login</button>
+        <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+    </div>
+</form>
+{% endblock %}

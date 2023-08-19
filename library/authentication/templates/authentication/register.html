@@ -1,0 +1,17 @@
+{% extends "authentication/index.html" %}
+{% block title %}Register form{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="container">
+        <h1>Register</h1>
+        <hr>
+        {{ form.as_p }}
+        <hr>
+        <button type="submit" class="registerbtn"><strong>Register</strong></button>
+    </div>
+    <div class="container signin">
+        <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+    </div>
+</form>
+{% endblock %}

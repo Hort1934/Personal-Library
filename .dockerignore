@@ -1,0 +1,10 @@
+__pycache__    # Exclude the Python __pycache__ directory
+*.pyc          # Exclude compiled Python files (*.pyc)
+*.pyo          # Exclude optimized Python files (*.pyo)
+*.pyd          # Exclude Python dynamic library files (*.pyd)
+*.swp          # Exclude Vim swap files
+*.bak          # Exclude backup files
+*.tmp          # Exclude temporary files
+*.db           # Exclude database files
+*.sqlite3      # Exclude SQLite database files
+.dockerignore  # Exclude the .dockerignore file itself from being copied

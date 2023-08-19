@@ -1,0 +1,71 @@
+{% extends "author/index.html" %}
+{% block title %}Create{% endblock %}
+{% block content %}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="container">
+        <h2>Create Author</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="name"><b>Enter name</b></label>
+            <input type="text" placeholder="Enter author's name" name="name" required>
+            <br><br>
+            <label for="surname"><b>Enter surname</b></label>
+            <input type="text" placeholder="Enter author's surname" name="surname" required>
+            <br><br>
+            <label for="patronymic"><b>Enter patronymic</b></label>
+            <input type="text" placeholder="Enter author's patronymic" name="patronymic" required>
+            <br><br>
+            <button type="submit">Create Author</button>
+        </form>
+    </div>
+{% endblock %}

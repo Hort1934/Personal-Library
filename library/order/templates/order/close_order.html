@@ -1,0 +1,12 @@
+{% block content %}
+<h3>Order ID: {{ order.id }}</h3>
+<p>Status: {{ order.status }}</p>
+
+<form method="POST" action="{% url 'close_order' order.id %}">
+    {% csrf_token %}
+    <label for="closing_note">Closing Note:</label>
+    <textarea id="closing_note" name="closing_note"></textarea>
+    <br><br>
+    <button type="submit">Close Order</button>
+</form>
+{% endblock %}
