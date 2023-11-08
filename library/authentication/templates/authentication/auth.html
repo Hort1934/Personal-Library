@@ -1,46 +1,25 @@
+<nav class="horizontal-menu">
+        <ul>
+            <li class="dropdown">
+                <a href="/authors">Services</a>
+                <ul class="dropdown-content">
+                    <li><a href="/authors">All Authors</a></li>
+                    <li><a href="/books">All Books</a></li>
+                    <li><a href="/all_orders">All Orders</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a href="/all_orders">Support</a></li>
+            <li class="dropdown"><a href="/all_orders">User Profile</a></li>
+            <li class="dropdown"><a href="/all_orders">FAQ</a></li>
+            <li class="dropdown"><a href="/all_orders">About</a></li>
+        </ul>
+    </nav>
 {% extends "authentication/index.html" %}
 
 {% block content %}
-    <style>
-        p {
-            font-size: large;
-        }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            {#margin-top: 3rem;#}
-        }
-        h2 {
-            color: #45a049;
-            text-align: center;
-            margin-top: 15rem;
-        }
-        .button-container button {
-            margin: 0 1rem;
-            padding: 0.75rem 1.5rem;
-            font-size: large;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+    <h2>Welcome to the Book Accounting System</h2>
 
-        }
 
-        .button-container button:hover {
-            background-color: #45a049;
-        }
-
-        .shadowbox {
-          width: 15em;
-          border: 1px solid #333;
-          box-shadow: 8px 8px 5px #444;
-          padding: 8px 12px;
-          background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
-        }
-    </style>
-
-    <h2>Welcome in Book accounting system</h2>
 
     {% if user.is_authenticated %}
         <div class="container">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
@@ -48,10 +27,4 @@
     {% else %}
         <p class="text-center">If you already have an account, <a href="/login">Login</a> or <a href="/register">Sign Up</a></p>
     {% endif %}
-
-    <div class="button-container">
-        <button onclick="window.location.href='/authors'">All Authors</button>
-        <button onclick="window.location.href='/books'">All Books</button>
-        <button onclick="window.location.href='/all_orders'">All Orders</button>
-    </div>
 {% endblock %}

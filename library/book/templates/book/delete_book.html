@@ -1,9 +1,29 @@
 <!-- delete_book.html -->
-<h2>Confirm Deletion</h2>
-<p>Are you sure you want to delete "{{ book.name }}"?</p>
-
-<form action="{% url 'delete_book' book.id %}" method="post">
-  {% csrf_token %}
-  <input type="hidden" name="book_id" value="{{ book.id }}">
-  <button type="submit" class="btn btn-danger">Confirm Delete</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Deletion</title>
+    <!-- Підключення Bootstrap CSS (переконайтеся, що ви маєте доступ до Bootstrap) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2>Confirm Deletion</h2>
+                <p>Are you sure you want to delete "{{ book.name }}"?</p>
+                <form action="{% url 'delete_book' book.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <!-- Використання класу Bootstrap для стилізації кнопки -->
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Підключення Bootstrap JS (потрібно для коректного функціонування кнопки) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

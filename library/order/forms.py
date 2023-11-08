@@ -11,3 +11,5 @@ class OrderForm(forms.ModelForm):
         plated_end_at = self.cleaned_data['plated_end_at']
         # Додайте додаткову валідацію, якщо потрібно
         return plated_end_at
+
+

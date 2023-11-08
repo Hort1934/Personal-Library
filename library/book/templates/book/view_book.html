@@ -66,11 +66,11 @@
         <p>Count: {{ book.count }}</p>
 
         <a href="/books/" class="return-button">Return to Book List</a>
-        <form action="{% url 'delete_book' book.id %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="book_id" value="{{ book.id }}">
-          <p></p><button type="submit" class="return-button">Delete</button>
-        </form>
+{#        <form action="{% url 'delete_book' book.id %}" method="post">#}
+{#          {% csrf_token %}#}
+{#          <input type="hidden" name="book_id" value="{{ book.id }}">#}
+{#          <p></p><button type="submit" class="return-button">Delete</button>#}
+{#        </form>#}
     </div>
 </body>
 

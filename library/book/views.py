@@ -23,6 +23,8 @@ class BookForm(forms.ModelForm):
 from django.http import Http404
 
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def all_books(request):
     books = Book.objects.all()
     search_id = request.GET.get('id')
@@ -34,6 +36,19 @@ def all_books(request):
         except Http404:
             messages.error(request, "Book not found in the database.")
             return render(request, 'book/all_books.html', {'books': books})
+
+    # Отримання номера сторінки з параметра запиту
+    page = request.GET.get('page')
+    paginator = Paginator(books, 20)  # Розділити на сторінки по 20 книг на кожній
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        # Якщо номер сторінки не є цілим числом, показати першу сторінку.
+        books = paginator.page(1)
+    except EmptyPage:
+        # Якщо номер сторінки за межами доступних сторінок, показати останню сторінку.
+        books = paginator.page(paginator.num_pages)
 
     return render(request, 'book/all_books.html', {'books': books})
 
