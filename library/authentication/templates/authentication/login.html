@@ -1,20 +1,39 @@
+<nav class="horizontal-menu">
+        <ul>
+            <li class="dropdown">
+                <a href="/authors">Services</a>
+                <ul class="dropdown-content">
+                    <li><a href="/authors">All Authors</a></li>
+                    <li><a href="/books">All Books</a></li>
+                    <li><a href="/all_orders">All Orders</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a href="/all_orders">Support</a></li>
+            <li class="dropdown"><a href="/all_orders">User Profile</a></li>
+            <li class="dropdown"><a href="/all_orders">FAQ</a></li>
+            <li class="dropdown"><a href="/about">About</a></li>
+        </ul>
+    </nav>
 {% extends "authentication/index.html" %}
 {% block title %}Login form{% endblock %}
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <div class="container">
-        <h1>Login</h1>
-        <hr>
-        <p>Sign in with your email and password</p>
+    <div class="container-xxl" style="max-width: 300px; margin: auto auto 100px auto;"> <!-- Добавлен отступ сверху (20px) -->
+        <h2 style="color:white;">Login</h2>
+        <style>
+            label {
+                color: white;
+            }
+        </style>
         {{ form.email.label_tag }}
         {{ form.email }}
         <br><br>
         {{ form.password.label_tag }}
         {{ form.password }}
         <hr>
-        <button type="submit">Login</button>
-        <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="text-center" style="font-size: 14px; color: white">Don't have an account? <a href="/register">Create an account</a>.</p>
     </div>
 </form>
 {% endblock %}

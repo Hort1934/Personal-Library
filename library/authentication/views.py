@@ -12,11 +12,15 @@ def auth(request):
     return render(request, "authentication/auth.html")
 
 
+def about(request):
+    return render(request, "authentication/about.html")
+
+
 def register_form(request):
     form = RegistrationForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         if form.cleaned_data['password'] != form.cleaned_data['confirm']:
-            error_message = '<div><font size="5">Unsuccessful registration. Invalid information.</font></div>'
+            error_message = '<p><div><font size="4" color: white>Unsuccessful registration. Invalid information.</font></div>'
             messages.error(request, mark_safe(error_message))
         else:
             user = CustomUser.create(
@@ -29,11 +33,12 @@ def register_form(request):
             )
             if user:
                 login(request, user)
-                success_message = '<div><font size="5">Registration successful.</font></div>'
+                success_message = '<p><div><font size="4" style="color: white">Registration successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
                 return redirect("home")
             else:
-                error_message = '<div><font size="5">Unsuccessful registration. Invalid information.</font></div>'
+                error_message = ('<p><div><font size="4" style="color: white">Unsuccessful registration. Invalid '
+                                 'information.</font></div>')
                 messages.error(request, mark_safe(error_message))
     return render(request, "authentication/register.html", {'form': form})
 
@@ -44,18 +49,18 @@ def login_form(request):
         user = CustomUser.get_by_email(form.cleaned_data['email'])
         if user and user.password == form.cleaned_data['password']:
             login(request, user)
-            success_message = '<div><font size="5">Login successful.</font></div>'
+            success_message = '<p><div><font size="4" style="color: white">Login successful.</font></div>'
             messages.success(request, mark_safe(success_message))
             return redirect("home")
         else:
-            error_message = '<div><font size="5">Unsuccessful login. Invalid information.</font></div>'
+            error_message = '<p><div><font size="4" style="color: white">Unsuccessful login. Invalid information.</font></div>'
             messages.error(request, mark_safe(error_message))
     return render(request, "authentication/login.html", {'form': form})
 
 
 def logout_request(request):
     logout(request)
-    info_message = '<div><font size="5">You have successfully logged out.</font></div>'
+    info_message = '<p><div><font size="4" style="color: white">You have successfully logged out.</font></div>'
     messages.info(request, mark_safe(info_message))
     return redirect("home")
 
