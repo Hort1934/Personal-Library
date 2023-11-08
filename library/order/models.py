@@ -26,7 +26,6 @@ class Order(models.Model):
     end_at = models.DateTimeField(default=None, null=True, blank=True)
     plated_end_at = models.DateTimeField(default=None)
 
-
     STATUS_CHOICES = [
         ('Open', 'Open'),
         ('Closed', 'Closed'),
@@ -38,7 +37,7 @@ class Order(models.Model):
         Magic method is redefined to show all information about Book.
         :return: book id, book name, book description, book count, book authors
         """
-        if self.end_at == None:
+        if self.end_at is None:
             return f"\'id\': {self.pk}, " \
                    f"\'user\': CustomUser(id={self.user.pk})," \
                    f" \'book\': Book(id={self.book.pk})," \
@@ -125,12 +124,16 @@ class Order(models.Model):
             a.delete()
             return True
 
+
 class Book(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128, blank=True)
     description = models.CharField(max_length=256, blank=True)
     count = models.IntegerField(default=10)
     date_of_issue = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class CustomUser(models.Model):

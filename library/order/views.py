@@ -22,6 +22,8 @@ def my_orders(request):
 
 
 from django.utils import timezone  # Імпорт бібліотеки для отримання поточного часу
+
+
 def create_order(request):
     user = request.user
     if user.is_authenticated and user.get_role_name() == 'visitor':
@@ -45,7 +47,6 @@ def create_order(request):
         return render(request, 'order/create_order.html', {'form': form})
     else:
         return render(request, 'order/error.html')
-
 
 
 def close_order(request, order_id):

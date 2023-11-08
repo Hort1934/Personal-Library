@@ -44,7 +44,8 @@ class Book(models.Model):
         :return: book id, book name, book description, book count, book authors
         """
         authors = [author.id for author in self.authors.all()]
-        return f"'id': {self.id}, 'name': '{self.name[:20]}...', 'description': '{self.description[:40]}...', 'count': {self.count}, 'authors': {authors}"
+        # return f"'id': {self.id}, 'name': '{self.name[:20]}...', 'description': '{self.description[:40]}...', 'count': {self.count}, 'authors': {authors}"
+        return f"{self.name[:20]}"
 
     def __repr__(self):
         """

@@ -77,3 +77,8 @@ def view_user(request):
         return render(request, 'authentication/view_user.html', {'user': user})
     else:
         return render(request, 'authentication/error.html')
+
+
+def user_profile(request):
+    # Логіка для обробки сторінки особистого кабінету тут
+    return render(request, 'authentication/user_profile.html')

@@ -1,136 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{#<link rel="stylesheet" href="{% static 'css/style.css' %}">#}
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            {#background-color: #f2f2f2;#}
-            background-image: url("https://www.wallpapertip.com/wmimgs/94-948582_light-colorful-background-hd.jpg");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h3 {
-            color: #333;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            color: #777;
-            margin-bottom: 0.5rem;
-        }
-
-        hr {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            border: 0;
-            border-top: 1px solid #ccc;
-        }
-
-        .no-books {
-            color: #888;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .not-found {
-            color: #f00;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .search-form {
-            margin-bottom: 1rem;
-        }
-
-        .search-input {
-            width: 200px;
-            padding: 0.5rem;
-        }
-
-        .search-button {
-            padding: 0.5rem 1rem;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        .add-button,
-        .filter-button,
-        .edit-button {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            margin-right: 1rem;
-        }
-
-        .add-button:hover,
-        .edit-button:hover {
-            background-color: #45a049;
-        }
-
-        #2 {
-            text-align: center;
-        }
-
-        .main-button {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .main-button:hover {
-            background-color: #45a049;
-        }
-
-    </style>
-</head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
 
 <body>
-<button onclick="window.location.href='/'" class="main-button">Main Page</button>
-<p></p>
+    <button onclick="window.location.href='/'" class="main-button">Main Page</button>
+    <p></p>
     <div class="container">
         <form class="search-form" method="GET" action="">
             <input type="text" class="search-input" name="id" placeholder="Search by ID">
             <button type="submit" class="search-button">Search</button>
             <p>
-                <a href="/books/add" class="add-button">Add Book</a>
-                <a href="/books/filter" class="filter-button">Filter Book</a>
+                <a href="/books/add" class="button">Add Book</a>
+                <a href="/books/filter" class="button">Filter Book</a>
             </p>
-
         </form>
         {% if messages %}
             <ul class="messages">
@@ -140,19 +27,53 @@
             </ul>
         {% endif %}
         {% if books %}
-            {% for book in books %}
-                <h3>{{ book.title }}</h3>
-                <hr>
-                <p>ID: {{ book.id }}</p>
-                <p>Name: {{ book.name }}</p>
-                <p>Description: {{ book.description }}</p>
-                <p>Count: {{ book.count }}</p>
-{#                <hr>#}
-                <a href="/books/edit/{{ book.id }}" class="edit-button">Edit Book (ID: {{ book.id }})</a>
-                <hr>
-            {% empty %}
-                <p class="no-books">No books available.</p>
-            {% endfor %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr>
+                            <td>{{ book.id }}</td>
+                            <td>{{ book.name }}</td>
+                            <td>{{ book.description }}</td>
+                            <td>{{ book.count }}</td>
+                            <td>
+                                <a href="/books/edit/{{ book.id }}" class="button">Edit</a>
+                                <a href="/book/{{ book.id }}/delete" class="button">Delete</a>
+                            </td>
+{#                            <td><a href="/book/{{ book.id }}/delete" class="button">Delete</a></td>#}
+
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="not-found">No books available.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if books.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ books.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current-page">
+                        Page {{ books.number }} of {{ books.paginator.num_pages }}.
+                    </span>
+                    {% if books.has_next %}
+                        <a href="?page={{ books.next_page_number }}">next</a>
+                        <a href="?page={{ books.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+
         {% else %}
             <p class="not-found">Book not found.</p>
         {% endif %}
