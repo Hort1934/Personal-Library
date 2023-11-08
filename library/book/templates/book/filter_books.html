@@ -12,7 +12,11 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-image: url("https://www.wallpapertip.com/wmimgs/94-948582_light-colorful-background-hd.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .container {
@@ -76,6 +80,7 @@
             color: #888;
             margin: 2rem 0;
             text-align: center;
+            font-size: larger;
         }
         .return-button {
             display: inline-block;
@@ -104,7 +109,7 @@
             <label for="Description">Description:</label>
             <input type="text" id="description" name="description">
             <br>
-            <button type="submit">Filter</button>
+            <button type="submit"><font size="3">Filter</font></button>
         </form>
 
         {% if books %}

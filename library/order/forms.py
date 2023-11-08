@@ -5,9 +5,9 @@ from .models import Order
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['book', 'user', 'plated_end_at', 'end_at']  # Include the 'end_at' field for editing
+        fields = ['book', 'user', 'plated_end_at']
 
-    def clean_end_at(self):
-        end_at = self.cleaned_data['end_at']
-        # Add any additional validation or custom logic for the 'end_at' field
-        return end_at
+    def clean_plated_end_at(self):
+        plated_end_at = self.cleaned_data['plated_end_at']
+        # Додайте додаткову валідацію, якщо потрібно
+        return plated_end_at

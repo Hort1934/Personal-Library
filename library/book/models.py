@@ -32,11 +32,11 @@ class Book(models.Model):
         param authors: list of Authors
         type authors: list->Author
     """
-    name = models.CharField(blank=True, max_length=128)
-    description = models.CharField(blank=True, max_length=256)
-    count = models.IntegerField(default=10)
     id = models.AutoField(primary_key=True)
-    date_of_issue = models.DateField(blank=True, null=True)
+    name = models.CharField(max_length=128, blank=True)
+    description = models.CharField(max_length=256, blank=True)
+    count = models.IntegerField(default=10)
+    date_of_issue = models.DateField(null=True, blank=True)
 
     def __str__(self):
         """

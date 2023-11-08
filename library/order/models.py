@@ -26,6 +26,7 @@ class Order(models.Model):
     end_at = models.DateTimeField(default=None, null=True, blank=True)
     plated_end_at = models.DateTimeField(default=None)
 
+
     STATUS_CHOICES = [
         ('Open', 'Open'),
         ('Closed', 'Closed'),
@@ -123,3 +124,16 @@ class Order(models.Model):
         else:
             a.delete()
             return True
+
+class Book(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=128, blank=True)
+    description = models.CharField(max_length=256, blank=True)
+    count = models.IntegerField(default=10)
+    date_of_issue = models.DateField(null=True, blank=True)
+
+
+class CustomUser(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=128)
+    email = models.EmailField(max_length=254, unique=True)

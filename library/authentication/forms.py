@@ -8,9 +8,13 @@ class RegistrationForm(forms.Form):
     first_name = forms.CharField()
     middle_name = forms.CharField(required=False)
     last_name = forms.CharField()
-    role = forms.ChoiceField(choices=[(0, 'Default'), (1, 'Admin'), (2, 'Librarian')])
+    role = forms.ChoiceField(choices=[(0, 'Visitor'), (1, 'Librarian')])
 
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+
+

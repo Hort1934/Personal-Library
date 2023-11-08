@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,36 +10,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name='CustomUser',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=128)),
                 ('email', models.EmailField(max_length=254, unique=True)),
             ],
-        ),
-        migrations.AddField(
-            model_name='book',
-            name='count',
-            field=models.IntegerField(default=10),
-        ),
-        migrations.AddField(
-            model_name='book',
-            name='date_of_issue',
-            field=models.DateField(blank=True, null=True),
-        ),
-        migrations.AddField(
-            model_name='book',
-            name='description',
-            field=models.CharField(blank=True, max_length=256),
-        ),
-        migrations.AddField(
-            model_name='book',
-            name='name',
-            field=models.CharField(blank=True, max_length=128),
-        ),
-        migrations.AlterField(
-            model_name='book',
-            name='id',
-            field=models.AutoField(primary_key=True, serialize=False),
         ),
     ]

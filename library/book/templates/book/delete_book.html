@@ -1,0 +1,9 @@
+<!-- delete_book.html -->
+<h2>Confirm Deletion</h2>
+<p>Are you sure you want to delete "{{ book.name }}"?</p>
+
+<form action="{% url 'delete_book' book.id %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="book_id" value="{{ book.id }}">
+  <button type="submit" class="btn btn-danger">Confirm Delete</button>
+</form>

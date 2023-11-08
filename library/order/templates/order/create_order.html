@@ -69,18 +69,17 @@
             <p>{{ error }}</p>
         {% endif %}
         <form class="create-order-form" method="post" action="{% url 'create_order' %}">
-            {% csrf_token %}
-            <label for="user_id">User ID:</label>
-            <input type="text" id="user_id" name="user_id" class="input-field">
-            <br>
-            <label for="book_id">Book ID:</label>
-            <input type="text" id="book_id" name="book_id" class="input-field">
-            <br>
-            <label for="plated_end_at">Planned End Date:</label>
-            <input type="date" id="plated_end_at" name="plated_end_at" class="input-field">
-            <br>
-            <button type="submit" class="submit-button">Create Order</button>
-        </form>
+    {% csrf_token %}
+    <label for="book">Book:</label>
+    {{ form.book }}
+    <br>
+    <label for="user">User:</label>
+    {{ form.user }}
+n    <label for="plated_end_at">Plated End Date:</label>
+    <input type="date" id="plated_end_at" name="plated_end_at" class="input-field">
+    <button type="submit" class="submit-button">Create Order</button>
+</form>
+
         <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>
     </div>
 </body>

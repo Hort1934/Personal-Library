@@ -15,9 +15,9 @@ class Author(models.Model):
         param patronymic: Describes middle name of the author
         type patronymic: str max_length=20
     """
-    name = models.CharField(blank=True, max_length=20)
-    surname = models.CharField(blank=True, max_length=20)
-    patronymic = models.CharField(blank=True, max_length=20)
+    name = models.CharField(max_length=20)
+    surname = models.CharField(max_length=20)
+    patronymic = models.CharField(max_length=20)
     books = models.ManyToManyField(book.models.Book, related_name='authors', blank=True)
     id = models.AutoField(primary_key=True)
 
@@ -66,15 +66,6 @@ class Author(models.Model):
 
     @staticmethod
     def create(name, surname, patronymic):
-        """
-        param name: Describes name of the author
-        type name: str max_length=20
-        param surname: Describes surname of the author
-        type surname: str max_length=20
-        param patronymic: Describes patronymic of the author
-        type patronymic: str max_length=20
-        :return: a new author object which is also written into the DB
-        """
         if name and len(name) <= 20 and surname and len(surname) <= 20 and patronymic and len(patronymic) <= 20:
             author = Author(name=name, surname=surname, patronymic=patronymic)
             author.save()

@@ -12,7 +12,12 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            {#background-color: #f2f2f2;#}
+            background-image: url("https://www.wallpapertip.com/wmimgs/94-948582_light-colorful-background-hd.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .container {
@@ -91,10 +96,32 @@
         .edit-button:hover {
             background-color: #45a049;
         }
+
+        #2 {
+            text-align: center;
+        }
+
+        .main-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .main-button:hover {
+            background-color: #45a049;
+        }
+
     </style>
 </head>
 
 <body>
+<button onclick="window.location.href='/'" class="main-button">Main Page</button>
+<p></p>
     <div class="container">
         <form class="search-form" method="GET" action="">
             <input type="text" class="search-input" name="id" placeholder="Search by ID">
@@ -105,24 +132,30 @@
             </p>
 
         </form>
-
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% if books %}
             {% for book in books %}
                 <h3>{{ book.title }}</h3>
+                <hr>
                 <p>ID: {{ book.id }}</p>
                 <p>Name: {{ book.name }}</p>
                 <p>Description: {{ book.description }}</p>
                 <p>Count: {{ book.count }}</p>
-                <hr>
+{#                <hr>#}
                 <a href="/books/edit/{{ book.id }}" class="edit-button">Edit Book (ID: {{ book.id }})</a>
+                <hr>
             {% empty %}
                 <p class="no-books">No books available.</p>
             {% endfor %}
         {% else %}
             <p class="not-found">Book not found.</p>
         {% endif %}
-
-
     </div>
 </body>
 
