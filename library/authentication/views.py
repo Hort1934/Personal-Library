@@ -49,16 +49,20 @@ def register_form(request):
 
 def login_form(request):
     form = LoginForm(request.POST or None)
-    if request.method == "POST" and form.is_valid():
-        user = CustomUser.get_by_email(form.cleaned_data['email'])
-        if user and user.password == form.cleaned_data['password']:
-            login(request, user)
-            success_message = '<p><div><font size="4" style="color: white">Login successful.</font></div>'
-            messages.success(request, mark_safe(success_message))
-            return redirect("/auth")
+    if request.method == "POST":
+        if form.is_valid():
+            user = CustomUser.get_by_email(form.cleaned_data['email'])
+            if user and user.password == form.cleaned_data['password']:
+                login(request, user)
+                success_message = '<p><div><font size="4" style="color: white">Login successful.</font></div>'
+                messages.success(request, mark_safe(success_message))
+                return redirect("/auth")
+            else:
+                error_message = '<p><div><font size="4" style="color: white">Unsuccessful login. Invalid information.</font></div>'
+                messages.error(request, mark_safe(error_message))
         else:
-            error_message = '<p><div><font size="4" style="color: white">Unsuccessful login. Invalid information.</font></div>'
-            messages.error(request, mark_safe(error_message))
+            # Вивести повідомлення про помилки у формі
+            messages.error(request, 'Invalid form submission. Please correct the errors below.')
     return render(request, "authentication/login.html", {'form': form})
 
 

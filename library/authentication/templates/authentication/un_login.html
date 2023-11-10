@@ -273,20 +273,12 @@
 
     </style>
 {% block content %}
+    <p><div><font size="4" style="color: white; text-align: left">Unsuccessful login. Invalid information.</font></div>
 <form method="post">
+
     {% csrf_token %}
     <div class="container-xxl" style="max-width: 300px; margin: auto auto 100px auto;">
         <h2 class="text-white">Login</h2>
-
-        {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-
-
         <label class="text-white">{{ form.email.label_tag }}</label>
         {{ form.email }}
         <br><br>
@@ -298,4 +290,3 @@
     </div>
 </form>
 {% endblock %}
-
