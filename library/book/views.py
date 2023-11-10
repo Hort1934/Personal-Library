@@ -1,12 +1,13 @@
 from django import forms
 from django.contrib import messages
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.validators import MinValueValidator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.safestring import mark_safe
 
 from .models import Book
 from authentication.models import CustomUser
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 
 
@@ -15,15 +16,12 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ['name', 'description', 'count', 'date_of_issue']
 
-    name = forms.CharField(required=True)
-    description = forms.CharField(required=True, widget=forms.Textarea)
-    count = forms.IntegerField(required=True, validators=[MinValueValidator(0)])
-    date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2051)))
-
-from django.http import Http404
+    name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'style': 'resize:none;'}))
+    count = forms.IntegerField(required=True, validators=[MinValueValidator(0)], widget=forms.NumberInput(attrs={'style': 'width: 5em;'}))
+    date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
 
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def all_books(request):
     books = Book.objects.all()
@@ -108,7 +106,7 @@ def delete_book(request, book_id):
 
     if request.method == 'POST':
         book.delete()
-        success_message = f'<div size="5">Book "{book.name}" has been deleted.</div>'
+        success_message = f'<div size="5" style="color: white">Book "{book.name}" has been deleted.</div>'
         messages.success(request, mark_safe(success_message))
         return HttpResponseRedirect(reverse('all_books'))
 
