@@ -12,7 +12,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://wallpapers.com/images/hd/abstract-colorful-background-1920-x-1080-hgyi7c0eq46chvg0.jpg");
+            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -64,7 +64,8 @@
         <p>Name: {{ book.name }}</p>
         <p>Description: {{ book.description }}</p>
         <p>Count: {{ book.count }}</p>
-
+        <p>Date of issue: {{ book.date_of_issue }}</p>
+        <p></p>
         <a href="/books/" class="return-button">Return to Book List</a>
 {#        <form action="{% url 'delete_book' book.id %}" method="post">#}
 {#          {% csrf_token %}#}

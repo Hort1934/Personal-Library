@@ -9,21 +9,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h2>Confirm Deletion</h2>
-                <p>Are you sure you want to delete "{{ book.name }}"?</p>
-                <form action="{% url 'delete_book' book.id %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="book_id" value="{{ book.id }}">
-                    <!-- Використання класу Bootstrap для стилізації кнопки -->
-                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                </form>
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Confirm Deletion</h2>
+                        <p class="card-text">Are you sure you want to delete "{{ book.name }}"?</p>
+                        <form action="{% url 'delete_book' book.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="book_id" value="{{ book.id }}">
+                            <div class="d-flex justify-content-between">
+                                <!-- Використання класів Bootstrap для стилізації кнопок -->
+                                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                                <a href="/books/" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Підключення Bootstrap JS (потрібно для коректного функціонування кнопки) -->
+    <!-- Підключення Bootstrap JS (потрібно для коректного функціонування кнопок) -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

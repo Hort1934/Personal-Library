@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
@@ -27,11 +28,13 @@ def register_form(request):
             error_message = '<p><div><font size="4" color: white>Unsuccessful registration. Invalid information.</font></div>'
             messages.error(request, mark_safe(error_message))
         else:
+            # Використовуйте make_password для шифрування пароля
+            hashed_password = make_password(form.cleaned_data['password'])
+
             user = CustomUser.create(
                 form.cleaned_data['email'],
-                form.cleaned_data['password'],
+                hashed_password,
                 form.cleaned_data['first_name'],
-                # form.cleaned_data['middle_name'],
                 form.cleaned_data['last_name'],
                 form.cleaned_data.get('role', 0)
             )
@@ -47,12 +50,16 @@ def register_form(request):
     return render(request, "authentication/register.html", {'form': form})
 
 
+from django.contrib.auth.hashers import check_password
+
+
 def login_form(request):
     form = LoginForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             user = CustomUser.get_by_email(form.cleaned_data['email'])
-            if user and user.password == form.cleaned_data['password']:
+            if user and check_password(form.cleaned_data['password'], user.password):
+                # Використовуйте check_password для порівняння паролів
                 login(request, user)
                 success_message = '<p><div style="margin-top: 70"><font size="4" style="color: white">Login successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
@@ -61,7 +68,6 @@ def login_form(request):
                 error_message = '<p><div><font size="4" style="color: white">Unsuccessful login. Invalid information.</font></div>'
                 messages.error(request, mark_safe(error_message))
         else:
-            # Вивести повідомлення про помилки у формі
             messages.error(request, 'Invalid form submission. Please correct the errors below.')
     return render(request, "authentication/login.html", {'form': form})
 

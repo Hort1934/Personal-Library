@@ -7,3 +7,11 @@
 .error-input {
   border: 2px solid #ff0000; /* Червона рамка для полів з помилкою */
 }
+body {
+      font-family: Arial, sans-serif;
+        background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+        background-size: cover; /* Розмір фону - вписати весь вікно браузера */
+        background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
+        background-attachment: fixed; /* Фіксований фон при прокручуванні */
+        background-position: center center; /* Вирівнювання фонового зображення по центру */
+      }

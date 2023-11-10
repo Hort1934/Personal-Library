@@ -4,6 +4,9 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Підключення Font Awesome CSS (переконайтеся, що ви маєте доступ до Font Awesome) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -38,7 +41,16 @@
         </ul>
     </div>
 </nav>
-
+<style>
+    body {
+      font-family: Arial, sans-serif;
+        background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+        background-size: cover; /* Розмір фону - вписати весь вікно браузера */
+        background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
+        background-attachment: fixed; /* Фіксований фон при прокручуванні */
+        background-position: center center; /* Вирівнювання фонового зображення по центру */
+      }
+</style>
     <button onclick="window.location.href='/'" class="main-button">Main Page</button>
     <p></p>
     <div class="container">
@@ -46,6 +58,7 @@
             <input type="text" class="search-input" name="id" placeholder="Search by ID">
             <button type="submit" class="search-button">Search</button>
             <p>
+                <p></p>
                 <a href="/books/add" class="btn btn-primary">Add Book</a>
                 <a href="/books/filter" class="btn btn-primary">Filter Book</a>
             </p>
@@ -58,10 +71,10 @@
             </ul>
         {% endif %}
         {% if books %}
-            <table class="table">
+            <table class="table-light">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Count</th>
@@ -78,9 +91,15 @@
                             <td>{{ book.count }}</td>
                             <td>{{ book.date_of_issue }}</td>
                             <td>
-                                <a href="/books/edit/{{ book.id }}" class="btn btn-warning">Edit</a>
-                                <a href="/book/{{ book.id }}/delete" class="btn btn-danger">Delete</a>
+                                <a href="/books/edit/{{ book.id }}" class="btn btn-warning">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+
+                                <a href="/book/{{ book.id }}/delete" class="btn btn-danger">
+                                    <i class="fa fa-trash fa-spin"></i> Delete
+                                </a>
                             </td>
+
                         </tr>
                     {% empty %}
                         <tr>
