@@ -1,13 +1,44 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-{#<link rel="stylesheet" href="{% static 'css/style.css' %}">#}
-
 <head>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
 
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/auth">Main</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/authors">All Authors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/books">All Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/all_orders">All Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Support</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">User Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">FAQ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
     <button onclick="window.location.href='/'" class="main-button">Main Page</button>
     <p></p>
     <div class="container">
@@ -15,8 +46,8 @@
             <input type="text" class="search-input" name="id" placeholder="Search by ID">
             <button type="submit" class="search-button">Search</button>
             <p>
-                <a href="/books/add" class="button">Add Book</a>
-                <a href="/books/filter" class="button">Filter Book</a>
+                <a href="/books/add" class="btn btn-primary">Add Book</a>
+                <a href="/books/filter" class="btn btn-primary">Filter Book</a>
             </p>
         </form>
         {% if messages %}
@@ -27,29 +58,29 @@
             </ul>
         {% endif %}
         {% if books %}
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Count</th>
-                        <th>Actions</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Count</th>
+                        <th scope="col">Date of issue</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for book in books %}
                         <tr>
-                            <td>{{ book.id }}</td>
+                            <th scope="row">{{ book.id }}</th>
                             <td>{{ book.name }}</td>
                             <td>{{ book.description }}</td>
                             <td>{{ book.count }}</td>
+                            <td>{{ book.date_of_issue }}</td>
                             <td>
-                                <a href="/books/edit/{{ book.id }}" class="button">Edit</a>
-                                <a href="/book/{{ book.id }}/delete" class="button">Delete</a>
+                                <a href="/books/edit/{{ book.id }}" class="btn btn-warning">Edit</a>
+                                <a href="/book/{{ book.id }}/delete" class="btn btn-danger">Delete</a>
                             </td>
-{#                            <td><a href="/book/{{ book.id }}/delete" class="button">Delete</a></td>#}
-
                         </tr>
                     {% empty %}
                         <tr>
@@ -58,26 +89,39 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="pagination">
-                <span class="step-links">
-                    {% if books.has_previous %}
-                        <a href="?page=1">&laquo; first</a>
-                        <a href="?page={{ books.previous_page_number }}">previous</a>
-                    {% endif %}
-                    <span class="current-page">
-                        Page {{ books.number }} of {{ books.paginator.num_pages }}.
-                    </span>
-                    {% if books.has_next %}
-                        <a href="?page={{ books.next_page_number }}">next</a>
-                        <a href="?page={{ books.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
+            <div class="pagination justify-content-center">
+    <form class="form-inline" method="GET" action="">
+        {% if books.has_previous %}
+            <a href="?page=1" class="btn btn-secondary">&laquo; first</a>
+            <a href="?page={{ books.previous_page_number }}" class="btn btn-secondary">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page
+            <input type="number" name="page" value="{{ books.number }}" class="form-control" style="width: 60px;">
+            of {{ books.paginator.num_pages }}.
+        </span>
+
+        {% if books.has_next %}
+            <a href="?page={{ books.next_page_number }}" class="btn btn-secondary">next</a>
+            <a href="?page={{ books.paginator.num_pages }}" class="btn btn-secondary">last &raquo;</a>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Go</button>
+    </form>
+</div>
+
+
 
         {% else %}
             <p class="not-found">Book not found.</p>
         {% endif %}
     </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

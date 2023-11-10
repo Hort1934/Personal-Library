@@ -8,6 +8,10 @@ from .models import CustomUser
 from .forms import RegistrationForm, LoginForm
 
 
+def main(request):
+    return render(request, "authentication/main.html")
+
+
 def auth(request):
     return render(request, "authentication/auth.html")
 
@@ -51,7 +55,7 @@ def login_form(request):
             login(request, user)
             success_message = '<p><div><font size="4" style="color: white">Login successful.</font></div>'
             messages.success(request, mark_safe(success_message))
-            return redirect("home")
+            return redirect("/auth")
         else:
             error_message = '<p><div><font size="4" style="color: white">Unsuccessful login. Invalid information.</font></div>'
             messages.error(request, mark_safe(error_message))
@@ -62,7 +66,7 @@ def logout_request(request):
     logout(request)
     info_message = '<p><div><font size="4" style="color: white">You have successfully logged out.</font></div>'
     messages.info(request, mark_safe(info_message))
-    return redirect("home")
+    return redirect("main")
 
 
 def all_users(request):
