@@ -39,7 +39,7 @@ def all_books(request):
 
     # Отримання номера сторінки з параметра запиту
     page = request.GET.get('page')
-    paginator = Paginator(books, 20)  # Розділити на сторінки по 20 книг на кожній
+    paginator = Paginator(books, 10)  # Розділити на сторінки по 20 книг на кожній
 
     try:
         books = paginator.page(page)

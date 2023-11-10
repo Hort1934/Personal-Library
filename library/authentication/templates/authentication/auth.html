@@ -1,29 +1,44 @@
-<nav class="horizontal-menu">
-        <ul>
-            <li class="dropdown">
-                <a href="/authors">Services</a>
-                <ul class="dropdown-content">
-                    <li><a href="/authors">All Authors</a></li>
-                    <li><a href="/books">All Books</a></li>
-                    <li><a href="/all_orders">All Orders</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a href="/all_orders">Support</a></li>
-            <li class="dropdown"><a href="/all_orders">User Profile</a></li>
-            <li class="dropdown"><a href="/all_orders">FAQ</a></li>
-            <li class="dropdown"><a href="/about">About</a></li>
-        </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/auth">Main</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/authors">All Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">All Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/all_orders">All Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">User Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 {% extends "authentication/index.html" %}
 
 {% block content %}
-    <h2>Welcome to the Book Accounting System</h2>
-
-
-
+    <h2 style="color: ivory">Welcome to the Book Accounting System</h2>
     {% if user.is_authenticated %}
         <div class="container">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
-        <p class="text-center"><a href="/logout">Logout</a></p>
+        <p class="text-center"><a href="/logout" style="color: ivory">Logout</a></p>
     {% else %}
         <p class="text-center">If you already have an account, <a href="/login">Login</a> or <a href="/register">Sign Up</a></p>
     {% endif %}
