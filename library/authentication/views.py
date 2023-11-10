@@ -37,7 +37,7 @@ def register_form(request):
             )
             if user:
                 login(request, user)
-                success_message = '<p><div><font size="4" style="color: white">Registration successful.</font></div>'
+                success_message = '<p><div style="margin-top: 70"><font size="4" style="color: white">Registration successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
                 return redirect("home")
             else:
@@ -54,7 +54,7 @@ def login_form(request):
             user = CustomUser.get_by_email(form.cleaned_data['email'])
             if user and user.password == form.cleaned_data['password']:
                 login(request, user)
-                success_message = '<p><div><font size="4" style="color: white">Login successful.</font></div>'
+                success_message = '<p><div style="margin-top: 70"><font size="4" style="color: white">Login successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
                 return redirect("/auth")
             else:
@@ -70,7 +70,7 @@ def logout_request(request):
     logout(request)
     info_message = '<p><div><font size="4" style="color: white">You have successfully logged out.</font></div>'
     messages.info(request, mark_safe(info_message))
-    return redirect("main")
+    return redirect("login")
 
 
 def all_users(request):
