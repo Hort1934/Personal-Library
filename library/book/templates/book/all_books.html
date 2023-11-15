@@ -50,6 +50,21 @@
         background-attachment: fixed; /* Фіксований фон при прокручуванні */
         background-position: center center; /* Вирівнювання фонового зображення по центру */
       }
+    /* Стилі для кнопок */
+    .btn-primary,
+    .btn-success {
+        transition: background-color 0.3s ease-in-out;  /* Додаємо перехідний ефект для кольору фону */
+    }
+
+    /* Змінюємо кольори при наведенні курсору */
+    .btn-primary:hover {
+        background-color: purple;  /* Змінюємо колір для btn-primary при наведенні */
+    }
+
+    .btn-success:hover {
+        background-color: #ba2121;  /* Змінюємо колір для btn-success при наведенні */
+    }
+
 </style>
     <button onclick="window.location.href='/'" class="main-button">Main Page</button>
     <p></p>
@@ -57,10 +72,19 @@
         <form class="search-form" method="GET" action="">
             <input type="text" class="search-input" name="id" placeholder="Search by ID">
             <button type="submit" class="search-button">Search</button>
+            {% if invalid_id %}
+                <p class="error-message">{{ invalid_id }}</p>
+            {% endif %}
+        </form>
+
+        <form class="search-form" method="GET" action="">
+{#            <input type="text" class="search-input" name="id" placeholder="Search by ID">#}
+{#            <button type="submit" class="search-button">Search</button>#}
             <p>
                 <p></p>
                 <a href="/books/add" class="btn btn-primary">Add Book</a>
                 <a href="/books/filter" class="btn btn-primary">Filter Book</a>
+                <a href="{% url 'export_books_csv' %}" class="btn btn-success">Export to CSV</a>
             </p>
         </form>
         {% if messages %}
