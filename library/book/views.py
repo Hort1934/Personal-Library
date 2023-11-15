@@ -1,3 +1,5 @@
+import codecs
+
 from django import forms
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -17,10 +19,14 @@ class BookForm(forms.ModelForm):
         fields = ['name', 'description', 'count', 'date_of_issue']
 
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
-    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'style': 'resize:none;'}))
-    count = forms.IntegerField(required=True, validators=[MinValueValidator(0)], widget=forms.NumberInput(attrs={'style': 'width: 5em;'}))
+    description = forms.CharField(required=True,
+                                  widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'style': 'resize:none;'}))
+    count = forms.IntegerField(required=True, validators=[MinValueValidator(0)],
+                               widget=forms.NumberInput(attrs={'style': 'width: 5em;'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
 
+
+from django.http import Http404
 
 
 def all_books(request):
@@ -29,10 +35,11 @@ def all_books(request):
 
     if search_id:
         try:
-            book = get_object_or_404(Book, id=search_id)
+            book_id = int(search_id)
+            book = get_object_or_404(Book, id=book_id)
             return view_book(request, book.id)
-        except Http404:
-            messages.error(request, "Book not found in the database.")
+        except (ValueError, Http404):
+            messages.error(request, f"Book not found for ID: {search_id}. Please enter a valid numeric ID.")
             return render(request, 'book/all_books.html', {'books': books})
 
     # Отримання номера сторінки з параметра запиту
@@ -47,6 +54,9 @@ def all_books(request):
     except EmptyPage:
         # Якщо номер сторінки за межами доступних сторінок, показати останню сторінку.
         books = paginator.page(paginator.num_pages)
+
+    if not books:
+        messages.info(request, "No books available.")
 
     return render(request, 'book/all_books.html', {'books': books})
 
@@ -111,3 +121,22 @@ def delete_book(request, book_id):
         return HttpResponseRedirect(reverse('all_books'))
 
     return render(request, 'book/delete_book.html', {'book': book})
+
+
+import csv
+from django.http import HttpResponse
+
+
+def export_books_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="books.csv"'
+    response.write(codecs.BOM_UTF8)
+
+    writer = csv.writer(response)
+    writer.writerow(['ID', 'Name', 'Description', 'Count', 'Date of Issue'])
+
+    books = Book.objects.all()
+    for book in books:
+        writer.writerow([book.id, book.name, book.description, book.count, book.date_of_issue])
+
+    return response
