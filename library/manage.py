@@ -3,7 +3,6 @@
 import os
 import sys
 
-# boom svaw
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'library.settings')
