@@ -61,7 +61,7 @@ class CustomUser(AbstractBaseUser):
         param role: user role, default role (0, 'visitor')
         type updated_at: int (choices)
         param is_active: user role, default value False
-        type updated_at: bool
+        type updated_at: bool test
     """
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
