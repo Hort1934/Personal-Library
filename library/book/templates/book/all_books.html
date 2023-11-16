@@ -5,8 +5,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Підключення Font Awesome CSS (переконайтеся, що ви маєте доступ до Font Awesome) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -64,6 +63,34 @@
     .btn-success:hover {
         background-color: #ba2121;  /* Змінюємо колір для btn-success при наведенні */
     }
+    .overlay-block {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); /* Прозорий білий фон */
+            display: none; /* Початково ховаємо блок */
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Забезпечте, що цей блок знаходиться над іншими елементами */
+        }
+
+        /* Стилі для кнопки у блоку, який буде накладатися */
+        .overlay-block button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Стилі для основного блоку з контентом */
+        .main-content {
+            position: relative; /* Щоб забезпечити правильне розташування для абсолютно позиціонованого блоку */
+            z-index: 1; /* Забезпечте, що основний контент завжди знаходиться під іншими елементами */
+        }
 
 </style>
     <button onclick="window.location.href='/'" class="main-button">Main Page</button>
@@ -84,9 +111,58 @@
                 <p></p>
                 <a href="/books/add" class="btn btn-primary">Add Book</a>
                 <a href="/books/filter" class="btn btn-primary">Filter Book</a>
-                <a href="{% url 'export_books_csv' %}" class="btn btn-success">Export to CSV</a>
+{#                <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>#}
             </p>
         </form>
+
+        <div class="main-content">
+            <!-- Ваш існуючий код тут -->
+            <p></p>
+            <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>
+        </div>
+
+         <!-- Блок, який буде накладатися -->
+        <div class="overlay-block" id="overlayBlock">
+    <form method="GET" action="{% url 'export_books_csv' %}" class="export-form">
+        <label>Select columns to export:</label>
+
+        <div class="checkbox-group">
+            <input type="checkbox" name="export_id" id="export_id" checked>
+            <label for="export_id">ID</label>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" name="export_name" id="export_name" checked>
+            <label for="export_name">Name</label>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" name="export_description" id="export_description" checked>
+            <label for="export_description">Description</label>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" name="export_count" id="export_count" checked>
+            <label for="export_count">Count</label>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" name="export_date_of_issue" id="export_date_of_issue" checked>
+            <label for="export_date_of_issue">Date of Issue</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Export to CSV</button>
+        <button type="button" class="btn btn-danger" onclick="closeOverlay()">Close</button>
+    </form>
+</div>
+
+<script>
+    function closeOverlay() {
+        document.getElementById('overlayBlock').style.display = 'none';
+    }
+</script>
+
+
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -160,11 +236,16 @@
             <p class="not-found">Book not found.</p>
         {% endif %}
     </div>
-
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <!-- Bootstrap JS, Popper.js, і jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
 
+    <script>
+        function showOverlay() {
+            var overlayBlock = document.getElementById('overlayBlock');
+            overlayBlock.style.display = 'flex'; // Змінюємо стиль для відображення блоку
+        }
+    </script>
+</body>
 </html>

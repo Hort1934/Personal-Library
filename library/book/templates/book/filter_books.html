@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filtered Books</title>
+
+    <!-- Підключення jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Підключення jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -106,11 +114,37 @@
             <label for="name">Name:</label>
             <input type="text" id="name" name="name">
             <br>
-            <label for="Description">Description:</label>
+            <label for="description">Description:</label>
             <input type="text" id="description" name="description">
+            <br>
+            <label for="count">Count:</label>
+            <input type="text" id="count" name="count" readonly>
+            <div id="count-slider"></div>
+            <input type="hidden" id="count_min" name="count_min" value="0">
+            <input type="hidden" id="count_max" name="count_max" value="100">
             <br>
             <button type="submit"><font size="3">Filter</font></button>
         </form>
+
+        <script>
+            // Ініціалізація ползунка
+            $(function () {
+                $("#count-slider").slider({
+                    range: true,
+                    min: 0,
+                    max: 100,  // Змініть це значення на максимальне значення кількості книг
+                    values: [0, 100],
+                    slide: function (event, ui) {
+                        $("#count").val(ui.values[0] + " - " + ui.values[1]);
+                        $("#count_min").val(ui.values[0]);
+                        $("#count_max").val(ui.values[1]);
+                    }
+                });
+                $("#count").val($("#count-slider").slider("values", 0) +
+                    " - " + $("#count-slider").slider("values", 1));
+            });
+        </script>
+
 
         {% if books %}
             <h3>Filtered Books:</h3>

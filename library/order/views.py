@@ -5,6 +5,7 @@ from django.http import HttpResponseNotFound
 from .forms import OrderForm
 
 
+# Оновлення функції all_orders для передачі інформації про користувача
 def all_orders(request):
     user = request.user
     if user and user.is_authenticated and user.get_role_name() == 'visitor':
@@ -13,6 +14,7 @@ def all_orders(request):
         return render(request, 'order/all_orders.html', {'orders': orders})
     else:
         return render(request, 'order/error.html')
+
 
 
 def my_orders(request):
