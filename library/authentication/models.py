@@ -1,5 +1,5 @@
 import datetime
-
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
@@ -157,23 +157,17 @@ class CustomUser(AbstractBaseUser):
         return False
 
     @staticmethod
-    def create(email, password, first_name=None, middle_name=None, last_name=None, role=0):
-        """
-        :param first_name: first name of a user
-        :type first_name: str
-        :param middle_name: middle name of a user
-        :type middle_name: str
-        :param last_name: last name of a user
-        :type last_name: str
-        :param email: email of a user
-        :type email: str
-        :param password: password of a user
-        :type password: str
-        :return: a new user object which is also written into the DB
-        """
+    def create(email, password, first_name=None, middle_name=None, last_name=None, role='0'):
+        try:
+            role = int(role)
+        except ValueError:
+            role = 0
+
         if len(first_name) <= 20 and len(middle_name) <= 20 and len(last_name) <= 20 and len(email) <= 100 and len(
                 email.split('@')) == 2 and len(CustomUser.objects.filter(email=email)) == 0:
-            custom_user = CustomUser(email=email, password=password, first_name=first_name, middle_name=middle_name,
+            hashed_password = make_password(password)  # Шифруємо пароль перед збереженням в БД
+            custom_user = CustomUser(email=email, password=hashed_password, first_name=first_name,
+                                     middle_name=middle_name,
                                      last_name=last_name, role=role)
             custom_user.save()
             return custom_user
