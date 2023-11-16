@@ -1,12 +1,12 @@
 import codecs
-
+import csv
+from django.http import HttpResponse
 from django import forms
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.validators import MinValueValidator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.safestring import mark_safe
-
 from .models import Book
 from authentication.models import CustomUser
 from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
@@ -69,15 +69,26 @@ def view_book(request, book_id):
 def filter_books(request):
     name = request.GET.get('name')
     description = request.GET.get('description')
+    count_min = request.GET.get('count_min')
+    count_max = request.GET.get('count_max')
 
-    if name and description:
-        books = Book.objects.filter(name__icontains=name, description__icontains=description)
-    elif name:
-        books = Book.objects.filter(name__icontains=name)
-    elif description:
-        books = Book.objects.filter(description__icontains=description)
-    else:
-        books = Book.objects.none()  # Return an empty queryset
+    # Фільтрація за назвою і описом
+    books = Book.objects.all()
+
+    if name:
+        books = books.filter(name__icontains=name)
+
+    if description:
+        books = books.filter(description__icontains=description)
+
+    # Фільтрація за кількістю книг
+    if count_min is not None and count_max is not None:
+        try:
+            count_min = int(count_min)
+            count_max = int(count_max)
+            books = books.filter(count__range=(count_min, count_max))
+        except ValueError:
+            messages.error(request, "Invalid count range. Please enter valid numeric values.")
 
     return render(request, 'book/filter_books.html', {'books': books})
 
@@ -123,8 +134,8 @@ def delete_book(request, book_id):
     return render(request, 'book/delete_book.html', {'book': book})
 
 
-import csv
-from django.http import HttpResponse
+# def export_books_csv_site(request):
+#     return render(request, 'book/export_books.html')
 
 
 def export_books_csv(request):
@@ -133,10 +144,43 @@ def export_books_csv(request):
     response.write(codecs.BOM_UTF8)
 
     writer = csv.writer(response)
-    writer.writerow(['ID', 'Name', 'Description', 'Count', 'Date of Issue'])
+
+    # Отримання значень вибраних колонок з форми
+    export_id = request.GET.get('export_id') == 'on'
+    export_name = request.GET.get('export_name') == 'on'
+    export_description = request.GET.get('export_description') == 'on'
+    export_count = request.GET.get('export_count') == 'on'
+    export_date_of_issue = request.GET.get('export_date_of_issue') == 'on'
+
+    # Запис колонок в CSV-файл відповідно до вибору користувача
+    header = []
+    if export_id:
+        header.append('ID')
+    if export_name:
+        header.append('Name')
+    if export_description:
+        header.append('Description')
+    if export_count:
+        header.append('Count')
+    if export_date_of_issue:
+        header.append('Date of Issue')
+
+    writer.writerow(header)
 
     books = Book.objects.all()
     for book in books:
-        writer.writerow([book.id, book.name, book.description, book.count, book.date_of_issue])
+        row = []
+        if export_id:
+            row.append(book.id)
+        if export_name:
+            row.append(book.name)
+        if export_description:
+            row.append(book.description)
+        if export_count:
+            row.append(book.count)
+        if export_date_of_issue:
+            row.append(book.date_of_issue)
+
+        writer.writerow(row)
 
     return response

@@ -1,6 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Підключення Font Awesome CSS (переконайтеся, що ви маєте доступ до Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Orders</title>
@@ -11,7 +17,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://i.pinimg.com/originals/4d/55/61/4d5561a98fe7d21e8cbbdf5d87675050.jpg");
+            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -20,7 +26,7 @@
 
         .container {
             width: 95%;
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 2rem;
             background-color: #fff;
@@ -88,6 +94,37 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/auth">Main</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/authors">All Authors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/books">All Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/all_orders">All Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Support</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">User Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">FAQ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <button onclick="window.location.href='/'" class="main-button">Main Page</button>
 <p></p>
 <div class="container">
@@ -95,9 +132,12 @@
             <a href="{% url 'create_order' %}">Create Order</a>
             <a href="{% url 'my_orders' %}">My Orders</a>
         </div>
+        {% if user %}
+        <!-- Змініть шаблон для виведення інформації про користувача -->
         {% for order in orders %}
-            <h3>Order ID: {{ order.id }}</h3>
+            <h3>Order №: {{ order.id }}</h3>
             <p>Status: {{ order.status }}</p>
+            <p>Ordered by: {{ order.user.email }}</p>  <!-- Додаємо інформацію про користувача -->
             <hr>
             <div class="action-buttons">
                 <a href="{% url 'edit_order' order.id %}">Edit</a>
@@ -106,6 +146,7 @@
         {% empty %}
             <p class="no-orders">No orders available.</p>
         {% endfor %}
+{% endif %}
     </div>
 </body>
 </html>
