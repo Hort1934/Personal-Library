@@ -60,7 +60,7 @@ def login_form(request):
         if form.is_valid():
             user = CustomUser.get_by_email(form.cleaned_data['email'])
             if user and check_password(form.cleaned_data['password'], user.password):
-                # Використовуйте check_password для порівняння паролів
+                # Використовуйте check_password для порівняння зашифрованих паролів
                 login(request, user)
                 success_message = '<p><div style="margin-top: 70"><font size="4" style="color: white">Login successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
