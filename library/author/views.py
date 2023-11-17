@@ -13,7 +13,7 @@ def all_authors(request):
             author = form.save()
             messages.success(request, f"Author {author.name} {author.surname} created.")
             return redirect("all_authors")
-        authors = Author.objects.all()
+        authors = Author.objects.all()[:10]  # Обмежте результати до перших 20 записів
         return render(request, 'author/all_authors.html', {'authors': authors, 'form': form})
     else:
         return render(request, 'author/error.html')

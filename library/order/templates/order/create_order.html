@@ -11,12 +11,16 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
+            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-size: cover; /* Розмір фону - вписати весь вікно браузера */
+            background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
+            background-attachment: fixed; /* Фіксований фон при прокручуванні */
+            background-position: center center; /* Вирівнювання фонового зображення по центру */
+          }
 
         .container {
             width: 95%;
-            max-width: 800px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 2rem;
             background-color: #fff;
@@ -41,7 +45,7 @@
         }
 
         .input-field {
-            width: 100%;
+            width: 30%;
             padding: 0.5rem;
         }
 
@@ -73,14 +77,15 @@
     <label for="book">Book:</label>
     {{ form.book }}
     <br>
-    <label for="user">User:</label>
-    {{ form.user }}
-n    <label for="plated_end_at">Plated End Date:</label>
-    <input type="date" id="plated_end_at" name="plated_end_at" class="input-field">
+            <p></p>
+<!--    <label for="user">User:</label>-->
+<!--    {{ form.user }}-->
+    <label for="plated_end_at">Plated End Date:</label>
+    <input type="date" id="plated_end_at" name="plated_end_at" class="input-field"><p></p>
     <button type="submit" class="submit-button">Create Order</button>
 </form>
 
-        <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>
+        <a href="{% url 'all_orders' %}" class="return-button">Back</a>
     </div>
 </body>
 </html>

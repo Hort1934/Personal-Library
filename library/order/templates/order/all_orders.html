@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Підключення Font Awesome CSS (переконайтеся, що ви маєте доступ до Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -137,12 +136,11 @@
         {% for order in orders %}
             <h3>Order №: {{ order.id }}</h3>
             <p>Status: {{ order.status }}</p>
-            <p>Ordered by: {{ order.user.email }}</p>  <!-- Додаємо інформацію про користувача -->
+            <p>Name: {{ order.book.name }}</p>
+            <p>Plated end at: {{ order.plated_end_at }}</p>
+            <p>Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>  <!-- Додаємо інформацію про користувача -->
             <hr>
-            <div class="action-buttons">
-                <a href="{% url 'edit_order' order.id %}">Edit</a>
-                <a href="{% url 'delete_order' order.id %}">Delete</a>
-            </div>
+
         {% empty %}
             <p class="no-orders">No orders available.</p>
         {% endfor %}
