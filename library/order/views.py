@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order, Book, CustomUser
 from django.http import HttpResponseNotFound
 from .forms import OrderForm
+from django.utils import timezone  # Імпорт бібліотеки для отримання поточного часу
 
 
 # Оновлення функції all_orders для передачі інформації про користувача
@@ -16,14 +17,10 @@ def all_orders(request):
         return render(request, 'order/error.html')
 
 
-
 def my_orders(request):
     user = request.user
     orders = Order.objects.filter(user=user)
     return render(request, 'order/my_orders.html', {'orders': orders})
-
-
-from django.utils import timezone  # Імпорт бібліотеки для отримання поточного часу
 
 
 def create_order(request):
@@ -34,7 +31,7 @@ def create_order(request):
             if form.is_valid():
                 order = form.save(commit=False)
                 if order.book.count > 0:
-                    order.user = user
+                    order.user = user  # Прив'язка до поточного користувача
                     order.created_at = timezone.now()
                     order.status = '1'
                     order.save()
@@ -49,6 +46,7 @@ def create_order(request):
         return render(request, 'order/create_order.html', {'form': form})
     else:
         return render(request, 'order/error.html')
+
 
 
 def close_order(request, order_id):
