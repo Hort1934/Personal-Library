@@ -12,7 +12,7 @@ from authentication.models import CustomUser
 from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 
-
+# Test
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
