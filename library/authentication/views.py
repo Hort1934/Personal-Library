@@ -41,11 +41,11 @@ def register_form(request):
             )
             if user:
                 login(request, user)
-                success_message = '<p><div style="margin-top: 70"><font size="4" style="color: white">Registration successful.</font></div>'
+                success_message = '<p><div css="margin-top: 70"><font size="4" css="color: white">Registration successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
                 return redirect("home")
             else:
-                error_message = ('<p><div><font size="4" style="color: white">Unsuccessful registration. Invalid '
+                error_message = ('<p><div><font size="4" css="color: white">Unsuccessful registration. Invalid '
                                  'information.</font></div>')
                 messages.error(request, mark_safe(error_message))
     return render(request, "authentication/register.html", {'form': form})
@@ -62,11 +62,11 @@ def login_form(request):
             if user and check_password(form.cleaned_data['password'], user.password):
                 # Використовуйте check_password для порівняння зашифрованих паролів
                 login(request, user)
-                success_message = '<p><div style="margin-top: 70"><font size="4" style="color: white">Login successful.</font></div>'
+                success_message = '<p><div css="margin-top: 70"><font size="4" css="color: white">Login successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
                 return redirect("/auth")
             else:
-                error_message = '<p><div><font size="4" style="color: white">Unsuccessful login. Invalid information.</font></div>'
+                error_message = '<p><div><font size="4" css="color: white">Unsuccessful login. Invalid information.</font></div>'
                 messages.error(request, mark_safe(error_message))
         else:
             messages.error(request, 'Invalid form submission. Please correct the errors below.')
@@ -75,7 +75,7 @@ def login_form(request):
 
 def logout_request(request):
     logout(request)
-    info_message = '<p><div><font size="4" style="color: white">You have successfully logged out.</font></div>'
+    info_message = '<p><div><font size="4" css="color: white">You have successfully logged out.</font></div>'
     messages.info(request, mark_safe(info_message))
     return redirect("login")
 

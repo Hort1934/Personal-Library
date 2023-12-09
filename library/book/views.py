@@ -12,7 +12,7 @@ from authentication.models import CustomUser
 from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 
-# Test
+
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
@@ -20,9 +20,9 @@ class BookForm(forms.ModelForm):
 
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
     description = forms.CharField(required=True,
-                                  widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'style': 'resize:none;'}))
+                                  widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'css': 'resize:none;'}))
     count = forms.IntegerField(required=True, validators=[MinValueValidator(0)],
-                               widget=forms.NumberInput(attrs={'style': 'width: 5em;'}))
+                               widget=forms.NumberInput(attrs={'css': 'width: 5em;'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
 
 
@@ -127,7 +127,7 @@ def delete_book(request, book_id):
 
     if request.method == 'POST':
         book.delete()
-        success_message = f'<div size="5" style="color: white">Book "{book.name}" has been deleted.</div>'
+        success_message = f'<div size="5" css="color: white">Book "{book.name}" has been deleted.</div>'
         messages.success(request, mark_safe(success_message))
         return HttpResponseRedirect(reverse('all_books'))
 
