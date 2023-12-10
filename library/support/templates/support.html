@@ -1,81 +1,96 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    header {
+      background-color: #f0f0f0;
+      padding: 20px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+      width: 100%;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin: 0 0 10px;
+    }
+
+    p {
+      margin: 0 0 10px;
+    }
+
+    form {
+      margin-right: 20px;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, textarea {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #f0f0f0;
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .map {
+      flex: 1;
+      max-width: calc(100% - 400px);
+      /* Add your map styles or integration code here */
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>Support</h1>
   </header>
-  <style>
-    body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
-header {
-  background-color: #f0f0f0;
-  padding: 20px;
-}
-
-h1 {
-  font-size: 24px;
-  margin: 0;
-}
-
-main {
-  padding: 20px;
-}
-
-h2 {
-  font-size: 20px;
-  margin: 0 0 10px;
-}
-
-p {
-  margin: 0 0 10px;
-}
-
-form {
-  margin: 0 0 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 5px;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-}
-
-footer {
-  background-color: #f0f0f0;
-  padding: 20px;
-  text-align: center;
-}
-
-  </style>
   <main>
-    <h2>How can we help you today?</h2>
-
-    <p>We are here to help you with any questions or problems you may have. Please feel free to contact us using the form below.</p>
-
     <form>
+      <h2>How can we help you today?</h2>
+      <p>We are here to help you with any questions or problems you may have. Please feel free to contact us using the form below.</p>
+
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
 
@@ -87,9 +102,25 @@ footer {
 
       <button type="submit">Submit</button>
     </form>
+
+    <div class="map" id="google-map">
+      <!-- Google Map will be displayed here -->
+    </div>
   </main>
 
-  <footer>
-    <p>&copy; 2023 Your Company</p>
-  </footer>
+  <script>
+    function initMap() {
+      var mapOptions = {
+        center: { lat: 37.7749, lng: -122.4194 }, // Set the initial map center coordinates
+        zoom: 12, // Set the initial zoom level
+      };
+
+      // Create a new map object
+      var map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
+    }
+  </script>
+
+  <!-- Include the Google Maps API script -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOX23EtcR8pRkS0eghUbqeZqF0Td42-hE&callback=initMap" async defer></script>
 </body>
+</html>

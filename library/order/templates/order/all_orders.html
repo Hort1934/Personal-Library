@@ -90,6 +90,13 @@
         .main-button:hover {
             background-color: #45a049;
         }
+        .ask-question-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999; /* Убеждаемся, что контейнер находится поверх других элементов */
+}
+
     </style>
 </head>
 <body>
@@ -110,7 +117,7 @@
                 <a class="nav-link" href="/all_orders">All Orders</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Support</a>
+                <a class="nav-link" href="/support">Support</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">User Profile</a>
@@ -146,5 +153,42 @@
         {% endfor %}
 {% endif %}
     </div>
+
+<!-- Контейнер для кнопки "Contact" -->
+<div class="ask-question-container">
+  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">
+    Contact Us
+  </button>
+</div>
+
+<!-- Модальное окно для контакта -->
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Форма для контакта -->
+        <form>
+          <div class="form-group">
+            <label for="contactMessage">Your Message:</label>
+            <textarea class="form-control col-2" id="contactMessage" rows="4" style="max-width: 80%;"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
