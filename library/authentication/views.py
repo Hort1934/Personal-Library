@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
@@ -102,3 +103,29 @@ def view_user(request):
 def user_profile(request):
     # Логіка для обробки сторінки особистого кабінету тут
     return render(request, 'authentication/user_profile.html')
+
+
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def submit_question(request):
+    if request.method == 'POST':
+        # Получение текста вопроса из запроса
+        question_text = request.POST.get('question_text', '')
+
+        # Отправка электронного письма
+        send_mail(
+            'New Question',
+            question_text,
+            settings.EMAIL_HOST_USER,  # Sender's email
+            ['hort19345@gmail.com'],  # Recipient's email
+            fail_silently=False,
+        )
+
+        # Возвращаем успешный ответ
+        return JsonResponse({'status': 'success'})
+
+    # Возвращаем ошибку, если запрос не является POST
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
