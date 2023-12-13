@@ -10,7 +10,7 @@ def support(request):
         subject = request.POST.get('subject', '')
         message = request.POST.get('message', '')
         email_from = request.POST.get('email', '')
-        recipient_list = ['your_support_email@example.com']
+        recipient_list = ['hort19345@gmail.com']
 
         send_mail(subject, message, email_from, recipient_list)
 
