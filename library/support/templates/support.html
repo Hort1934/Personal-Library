@@ -3,9 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support</title>
   <style>
+
     body {
       font-family: sans-serif;
       margin: 0;
@@ -80,12 +82,47 @@
       /* Add your map styles or integration code here */
     }
   </style>
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/auth">Main</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/authors">All Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">All Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/all_orders">All Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">User Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
   <header>
     <h1>Support</h1>
   </header>
-
   <main>
     <form>
       <h2>How can we help you today?</h2>
@@ -101,6 +138,7 @@
       <textarea id="message" name="message" rows="5" required></textarea>
 
       <button type="submit">Submit</button>
+
     </form>
 
     <div class="map" id="google-map">
@@ -108,11 +146,15 @@
     </div>
   </main>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   <script>
     function initMap() {
       var mapOptions = {
-        center: { lat: 37.7749, lng: -122.4194 }, // Set the initial map center coordinates
-        zoom: 12, // Set the initial zoom level
+        center: { lat: 50.382775, lng: 30.4946684 }, // Set the initial map center coordinates
+        zoom: 18, // Set the initial zoom level
       };
 
       // Create a new map object
@@ -124,3 +166,8 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOX23EtcR8pRkS0eghUbqeZqF0Td42-hE&callback=initMap" async defer></script>
 </body>
 </html>
+<a href="/auth" style="text-decoration: none;">
+      <button style="background-color: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-left: 20px">
+        Back to Main
+      </button>
+    </a>
