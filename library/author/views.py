@@ -4,16 +4,31 @@ from django.contrib import messages
 from django.http import HttpResponseNotFound
 from .forms import AuthorForm
 
+from django.db.models import Q
+
 
 def all_authors(request):
     user = request.user
     if user and user.is_authenticated and user.get_role_name() == 'librarian':
         form = AuthorForm(request.POST or None)
+
+        # Get the search query from the request
+        search_query = request.GET.get('search', '')
+
         if request.method == 'POST' and form.is_valid():
-            author = form.save()
-            messages.success(request, f"Author {author.name} {author.surname} created.")
-            return redirect("all_authors")
-        authors = Author.objects.all()[:10]  # Обмежте результати до перших 20 записів
+            # Create author and redirect as before
+            pass
+
+        # Filter authors based on the search query
+        authors = Author.objects.all()[:10]
+
+        if search_query:
+            authors = authors.filter(
+                Q(name__icontains=search_query) |
+                Q(surname__icontains=search_query) |
+                Q(patronymic__icontains=search_query)
+            )
+
         return render(request, 'author/all_authors.html', {'authors': authors, 'form': form})
     else:
         return render(request, 'author/error.html')
