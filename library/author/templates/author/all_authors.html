@@ -76,6 +76,28 @@
         h1 {
             margin-top: auto;
         }
+
+        /* Стилі для кнопок */
+    .btn-primary,
+    .btn-success {
+        transition: background-color 0.3s ease-in-out;  /* Додаємо перехідний ефект для кольору фону */
+    }
+
+    /* Змінюємо кольори при наведенні курсору */
+    .btn-primary:hover {
+        background-color: purple;  /* Змінюємо колір для btn-primary при наведенні */
+    }
+
+    .btn-success:hover {
+        background-color: #ba2121;  /* Змінюємо колір для btn-success при наведенні */
+    }
+
+    .ask-question-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999; /* Убеждаемся, что контейнер находится поверх других элементов */
+    }
     </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="/auth">Main</a>
@@ -127,11 +149,75 @@
                             <td>{{ author.name }}</td>
                             <td>{{ author.patronymic }}</td>
                             <td>{{ author.surname }}</td>
-                            <td><a href="delete/{{ author.id }}"><b>Delete</b></a></td>
+<!--                            <td><a href="delete/{{ author.id }}"><b>Delete</b></a></td>-->
+                            <td><a href="delete/{{ author.id }}" class="btn btn-danger">
+                                    <i class="fa fa-trash fa-spin"></i> Delete
+                                </a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
-                <a href="create"><b>Create Author</b></a>
+                <a href="create" class="btn btn-primary">Add Author</a>
+                <p></p>
             </table>
     </div>
+<!-- Контейнер для кнопки "Contact" -->
+<div class="ask-question-container">
+  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">
+    Contact Us
+  </button>
+</div>
+
+<!-- Модальное окно для контакта -->
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Форма для контакта -->
+        <form>
+          <div class="form-group">
+            <label for="contactMessage">Your Message:</label>
+            <textarea class="form-control col-2" id="contactMessage" rows="4" style="max-width: 80%;"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery(document).ready(function () {
+    document.getElementById('questionForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      var questionText = document.getElementById('question').value;
+
+      jQuery.ajax({
+        type: 'POST',
+        url: '/submit_question',
+        data: {
+          'question_text': questionText,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function (response) {
+          console.log('Question submitted successfully!');
+        },
+        error: function (error) {
+          console.error('Error submitting question:', error);
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}
