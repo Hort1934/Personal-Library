@@ -220,4 +220,15 @@
     });
   });
 </script>
+
+<div id="toc"></div>
+
+$(document).ready(function() {
+  var toc = $('#toc');
+  $('h1, h2').each(function(i, heading) {
+    var anchor = $('<a>').attr('href', '#' + $(heading).attr('id')).text($(heading).text());
+    toc.append($('<li>').append(anchor));
+  });
+});
+
 {% endblock %}

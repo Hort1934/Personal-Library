@@ -7,9 +7,13 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
+          font-family: Arial, sans-serif;
+            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-size: cover; /* Розмір фону - вписати весь вікно браузера */
+            background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
+            background-attachment: fixed; /* Фіксований фон при прокручуванні */
+            background-position: center center; /* Вирівнювання фонового зображення по центру */
+          }
 
         .container {
             width: 95%;
@@ -50,8 +54,25 @@
             border: none;
             cursor: pointer;
         }
+
+        .return-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .return-button:hover {
+            background-color: #45a049;
+        }
     </style>
 
+<p></p>
     <div class="container">
         <h2>Create Author</h2>
         <form method="post">
@@ -67,5 +88,6 @@
             <br><br>
             <button type="submit">Create Author</button>
         </form>
+        <a href="/authors" class="return-button">Return to Book List</a>
     </div>
 {% endblock %}
