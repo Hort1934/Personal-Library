@@ -132,40 +132,90 @@
 </nav>
 
         <div class="author-list">
-            <table class="table-light">
-                <thead class="thead-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Patronymic</th>
-                        <th>Surname</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for author in authors %}
-                        <tr>
-                            <td>{{ author.id }}</td>
-                            <td>{{ author.name }}</td>
-                            <td>{{ author.patronymic }}</td>
-                            <td>{{ author.surname }}</td>
-<!--                            <td><a href="delete/{{ author.id }}"><b>Delete</b></a></td>-->
-                            <td><a href="delete/{{ author.id }}" class="btn btn-danger">
-                                    <i class="fa fa-trash fa-spin"></i> Delete
-                                </a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                <a href="create" class="btn btn-primary">Add Author</a>
-                <p></p>
-            </table>
+    <table class="table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Patronymic</th>
+                <th>Surname</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.id }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>{{ author.patronymic }}</td>
+                    <td>{{ author.surname }}</td>
+                    <td>
+                        <a href="{% url 'edit_author' author.id %}" class="btn btn-info">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                        <a href="{% url 'delete_author' author.id %}" class="btn btn-danger">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <a href="{% url 'create_author' %}" class="btn btn-primary">Add Author</a>
+        <p></p>
+    </table>
+
+    <!-- Display pagination links -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if authors.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ authors.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ authors.number }} of {{ authors.paginator.num_pages }}.
+            </span>
+
+            {% if authors.has_next %}
+                <a href="?page={{ authors.next_page_number }}">next</a>
+                <a href="?page={{ authors.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
+</div>
 <!-- Контейнер для кнопки "Contact" -->
 <div class="ask-question-container">
   <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">
     Contact Us
   </button>
 </div>
+
+<div id="messages-container" class="fixed-bottom container p-3 bg-dark text-white">
+  {% for message in messages %}
+    {{ message }}
+  {% endfor %}
+</div>
+
+<!-- Add this block at the end of your template -->
+<script>
+  // Wait for the DOM to be ready
+  document.addEventListener("DOMContentLoaded", function () {
+    // Function to hide messages after 3 seconds
+    function hideMessages() {
+      var messagesContainer = document.getElementById("messages-container");
+
+      // Check if the messages container exists
+      if (messagesContainer) {
+        // Hide the messages container
+        messagesContainer.style.display = "none";
+      }
+    }
+
+    // Delay the execution of hideMessages function after 3000 milliseconds (3 seconds)
+    setTimeout(hideMessages, 3000);
+  });
+</script>
+
 
 <!-- Модальное окно для контакта -->
 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
@@ -220,15 +270,5 @@
     });
   });
 </script>
-
-<div id="toc"></div>
-
-$(document).ready(function() {
-  var toc = $('#toc');
-  $('h1, h2').each(function(i, heading) {
-    var anchor = $('<a>').attr('href', '#' + $(heading).attr('id')).text($(heading).text());
-    toc.append($('<li>').append(anchor));
-  });
-});
 
 {% endblock %}

@@ -6,6 +6,7 @@ from .forms import AuthorForm
 
 from django.db.models import Q
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def all_authors(request):
     user = request.user
@@ -20,7 +21,7 @@ def all_authors(request):
             pass
 
         # Filter authors based on the search query
-        authors = Author.objects.all()[:10]
+        authors = Author.objects.all()
 
         if search_query:
             authors = authors.filter(
@@ -29,9 +30,20 @@ def all_authors(request):
                 Q(patronymic__icontains=search_query)
             )
 
+        # Add pagination
+        page = request.GET.get('page', 1)
+        paginator = Paginator(authors, 10)  # Show 10 authors per page
+        try:
+            authors = paginator.page(page)
+        except PageNotAnInteger:
+            authors = paginator.page(1)
+        except EmptyPage:
+            authors = paginator.page(paginator.num_pages)
+
         return render(request, 'author/all_authors.html', {'authors': authors, 'form': form})
     else:
         return render(request, 'author/error.html')
+
 
 
 def create_author(request):
@@ -68,3 +80,19 @@ def delete_author(request, id):
             author.delete()
             messages.success(request, f"Author {author.name} {author.surname} deleted.")
         return redirect("all_authors")
+
+
+def edit_author(request, id):
+    user = request.user
+    if user and user.is_authenticated and user.get_role_name() == 'librarian':
+        author = get_object_or_404(Author, id=id)
+        form = AuthorForm(request.POST or None, instance=author)
+
+        if request.method == 'POST' and form.is_valid():
+            form.save()
+            messages.success(request, f"Author {author.name} {author.surname} updated.")
+            return redirect("all_authors")
+
+        return render(request, 'author/edit_author.html', {'form': form, 'author': author})
+    else:
+        return render(request, 'author/error.html')
