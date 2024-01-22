@@ -14,4 +14,5 @@ urlpatterns = [
     path('view/', views.view_user, name='view_user'),
     path('user_profile/', views.user_profile, name='user_profile'),
     path('submit_question/', views.submit_question, name='submit_question'),
+    path('user_profile/', views.user_profile, name='user_profile'),
 ]

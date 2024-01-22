@@ -1,1 +1,34 @@
-<a href="{% url 'user_profile' %}">Особистий кабінет</a>
+<nav class="horizontal-menu">
+        <ul>
+            <li class="dropdown">
+                <a href="/authors">Services</a>
+                <ul class="dropdown-content">
+                    <li><a href="/authors">All Authors</a></li>
+                    <li><a href="/books">All Books</a></li>
+                    <li><a href="/all_orders">All Orders</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a href="/support">Support</a></li>
+            <li class="dropdown"><a href="/user_profile">User Profile</a></li>
+<!--            <li class="dropdown"><a href="/all_orders">FAQ</a></li>-->
+            <li class="dropdown"><a href="/about">About</a></li>
+        </ul>
+    </nav>
+{% extends "authentication/index.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+  <h2>User Profile</h2>
+  <ul>
+    <li><strong>ID:</strong> {{ user_data.id }}</li>
+    <li><strong>First Name:</strong> {{ user_data.first_name }}</li>
+    <li><strong>Middle Name:</strong> {{ user_data.middle_name }}</li>
+    <li><strong>Last Name:</strong> {{ user_data.last_name }}</li>
+    <li><strong>Email:</strong> {{ user_data.email }}</li>
+    <li><strong>Role:</strong> {{ user_data.role }}</li>
+    <li><strong>Created At:</strong> {{ user_data.created_at|date:'D d M Y H:i:s' }}</li>
+    <li><strong>Updated At:</strong> {{ user_data.updated_at|date:'D d M Y H:i:s' }}</li>
+    <li><strong>Active:</strong> {% if user_data.is_active %}Yes{% else %}No{% endif %}</li>
+  </ul>
+{% endblock %}
