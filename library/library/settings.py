@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'author',
     'book',
     'order',
-    'readers',
     # 'user',
     'static',
     'support'

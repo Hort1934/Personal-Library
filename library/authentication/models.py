@@ -251,4 +251,21 @@ class CustomUser(AbstractBaseUser):
         """
         return ROLE_CHOICES[self.role][1]
 
+    def get_user_data(self):
+        """
+        Returns a dictionary containing user data.
+        """
+        role_name = 'Visitor' if self.role == 0 else 'Librarian'
+
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'middle_name': self.middle_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'role': role_name,
+            'is_active': self.is_active,
+        }
 

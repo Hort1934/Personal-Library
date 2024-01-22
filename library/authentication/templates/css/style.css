@@ -15,3 +15,83 @@ body {
         background-attachment: fixed; /* Фіксований фон при прокручуванні */
         background-position: center center; /* Вирівнювання фонового зображення по центру */
       }
+
+/* Add these styles to your existing styles or create a new CSS file */
+
+nav.horizontal-menu {
+    background-color: #333;
+}
+
+nav.horizontal-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav.horizontal-menu li {
+    margin-right: 20px;
+}
+
+nav.horizontal-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    display: block;
+}
+
+nav.horizontal-menu a:hover {
+    background-color: #555;
+}
+
+/* Styles for Dropdown Menu */
+nav.horizontal-menu ul.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+nav.horizontal-menu li.dropdown:hover ul.dropdown-content {
+    display: block;
+}
+
+nav.horizontal-menu ul.dropdown-content li {
+    display: block;
+    margin: 0;
+}
+
+nav.horizontal-menu ul.dropdown-content li a {
+    padding: 10px;
+}
+
+/* Add these styles to your existing styles or create a new CSS file */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+strong {
+    font-weight: bold;
+    margin-right: 5px;
+}

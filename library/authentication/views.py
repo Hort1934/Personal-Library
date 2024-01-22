@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.utils.safestring import mark_safe
+from django.contrib.auth.decorators import login_required
+
 
 from .models import CustomUser
 from .forms import RegistrationForm, LoginForm
@@ -100,9 +102,10 @@ def view_user(request):
         return render(request, 'authentication/error.html')
 
 
+@login_required
 def user_profile(request):
-    # Логіка для обробки сторінки особистого кабінету тут
-    return render(request, 'authentication/user_profile.html')
+    user_data = request.user.get_user_data()
+    return render(request, 'authentication/user_profile.html', {'user_data': user_data})
 
 
 from django.core.mail import send_mail
