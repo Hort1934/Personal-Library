@@ -8,6 +8,13 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .analytics import user_activity_analysis
+import matplotlib.pyplot as plt
+from django.shortcuts import render
+from .models import CustomUser
+from django.shortcuts import render
+from .models import CustomUser
+from collections import Counter
+import calendar
 
 
 from .models import CustomUser
@@ -135,11 +142,6 @@ def submit_question(request):
     # Возвращаем ошибку, если запрос не является POST
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
-import matplotlib.pyplot as plt
-
-from django.shortcuts import render
-from .models import CustomUser
-
 
 def user_role_distribution(request):
     users = CustomUser.objects.all()
@@ -154,3 +156,62 @@ def user_role_distribution(request):
         'role_counts': role_values,
     })
 
+
+def user_registration_by_year(request):
+    users = CustomUser.objects.all()
+    registration_years = [user.created_at.year for user in users]
+    year_counts = Counter(registration_years)
+
+    years = sorted(year_counts.keys())
+    registration_counts = [year_counts[year] for year in years]
+
+    return render(request, 'authentication/user_registration_by_year.html', {
+        'years': years,
+        'registration_counts': registration_counts,
+    })
+
+
+def user_registration_by_day(request):
+    users = CustomUser.objects.all()
+    registration_days = [user.created_at.weekday() for user in users]
+    day_counts = Counter(registration_days)
+
+    day_names = list(calendar.day_name)
+    registration_counts = [day_counts[i] for i in range(7)]
+
+    return render(request, 'authentication/user_registration_by_day.html', {
+        'day_names': day_names,
+        'registration_counts': registration_counts,
+    })
+
+
+def analytics_dashboard(request):
+    # Получаем данные для всех трех графиков
+    users = CustomUser.objects.all()
+
+    # Распределение ролей пользователей
+    roles = [user.get_role_name() for user in users]
+    role_counts = Counter(roles)
+    role_labels = list(role_counts.keys())
+    role_values = list(role_counts.values())
+
+    # Регистрация пользователей по годам
+    registration_years = [user.created_at.year for user in users]
+    year_counts = Counter(registration_years)
+    years = sorted(year_counts.keys())
+    registration_counts_by_year = [year_counts[year] for year in years]
+
+    # Регистрация пользователей по дням недели
+    registration_days = [user.created_at.weekday() for user in users]
+    day_counts = Counter(registration_days)
+    day_names = list(calendar.day_name)
+    registration_counts_by_day = [day_counts[i] for i in range(7)]
+
+    return render(request, 'authentication/analytics_dashboard.html', {
+        'role_labels': role_labels,
+        'role_values': role_values,
+        'years': years,
+        'registration_counts_by_year': registration_counts_by_year,
+        'day_names': day_names,
+        'registration_counts_by_day': registration_counts_by_day,
+    })
