@@ -6,6 +6,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .analytics import user_activity_analysis
 
 
 from .models import CustomUser
@@ -132,3 +134,23 @@ def submit_question(request):
 
     # Возвращаем ошибку, если запрос не является POST
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+import matplotlib.pyplot as plt
+
+from django.shortcuts import render
+from .models import CustomUser
+
+
+def user_role_distribution(request):
+    users = CustomUser.objects.all()
+    roles = [user.get_role_name() for user in users]
+    role_counts = {role: roles.count(role) for role in set(roles)}
+
+    role_labels = list(role_counts.keys())  # Метки ролей
+    role_values = list(role_counts.values())  # Количество пользователей по ролям
+
+    return render(request, 'authentication/analytics.html', {
+        'role_labels': role_labels,
+        'role_counts': role_values,
+    })
+
