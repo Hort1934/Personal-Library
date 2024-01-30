@@ -78,7 +78,7 @@ def delete_author(request, id):
             messages.error(request, "Cannot delete author with books.")
         else:
             author.delete()
-            messages.success(request, f"Author {author.name} {author.surname} deleted.")
+            # messages.success(request, f"Author {author.name} {author.surname} deleted.")
         return redirect("all_authors")
 
 
