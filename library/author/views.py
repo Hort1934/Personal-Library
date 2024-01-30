@@ -8,6 +8,7 @@ from django.db.models import Q
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 def all_authors(request):
     user = request.user
     if user and user.is_authenticated and user.get_role_name() == 'librarian':
@@ -45,7 +46,6 @@ def all_authors(request):
         return render(request, 'author/error.html')
 
 
-
 def create_author(request):
     user = request.user
     if user and user.is_authenticated and user.get_role_name() == 'librarian':
@@ -59,7 +59,7 @@ def create_author(request):
 
                 if name and surname and patronymic:  # Перевірте, чи всі поля заповнені
                     author = Author.objects.create(name=name, surname=surname, patronymic=patronymic)
-                    messages.success(request, f"Author {author.name} {author.surname} created.")
+                    # messages.success(request, f"Author {author.name} {author.surname} created.")
                     return redirect("all_authors")
                 else:
                     messages.error(request, "All fields are required.")
