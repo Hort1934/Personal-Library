@@ -31,4 +31,11 @@
     <li><strong>Updated At:</strong> {{ user_data.updated_at|date:'D d M Y H:i:s' }}</li>
     <li><strong>Active:</strong> {% if user_data.is_active %}Yes{% else %}No{% endif %}</li>
   </ul>
+
+  <!-- Форма редактирования профиля -->
+  <form method="post" action="{% url 'edit_profile' %}">
+    {% csrf_token %}
+    {{ profile_edit_form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
 {% endblock %}

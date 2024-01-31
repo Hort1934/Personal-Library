@@ -6,19 +6,18 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .analytics import user_activity_analysis
 import matplotlib.pyplot as plt
-from django.shortcuts import render
-from .models import CustomUser
-from django.shortcuts import render
 from .models import CustomUser
 from collections import Counter
 import calendar
-
-
-from .models import CustomUser
-from .forms import RegistrationForm, LoginForm
+from django.contrib.auth.decorators import login_required
+from .forms import RegistrationForm, LoginForm, ProfileEditForm
+from django.contrib.auth.hashers import check_password
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 def main(request):
@@ -61,9 +60,6 @@ def register_form(request):
                                  'information.</font></div>')
                 messages.error(request, mark_safe(error_message))
     return render(request, "authentication/register.html", {'form': form})
-
-
-from django.contrib.auth.hashers import check_password
 
 
 def login_form(request):
@@ -116,10 +112,6 @@ def user_profile(request):
     user_data = request.user.get_user_data()
     return render(request, 'authentication/user_profile.html', {'user_data': user_data})
 
-
-from django.core.mail import send_mail
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def submit_question(request):
@@ -215,3 +207,17 @@ def analytics_dashboard(request):
         'day_names': day_names,
         'registration_counts_by_day': registration_counts_by_day,
     })
+
+
+@login_required
+def user_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile')
+    else:
+        form = ProfileEditForm(instance=user)
+    user_data = user.get_user_data()
+    return render(request, 'authentication/user_profile.html', {'user_data': user_data, 'profile_edit_form': form})
