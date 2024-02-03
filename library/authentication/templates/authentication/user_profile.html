@@ -1,41 +1,138 @@
-<nav class="horizontal-menu">
-        <ul>
-            <li class="dropdown">
-                <a href="/authors">Services</a>
-                <ul class="dropdown-content">
-                    <li><a href="/authors">All Authors</a></li>
-                    <li><a href="/books">All Books</a></li>
-                    <li><a href="/all_orders">All Orders</a></li>
-                </ul>
-            </li>
-            <li class="dropdown"><a href="/support">Support</a></li>
-            <li class="dropdown"><a href="/user_profile">User Profile</a></li>
-<!--            <li class="dropdown"><a href="/all_orders">FAQ</a></li>-->
-            <li class="dropdown"><a href="/about">About</a></li>
-        </ul>
-    </nav>
 {% extends "authentication/index.html" %}
+{% load static %}
 
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
-  <h2>User Profile</h2>
-  <ul>
-    <li><strong>ID:</strong> {{ user_data.id }}</li>
-    <li><strong>First Name:</strong> {{ user_data.first_name }}</li>
-    <li><strong>Middle Name:</strong> {{ user_data.middle_name }}</li>
-    <li><strong>Last Name:</strong> {{ user_data.last_name }}</li>
-    <li><strong>Email:</strong> {{ user_data.email }}</li>
-    <li><strong>Role:</strong> {{ user_data.role }}</li>
-    <li><strong>Created At:</strong> {{ user_data.created_at|date:'D d M Y H:i:s' }}</li>
-    <li><strong>Updated At:</strong> {{ user_data.updated_at|date:'D d M Y H:i:s' }}</li>
-    <li><strong>Active:</strong> {% if user_data.is_active %}Yes{% else %}No{% endif %}</li>
+
+  <h2 style="margin-top: 70px">User Profile</h2>
+  <ul class="user-info-list" style="margin-left: 25px">
+    <li>
+      <strong>First Name:</strong> <span>{{ user_data.first_name }}</span>
+    </li>
+    <li>
+      <strong>Middle Name:</strong> <span>{{ user_data.middle_name }}</span>
+    </li>
+    <li>
+      <strong>Email:</strong>
+      <span>
+<!--          <i class="fas fa-envelope" style="color: #B197FC;"></i>-->
+        </a>
+        {{ user_data.email }}
+      </span>
+    </li>
+    <li>
+      <strong>Role:</strong> <span>{{ user_data.role }}</span>
+    </li>
+    <li>
+      <strong>Created At:</strong> <span>{{ user_data.created_at|date:'D d M Y H:i:s' }}</span>
+    </li>
+    <li>
+      <strong>Active:</strong>
+      {% if user_data.is_active %}
+        <span class="active"><i class="fas fa-check-circle"></i> Active</span>
+      {% else %}
+        <span class="inactive"><i class="fas fa-times-circle"></i> Inactive</span>
+      {% endif %}
+    </li>
   </ul>
 
-  <!-- Форма редактирования профиля -->
-  <form method="post" action="{% url 'edit_profile' %}">
-    {% csrf_token %}
-    {{ profile_edit_form.as_p }}
-    <button type="submit">Save Changes</button>
-  </form>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <style>
+    .user-info-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .user-info-list li {
+      margin-bottom: 10px;
+    }
+
+    .user-info-list li strong {
+      display: inline-block;
+      width: 150px;
+    }
+
+    .active {
+      color: green;
+    }
+
+    .inactive {
+      color: red;
+    }
+
+    /* Media queries for responsiveness */
+    @media screen and (max-width: 768px) {
+      .user-info-list li strong {
+        width: 120px;
+      }
+    }
+
+    @media screen and (max-width: 576px) {
+      .user-info-list li strong {
+        width: 100px;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .user-info-list li strong {
+        width: 80px;
+      }
+    }
+
+    .profile-container {
+      position: relative;
+    }
+
+    #editProfileForm {
+      max-width: 350px;
+      position: absolute;
+      top: -150px;
+      left: 0;
+      right: 0;
+      z-index: 1; /* Optional, for initial positioning */
+    }
+
+    /* Adjust styling for form fields to make them more compact */
+    .edit-form-container input[type="text"],
+    .edit-form-container input[type="email"],
+    .edit-form-container select {
+      width: 100%;
+      padding: 5px; /* Adjust padding to reduce spacing between fields */
+      margin-bottom: 5px; /* Adjust margin between fields */
+    }
+
+    /* Other styling rules for the edit form */
+  </style>
+
+  <div class="profile-container">
+    <ul>
+      </ul>
+
+    <form id="editProfileForm" method="post" action="{% url 'edit_profile' %}" style="display: none;">
+      {% csrf_token %}
+      <div class="edit-form-container">
+        {{ profile_edit_form.as_p }}
+        <button type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <button id="toggleEditForm" style="margin-left: 20px"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</button>
+  <button id="toggleEditForm" style="margin-left: 20px"><i class="fa-solid fa-chart-pie"></i> <a href="/analytics_dashboard">Analytics</a></button>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#toggleEditForm").click(function() {
+        $("#editProfileForm").toggle();
+
+        // Optional: Dynamically adjust positioning with JavaScript
+        $("#editProfileForm").css("z-index", 2); // Set z-index for overlap
+      });
+    });
+  </script>
+
+
 {% endblock %}
