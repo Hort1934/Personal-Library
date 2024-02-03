@@ -20,7 +20,7 @@ class LoginForm(forms.Form):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'middle_name', 'last_name', 'email', 'role', 'is_active']
+        fields = ['first_name', 'middle_name', 'email']
 
 
 
