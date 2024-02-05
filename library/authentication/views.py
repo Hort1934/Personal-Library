@@ -211,6 +211,27 @@ def analytics_dashboard(request):
 
 @login_required
 def user_profile(request):
+    # Получаем данные для всех трех графиков
+    users = CustomUser.objects.all()
+
+    # Распределение ролей пользователей
+    roles = [user.get_role_name() for user in users]
+    role_counts = Counter(roles)
+    role_labels = list(role_counts.keys())
+    role_values = list(role_counts.values())
+
+    # Регистрация пользователей по годам
+    registration_years = [user.created_at.year for user in users]
+    year_counts = Counter(registration_years)
+    years = sorted(year_counts.keys())
+    registration_counts_by_year = [year_counts[year] for year in years]
+
+    # Регистрация пользователей по дням недели
+    registration_days = [user.created_at.weekday() for user in users]
+    day_counts = Counter(registration_days)
+    day_names = list(calendar.day_name)
+    registration_counts_by_day = [day_counts[i] for i in range(7)]
+
     user = request.user
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, instance=user)
@@ -220,4 +241,15 @@ def user_profile(request):
     else:
         form = ProfileEditForm(instance=user)
     user_data = user.get_user_data()
-    return render(request, 'authentication/user_profile.html', {'user_data': user_data, 'profile_edit_form': form})
+    return render(request, 'authentication/user_profile.html', {
+        'user_data': user_data,
+        'profile_edit_form': form,
+        'role_labels': role_labels,
+        'role_values': role_values,
+        'years': years,
+        'registration_counts_by_year': registration_counts_by_year,
+        'day_names': day_names,
+        'registration_counts_by_day': registration_counts_by_day,
+    })
+
+

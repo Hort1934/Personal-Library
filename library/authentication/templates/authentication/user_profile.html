@@ -5,7 +5,7 @@
 
 {% block content %}
 
-  <h2 style="margin-top: 70px">User Profile</h2>
+  <h2 style="margin-top: 60px">User Profile</h2>
   <ul class="user-info-list" style="margin-left: 25px">
     <li>
       <strong>First Name:</strong> <span>{{ user_data.first_name }}</span>
@@ -16,8 +16,6 @@
     <li>
       <strong>Email:</strong>
       <span>
-<!--          <i class="fas fa-envelope" style="color: #B197FC;"></i>-->
-        </a>
         {{ user_data.email }}
       </span>
     </li>
@@ -104,6 +102,31 @@
     }
 
     /* Other styling rules for the edit form */
+
+    /* Styling for dashboard section */
+    #dashboardSection {
+      display: none;
+      /*margin-top: 20px;*/
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-width: 80%;
+      margin: auto;
+      background-color: white;
+    }
+
+    #dashboardSection canvas {
+      width: 100%;
+    }
+
+     /*Button to toggle dashboard visibility */
+    /*#toggleDashboard {*/
+    /*  margin-left: 20px;*/
+    /*  position: fixed;*/
+    /*  top: 10px;*/
+    /*  left: 10px;*/
+    /*  z-index: 9999;*/
+    /*}*/
   </style>
 
   <div class="profile-container">
@@ -120,19 +143,181 @@
   </div>
 
   <button id="toggleEditForm" style="margin-left: 20px"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</button>
-  <button id="toggleEditForm" style="margin-left: 20px"><i class="fa-solid fa-chart-pie"></i> <a href="/analytics_dashboard">Analytics</a></button>
+  <button id="toggleDashboard"><i class="fas fa-chart-pie"></i> Toggle Dashboard</button>
+<p></p>
+
+
+  <!-- Dashboard Section -->
+  <div id="dashboardSection">
+    <!-- Include your dashboard HTML code here -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Analytics Dashboard</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+
+            <!-- График распределения ролей пользователей -->
+    <div style="float: left; width: 50%;">
+        <canvas id="userRoleChart" style="max-height: 250px"></canvas>
+        <div style="text-align: center">Graph of user role distribution</div>
+    </div>
+
+    <!-- График регистрации пользователей по годам -->
+    <div style="float: right; width: 50%; text-align: right;">
+        <canvas id="userRegistrationByYearChart" style="max-height: 250px; max-width: 500px"></canvas>
+        <div style="text-align: center">Schedule of user registration by year</div>
+    </div>
+
+    <!-- График регистрации пользователей по дням недели -->
+    <div style="clear: both; text-align: center;">
+        <canvas id="userRegistrationByDayChart" style="max-height: 300px; max-width: 500px; margin-left: 250px"></canvas>
+        <div style="text-align: center">User registration schedule by day of the week</div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // График распределения ролей пользователей
+            var ctxRole = document.getElementById('userRoleChart').getContext('2d');
+            var roleLabels = {{ role_labels|safe }};
+            var roleValues = {{ role_values|safe }};
+            var roleChart = new Chart(ctxRole, {
+                type: 'pie',
+                data: {
+                    labels: roleLabels,
+                    datasets: [{
+                        label: 'User Role Distribution',
+                        data: roleValues,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'User Role Distribution'
+                    }
+                }
+            });
+
+            // График регистрации пользователей по годам
+            var ctxYear = document.getElementById('userRegistrationByYearChart').getContext('2d');
+            var years = {{ years|safe }};
+            var registrationCountsByYear = {{ registration_counts_by_year|safe }};
+            var yearChart = new Chart(ctxYear, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'User Registration by Year',
+                        data: registrationCountsByYear,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            // График регистрации пользователей по дням недели
+            var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
+            var dayNames = {{ day_names|safe }};
+            var registrationCountsByDay = {{ registration_counts_by_day|safe }};
+            var dayChart = new Chart(ctxDay, {
+                type: 'bar',
+                data: {
+                    labels: dayNames,
+                    datasets: [{
+                        label: 'User Registration by Day',
+                        data: registrationCountsByDay,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+    </body>
+    </html>
+  </div>
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-    $(document).ready(function() {
-      $("#toggleEditForm").click(function() {
+  $(document).ready(function() {
+    var isEditFormVisible = false;
+    var isDashboardVisible = false;
+
+    $("#toggleEditForm").click(function() {
+      if (!isEditFormVisible && !isDashboardVisible) {
+        $("#editProfileForm").show();
+        isEditFormVisible = true;
+      } else {
         $("#editProfileForm").toggle();
-
-        // Optional: Dynamically adjust positioning with JavaScript
-        $("#editProfileForm").css("z-index", 2); // Set z-index for overlap
-      });
+        isEditFormVisible = !isEditFormVisible;
+        if (isDashboardVisible) {
+          $("#dashboardSection").toggle();
+          isDashboardVisible = false;
+        }
+      }
     });
-  </script>
 
+    $("#toggleDashboard").click(function() {
+      if (!isEditFormVisible && !isDashboardVisible) {
+        $("#dashboardSection").show();
+        isDashboardVisible = true;
+      } else {
+        $("#dashboardSection").toggle();
+        isDashboardVisible = !isDashboardVisible;
+        if (isEditFormVisible) {
+          $("#editProfileForm").toggle();
+          isEditFormVisible = false;
+        }
+      }
+    });
+  });
+</script>
 
 {% endblock %}
