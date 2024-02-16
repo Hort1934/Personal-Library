@@ -7,10 +7,13 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.validators import MinValueValidator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.safestring import mark_safe
-from .models import Book
 from authentication.models import CustomUser
 from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.db.models import Count
+from django.shortcuts import render
+from .models import Book, User
+from django.http import Http404
 
 
 class BookForm(forms.ModelForm):
@@ -24,9 +27,6 @@ class BookForm(forms.ModelForm):
     count = forms.IntegerField(required=True, validators=[MinValueValidator(0)],
                                widget=forms.NumberInput(attrs={'css': 'width: 5em;'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
-
-
-from django.http import Http404
 
 
 def all_books(request):
@@ -113,13 +113,28 @@ def add_book(request):
 def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
-        form = BookForm(request.POST, instance=book)
+        form = BookForm(request.POST, request.FILES,
+                        instance=book)  # Передайте request.FILES для обработки загружаемого файла
         if form.is_valid():
-            form.save()
+            book_instance = form.save(commit=False)
+            if 'image' in request.FILES:  # Проверяем, загружено ли изображение
+                handle_uploaded_image(request.FILES['image'],
+                                      book_instance)  # Вызываем функцию для обработки изображения
+            book_instance.save()
             return redirect('view_book', book_id=book_id)
     else:
         form = BookForm(instance=book)
     return render(request, 'book/edit_book.html', {'form': form, 'book': book})
+
+
+def handle_uploaded_image(image, book_instance):
+    # Определите путь, куда сохранить изображение
+    image_path = os.path.join(settings.MEDIA_ROOT, 'book_images', image.name)
+    with open(image_path, 'wb+') as destination:
+        for chunk in image.chunks():
+            destination.write(chunk)
+    book_instance.image = os.path.join('book_images',
+                                       image.name)  # Сохраняем относительный путь к изображению в базе данных
 
 
 def delete_book(request, book_id):
@@ -184,3 +199,29 @@ def export_books_csv(request):
         writer.writerow(row)
 
     return response
+
+
+def analytics(request):
+    # Аналітика користувачів
+    total_users = User.objects.count()
+
+    # Аналітика книг
+    total_books = Book.objects.count()
+
+    # Аналітика інтеракцій
+    books_per_user = {user.name: user.get_all_books().count() for user in User.objects.all()}
+    popular_books = Book.objects.order_by('-count')[:5]
+
+    # Темпоральна аналітика
+    # Припустимо, що у книги є поле `date_of_issue`
+    books_issued_by_month = Book.objects.extra({'month': "EXTRACT(month FROM date_of_issue)"}).values('month').annotate(
+        total=Count('id'))
+
+    context = {
+        'total_users': total_users,
+        'total_books': total_books,
+        'books_per_user': books_per_user,
+        'popular_books': popular_books,
+        'books_issued_by_month': books_issued_by_month,
+    }
+    return render(request, 'book/analytics.html', context)

@@ -75,11 +75,15 @@
 
 <body>
     <div class="container">
-        <h3>{{ book.title }}</h3>
-        <p>Name: {{ book.name }}</p>
+        <h3>{{ book.name }}</h3>
         <p>Description: {{ book.description }}</p>
         <p>Count: {{ book.count }}</p>
         <p>Date of issue: {{ book.date_of_issue }}</p>
+
+        {% if book.image %}
+            <img src="{{ book.image.url }}" alt="{{ book.name }}">
+        {% endif %}
+
         <p></p>
         <a href="/books/" class="return-button">Return to Book List</a>
         <a href="/book/{{ book.id }}/delete" class="delete-button">

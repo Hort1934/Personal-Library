@@ -148,6 +148,10 @@ EMAIL_HOST_USER = 'hort19345@gmail.com'
 EMAIL_HOST_PASSWORD = 'Marchenko1934'
 
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 
 LOGGING = {
     'version': 1,

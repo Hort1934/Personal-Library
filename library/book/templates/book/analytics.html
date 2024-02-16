@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-size: cover; /* Розмір фону - вписати весь вікно браузера */
+            background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
+            background-attachment: fixed; /* Фіксований фон при прокручуванні */
+            background-position: center center; /* Вирівнювання фонового зображення по центру */
+      }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analytics Dashboard</h1>
+
+        <h2>Books</h2>
+        <p>Total Books: {{ total_books }}</p>
+
+        <h2>Interactions</h2>
+        <ul>
+            {% for user, books_count in books_per_user.items %}
+                <li>{{ user }}: {{ books_count }} books</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Popular Books</h2>
+        <ul>
+            {% for book in popular_books %}
+                <li>{{ book.name }} ({{ book.count }} copies)</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Temporal Analysis</h2>
+        <canvas id="booksIssuedChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+            // Отримайте дані для графіку
+            var months = [];
+            var booksIssued = [];
+            {% for month_data in books_issued_by_month %}
+                months.push('{{ month_data.month }}');
+                booksIssued.push('{{ month_data.total }}');
+            {% endfor %}
+
+            // Створіть графік за допомогою Chart.js
+            var ctx = document.getElementById('booksIssuedChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Books Issued',
+                        data: booksIssued,
+                        backgroundColor: 'rgba(126,54,235,0.2)',
+                        borderColor: 'rgb(175,54,235)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
