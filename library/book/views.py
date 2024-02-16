@@ -109,33 +109,31 @@ def add_book(request):
         form = BookForm()
     return render(request, 'book/add_book.html', {'form': form})
 
-
+from django.conf import settings
+import os
 def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES,
-                        instance=book)  # Передайте request.FILES для обработки загружаемого файла
+        form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             book_instance = form.save(commit=False)
-            if 'image' in request.FILES:  # Проверяем, загружено ли изображение
-                handle_uploaded_image(request.FILES['image'],
-                                      book_instance)  # Вызываем функцию для обработки изображения
+            # Проверяем, загружено ли новое изображение
+            if 'image' in request.FILES:
+                # Обрабатываем и сохраняем новое изображение
+                handle_uploaded_image(request.FILES['image'], book_instance)
             book_instance.save()
             return redirect('view_book', book_id=book_id)
     else:
         form = BookForm(instance=book)
     return render(request, 'book/edit_book.html', {'form': form, 'book': book})
 
-
 def handle_uploaded_image(image, book_instance):
     # Определите путь, куда сохранить изображение
-    image_path = os.path.join(settings.MEDIA_ROOT, 'book_images', image.name)
+    image_path = os.path.join(settings.MEDIA_ROOT, 'images', image.name)
     with open(image_path, 'wb+') as destination:
         for chunk in image.chunks():
             destination.write(chunk)
-    book_instance.image = os.path.join('book_images',
-                                       image.name)  # Сохраняем относительный путь к изображению в базе данных
-
+    book_instance.image = os.path.join('images', image.name)
 
 def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)

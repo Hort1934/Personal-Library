@@ -84,9 +84,14 @@
 <body>
     <div class="container">
         <h2>Edit Book</h2>
-        <form method="post" enctype="multipart/form-data"> <!-- Добавьте enctype="multipart/form-data" для обработки загрузки файлов -->
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
+
+            <!-- Поле для загрузки изображения -->
+            <label for="id_image">Image:</label>
+            <input type="file" id="id_image" name="image">
+
             <button type="submit">Save</button>
         </form>
 
