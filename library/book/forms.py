@@ -14,7 +14,10 @@ class BookFilterForm(forms.Form):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'author', 'publication_date', 'Count']
+        fields = ['name', 'description', 'count', 'date_of_issue', 'image']
 
-    class BookForm(forms.ModelForm):
-        Count = forms.IntegerField(validators=[MinValueValidator(0)])
+    # Добавьте поле для изображения
+    image = forms.ImageField(required=False, label='Image')
+
+    # Если вы хотите добавить валидатор для поля count, вы можете сделать это так
+    count = forms.IntegerField(validators=[MinValueValidator(0)])

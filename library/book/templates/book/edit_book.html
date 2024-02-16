@@ -84,11 +84,12 @@
 <body>
     <div class="container">
         <h2>Edit Book</h2>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data"> <!-- Добавьте enctype="multipart/form-data" для обработки загрузки файлов -->
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Save</button>
         </form>
+
         <a href="/books" class="return-button">Return to Book List</a>
     </div>
 </body>

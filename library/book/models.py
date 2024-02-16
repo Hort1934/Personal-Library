@@ -37,6 +37,7 @@ class Book(models.Model):
     description = models.CharField(max_length=256, blank=True)
     count = models.IntegerField(default=10)
     date_of_issue = models.DateField(null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def __str__(self):
         """
