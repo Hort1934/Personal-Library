@@ -3,43 +3,44 @@ A system for performing operations and other things related to the Library has b
 
 1. Authorization / User Registration:
    - Authorization screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/bb712670-802f-4130-aa06-f097f1c7e4de)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/4822f2ea-a617-4799-b502-2c61ae33baf9)
 
 - Registration screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/08b9774d-cef3-41db-8d42-d9a139cc7d4d)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/28c2397b-5609-44dc-8d2e-1e6eb20eb295)
 
 2. Book information:
    - The book information screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/d2b31bec-1bb1-4485-9fd7-72955c832adc)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/dc943e86-d7a4-4b9d-8731-d2836754dfea)
 
 3. Add a book:
    - The add book screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/97a1d5fd-2942-47d9-b4c1-933efc02897a)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/4f0df99d-0aae-4ddb-aaf6-eb409a9c448d)
 
 4. Search for a book:
    - The book search screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/4d1a218c-6a86-4826-bca6-22f7e078aad5)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/f3ee2be7-a6f3-40c5-8c7e-dc1b4608c591)
 
 5. Edit book information:
    - Edit book information screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/b43e96f2-6347-416c-ac69-c8b0270711be)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/7c07a5f5-437d-42c3-9b4b-c7dc2055ac4b)
 
 6. Information about the authors:
    - The author information screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/59604a50-0668-4f16-8d26-378b8adddbc0)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/e5ce296e-e0ed-4a1a-910d-6f3635fdaef6)
 
 7. Information about the order:
    - Order screen by authorized user:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/51a275e6-2011-4b95-b25a-1d2700c9f9ef)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/edb57026-b00f-40dd-aa1b-3532665206e9)
 
 8. Create an order:
    - Order creation screen:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/38df37e3-de0d-4421-9aa5-59bbce744ad4)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/b6fef98e-3d09-4d63-86f7-171432f91f63)
 
 9. Edit order information:
    - The screen for editing order information:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/0a35b5a3-2b4e-4cd6-97d2-3fef7320f301)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/0096a6bb-ffea-4c00-9b21-dbcd3605b2b7)
 
 10. Information about orders placed for the selected user:
    - The screen for information about orders placed:
-![image](https://github.com/Hort1934/Personal-Library/assets/61141309/0efbf82f-273f-417e-9009-62582a546689)
+![image](https://github.com/Hort1934/Personal-Library/assets/61141309/f86d58cd-1dc8-437c-9dd8-bb3cfcf29836)
+
