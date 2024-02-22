@@ -76,21 +76,6 @@
             background-color: #45a049;
         }
 
-        .main-button {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .main-button:hover {
-            background-color: #45a049;
-        }
-
         .ask-question-container {
           position: fixed;
           bottom: 20px;
@@ -98,6 +83,26 @@
           z-index: 999; /* Убеждаемся, что контейнер находится поверх других элементов */
         }
 
+        /* CSS for card animation */
+        .order-card {
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .order-card img {
+            transition: transform 0.3s;
+        }
+
+        .order-card:hover img {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -138,19 +143,20 @@
             <a href="{% url 'my_orders' %}">My Orders</a>
         </div>
         {% if user %}
-        <!-- Змініть шаблон для виведення інформації про користувача -->
-        {% for order in orders %}
-            <h3>Order №: {{ order.id }}</h3>
-            <p>Status: {{ order.status }}</p>
-            <p>Name: {{ order.book.name }}</p>
-            <p>Plated end at: {{ order.plated_end_at }}</p>
-            <p>Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>  <!-- Додаємо інформацію про користувача -->
-            <hr>
-
-        {% empty %}
-            <p class="no-orders">No orders available.</p>
-        {% endfor %}
-{% endif %}
+            <!-- Змініть шаблон для виведення інформації про користувача -->
+            {% for order in orders %}
+                <div class="order-card">
+                    <h3>Order №: {{ order.id }}</h3>
+                    <p>Status: {{ order.status }}</p>
+                    <p>Name: {{ order.book.name }}</p>
+                    <p>Plated end at: {{ order.plated_end_at }}</p>
+                    <p>Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>  <!-- Додаємо інформацію про користувача -->
+                    <hr>
+                </div>
+            {% empty %}
+                <p class="no-orders">No orders available.</p>
+            {% endfor %}
+        {% endif %}
     </div>
 
 <!-- Контейнер для кнопки "Contact" -->
@@ -186,7 +192,6 @@
         <button type="button" class="btn btn-primary">Send Message</button>
       </div>
     </div>
-  </div>
 </div>
 
 <!-- Add these script tags to include Bootstrap JS and jQuery -->
