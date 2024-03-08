@@ -1,3 +1,31 @@
+<style>
+    .navbar-nav .nav-link {
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+        transform: scale(1.1);
+    }
+
+    .fade-in {
+        animation: fadeInAnimation 1s ease-in forwards;
+        opacity: 0;
+    }
+
+    /* Fade in/out animation */
+    @keyframes fade {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    /* Apply animation to elements with the 'fade-in-out' class */
+    .fade-in-out {
+        animation: fade 5s infinite; /* Change the duration (5s) as needed */
+    }
+</style>
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="/auth">Main</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,11 +63,11 @@
 {% extends "authentication/index.html" %}
 
 {% block content %}
-    <h2 style="color: ivory">Welcome to the Book Accounting System</h2>
+    <h2 class="fade-in-out" style="color: gray">Welcome to the Book Accounting System</h2>
     {% if user.is_authenticated %}
-        <div class="container">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
-        <p class="text-center"><a href="/logout" style="color: ivory">Logout</a></p>
+        <div class="container fade-in-out">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
+        <p class="text-center fade-in-out"><a href="/logout" style="color: gray;">Logout</a></p>
     {% else %}
-        <p class="text-center">If you already have an account, <a href="/login">Login</a> or <a href="/register">Sign Up</a></p>
+        <p class="text-center fade-in-out">If you already have an account, <a href="/login">Login</a> or <a href="/register">Sign Up</a></p>
     {% endif %}
 {% endblock %}
