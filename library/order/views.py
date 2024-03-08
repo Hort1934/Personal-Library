@@ -9,12 +9,13 @@ from django.utils import timezone  # Імпорт бібліотеки для о
 # Оновлення функції all_orders для передачі інформації про користувача
 def all_orders(request):
     user = request.user
-    if user and user.is_authenticated and user.get_role_name() == 'visitor':
-        orders = Order.objects.all()
-        orders.status = 'Open'
-        return render(request, 'order/all_orders.html', {'orders': orders})
-    else:
-        return render(request, 'order/error.html')
+    user_data = request.user.get_user_data()
+    # if user and user.is_authenticated and user.get_role_name() == 'visitor':
+    orders = Order.objects.all()
+    orders.status = 'Open'
+    return render(request, 'order/all_orders.html', {'orders': orders, 'user_data': user_data})
+    # else:
+    #     return render(request, 'order/error.html')
 
 
 def my_orders(request):
