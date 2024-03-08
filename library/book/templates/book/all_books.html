@@ -109,24 +109,19 @@
                 <p class="error-message">{{ invalid_id }}</p>
             {% endif %}
         </form>
-
+        <p></p>
         <form class="search-form" method="GET" action="">
-{#            <input type="text" class="search-input" name="id" placeholder="Search by ID">#}
-{#            <button type="submit" class="search-button">Search</button>#}
-            <p>
+            {# Your existing code for the search form #}
+            {% if user.is_authenticated %}
+                {% if user_data.role == "Librarian" %}
+                    <a href="/books/add" class="btn btn-primary">Add Book</a>
+                {% endif %}
+                <a href="/books/analytics" class="btn btn-success">Analytics</a>
                 <p></p>
-                <a href="/books/add" class="btn btn-primary">Add Book</a>
                 <a href="/books/filter" class="btn btn-primary">Filter Book</a>
-{#              <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>#}
-            </p>
+                <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>
+            {% endif %}
         </form>
-
-        <div class="main-content">
-            <!-- Ваш існуючий код тут -->
-            <p></p>
-            <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>
-            <a href="/books/analytics" class="btn btn-success">Analytics</a>
-        </div>
 
          <!-- Блок, який буде накладатися -->
         <div class="overlay-block" id="overlayBlock">
@@ -187,7 +182,9 @@
                         <th scope="col">Description</th>
                         <th scope="col">Count</th>
                         <th scope="col">Date of issue</th>
-                        <th scope="col">Actions</th>
+                        {% if user_data.role == "Librarian" %}
+                            <th scope="col">Actions</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -198,15 +195,17 @@
                             <td>{{ book.description }}</td>
                             <td>{{ book.count }}</td>
                             <td>{{ book.date_of_issue }}</td>
-                            <td>
-                                <a href="/books/edit/{{ book.id }}" class="btn btn-warning">
-                                    <i class="fa fa-edit"></i> Edit
-                                </a>
+                            {% if user_data.role == "Librarian" %}
+                                <td>
+                                    <a href="/books/edit/{{ book.id }}" class="btn btn-warning">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
 
-                                <a href="/book/{{ book.id }}/delete" class="btn btn-danger">
-                                    <i class="fa fa-trash fa-spin"></i> Delete
-                                </a>
-                            </td>
+                                    <a href="/book/{{ book.id }}/delete" class="btn btn-danger">
+                                        <i class="fa fa-trash fa-spin"></i> Delete
+                                    </a>
+                                </td>
+                            {% endif %}
 
                         </tr>
                     {% empty %}
