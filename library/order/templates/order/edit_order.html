@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <style>
+        /* Стилі залишаються незмінними */
         * {
             box-sizing: border-box;
         }
@@ -62,7 +66,9 @@
         <h2>Edit Order</h2>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.book.label_tag }}: {{ form.book }}<br><br>
+            <!-- Використання поля вводу типу date для календаря -->
+            Plated end at: <input type="date" id="datepicker" name="plated_end_at" class="input-field" value="{{ form.instance.plated_end_at|date:'Y-m-d' }}"><br><br>
             <button type="submit">Save</button>
         </form>
         <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>

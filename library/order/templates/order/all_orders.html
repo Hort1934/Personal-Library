@@ -12,7 +12,7 @@
     <style>
         * {
             box-sizing: border-box;
-        }
+        } 
 
         body {
             font-family: Arial, sans-serif;
@@ -139,24 +139,26 @@
 </nav>
 <div class="container" style="margin-top: 80px">
         <div class="action-buttons">
-            <a href="{% url 'create_order' %}">Create Order</a>
-            <a href="{% url 'my_orders' %}">My Orders</a>
+            {% if user_data.role == "Visitor" %}
+                <a href="{% url 'create_order' %}">Create Order</a>
+                <a href="{% url 'my_orders' %}">My Orders</a>
+            {% endif %}
         </div>
         {% if user %}
-            <!-- Змініть шаблон для виведення інформації про користувача -->
-            {% for order in orders %}
-                <div class="order-card">
-                    <h3>Order №: {{ order.id }}</h3>
-                    <p>Status: {{ order.status }}</p>
-                    <p>Name: {{ order.book.name }}</p>
-                    <p>Plated end at: {{ order.plated_end_at }}</p>
-                    <p>Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>  <!-- Додаємо інформацію про користувача -->
-                    <hr>
-                </div>
-            {% empty %}
-                <p class="no-orders">No orders available.</p>
-            {% endfor %}
-        {% endif %}
+        <!-- Змініть шаблон для виведення інформації про користувача -->
+        {% for order in orders %}
+            <h3>Order №: {{ order.id }}</h3>
+            <p>Status: {{ order.status }}</p>
+            <p>Name: {{ order.book.name }}</p>
+            <p>Created at order: {{ order.created_at }}</p>
+            <p>Plated end at: {{ order.plated_end_at }}</p>
+            <p>Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>  <!-- Додаємо інформацію про користувача -->
+            <hr>
+
+        {% empty %}
+            <p class="no-orders">No orders available.</p>
+        {% endfor %}
+{% endif %}
     </div>
 
 <!-- Контейнер для кнопки "Contact" -->
