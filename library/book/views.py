@@ -1,6 +1,6 @@
 import codecs
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpResponseNotFound, HttpResponseRedirect
 from django import forms
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -8,12 +8,12 @@ from django.core.validators import MinValueValidator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.safestring import mark_safe
 from authentication.models import CustomUser
-from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.db.models import Count
-from django.shortcuts import render
 from .models import Book, User
-from django.http import Http404
+from django.conf import settings
+import os
+from django.contrib.auth.decorators import login_required
 
 
 class BookForm(forms.ModelForm):
@@ -29,8 +29,10 @@ class BookForm(forms.ModelForm):
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
 
 
+@login_required
 def all_books(request):
     books = Book.objects.all()
+    user_data = request.user.get_user_data()
     search_id = request.GET.get('id')
 
     if search_id:
@@ -58,7 +60,7 @@ def all_books(request):
     if not books:
         messages.info(request, "No books available.")
 
-    return render(request, 'book/all_books.html', {'books': books})
+    return render(request, 'book/all_books.html', {'books': books, 'user_data': user_data})
 
 
 def view_book(request, book_id):
@@ -109,8 +111,7 @@ def add_book(request):
         form = BookForm()
     return render(request, 'book/add_book.html', {'form': form})
 
-from django.conf import settings
-import os
+
 def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
@@ -127,6 +128,7 @@ def edit_book(request, book_id):
         form = BookForm(instance=book)
     return render(request, 'book/edit_book.html', {'form': form, 'book': book})
 
+
 def handle_uploaded_image(image, book_instance):
     # Определите путь, куда сохранить изображение
     image_path = os.path.join(settings.MEDIA_ROOT, 'images', image.name)
@@ -134,6 +136,7 @@ def handle_uploaded_image(image, book_instance):
         for chunk in image.chunks():
             destination.write(chunk)
     book_instance.image = os.path.join('images', image.name)
+
 
 def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
