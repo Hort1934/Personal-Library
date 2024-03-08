@@ -9,11 +9,13 @@
         body {
             font-family: Arial, sans-serif;
             background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
-            background-size: cover; /* Розмір фону - вписати весь вікно браузера */
-            background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
-            background-attachment: fixed; /* Фіксований фон при прокручуванні */
-            background-position: center center; /* Вирівнювання фонового зображення по центру */
-          }
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            margin: 0;
+            padding: 0;
+        }
 
         h1, h2 {
             color: #333;
@@ -25,6 +27,8 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         th, td {
@@ -60,13 +64,16 @@
             cursor: pointer;
         }
         .container {
-            display: block;
-            justify-content: space-between;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            opacity: 0; /* Initially hide the container */
+            transition: opacity 0.5s ease-in-out; /* Smooth transition when showing */
         }
 
         .author-list {
-            width: 65%; /* Задайте ширину списку авторів відповідно до ваших потреб */
-            padding-left: 10%;
+            width: 65%;
             padding-top: 100px;
         }
 
@@ -131,9 +138,10 @@
     </div>
 </nav>
 
-        <div class="author-list">
-    <table class="table-light">
-        <thead class="thead-light">
+        <div class="container">
+    <div class="author-list">
+        <table class="table-light">
+            <thead class="thead-light">
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -141,7 +149,7 @@
                 <th>Surname</th>
                 <th>Actions</th>
             </tr>
-        </thead>
+            </thead>
         <tbody>
             {% for author in authors %}
                 <tr>
@@ -195,7 +203,7 @@
     </table>
 
     <!-- Display pagination links -->
-    <div class="pagination">
+    <div class="pagination justify-content-center">
         <span class="step-links">
             {% if authors.has_previous %}
                 <a href="?page=1">&laquo; first</a>
@@ -300,5 +308,14 @@
     });
   });
 </script>
+<script>
+    // Show the container once the page is fully loaded
+    window.addEventListener('load', function() {
+        document.querySelector('.container').style.opacity = 1;
+    });
+</script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 {% endblock %}
