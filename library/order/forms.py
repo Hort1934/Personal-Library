@@ -10,9 +10,9 @@ class OrderForm(forms.ModelForm):
 
     def clean_plated_end_at(self):
         plated_end_at = self.cleaned_data['plated_end_at']
-        # Получение текущей даты и времени
+        # Отримання поточної дати та часу
         today = timezone.now()
-        # Сравнение дат и времени
+        # Порівняння дат і часу
         if plated_end_at < today:
             raise forms.ValidationError("Plated end date cannot be in the past.")
         return plated_end_at
