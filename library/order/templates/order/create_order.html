@@ -73,18 +73,18 @@
             <p>{{ error }}</p>
         {% endif %}
         <form class="create-order-form" method="post" action="{% url 'create_order' %}">
-    {% csrf_token %}
-    <label for="book">Book:</label>
-    {{ form.book }}
-    <br>
-            <p></p>
-<!--    <label for="user">User:</label>-->
-<!--    {{ form.user }}-->
-    <label for="plated_end_at">Plated End Date:</label>
-    <input type="date" id="plated_end_at" name="plated_end_at" class="input-field"><p></p>
-    <button type="submit" class="submit-button">Create Order</button>
-</form>
-
+            {% csrf_token %}
+            <label for="book">Book:</label>
+            {{ form.book }}
+            <br>
+            <br>
+            <label for="plated_end_at">Plated End Date:</label>
+            <input type="date" id="plated_end_at" name="plated_end_at" class="input-field"><br>
+            {% if form.errors.plated_end_at %}
+                <p style="color: red;">{{ form.errors.plated_end_at }}</p>
+            {% endif %}
+            <button type="submit" class="submit-button">Create Order</button>
+        </form>
         <a href="{% url 'all_orders' %}" class="return-button">Back</a>
     </div>
 </body>
