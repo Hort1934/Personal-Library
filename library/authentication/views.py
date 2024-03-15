@@ -25,11 +25,14 @@ def main(request):
 
 
 def auth(request):
-    return render(request, "authentication/auth.html")
+    user_data = request.user.get_user_data()
+
+    return render(request, "authentication/auth.html", {'user_data': user_data})
 
 
 def about(request):
-    return render(request, "authentication/about.html")
+    user_data = request.user.get_user_data()
+    return render(request, "authentication/about.html", {'user_data': user_data})
 
 
 def register_form(request):
