@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +17,6 @@
     }
 
     header {
-      /*background-color: #f0f0f0;*/
       padding: 20px;
       width: 100%;
     }
@@ -80,14 +78,13 @@
     .map {
       flex: 1;
       max-width: calc(100% - 400px);
-      /* Add your map styles or integration code here */
     }
 
     .ask-question-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      z-index: 999; /* Убеждаемся, что контейнер находится поверх других элементов */
+      z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
     }
   </style>
 
@@ -117,9 +114,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user_profile">User Profile</a>
                 </li>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">FAQ</a>-->
-<!--                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
@@ -128,7 +122,6 @@
     </nav>
 
   <header>
-<!--    <h1>Support</h1>-->
   </header>
   <main>
     <form style="color: white">
@@ -172,19 +165,13 @@
   <!-- Include the Google Maps API script -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOX23EtcR8pRkS0eghUbqeZqF0Td42-hE&callback=initMap" async defer></script>
 
-<!--<a href="/auth" style="text-decoration: none;">-->
-<!--      <button style="background-color: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-left: 20px">-->
-<!--        Back to Main-->
-<!--      </button>-->
-<!--    </a>-->
-<!-- Контейнер для кнопки "Contact" -->
 <div class="ask-question-container">
   <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">
     Contact Us
   </button>
 </div>
 
-<!-- Модальное окно для контакта -->
+<!-- Модальне вікно для контакту -->
 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

@@ -1,4 +1,3 @@
-# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order, Book, CustomUser
 from django.http import HttpResponseNotFound
@@ -10,12 +9,9 @@ from django.utils import timezone  # Імпорт бібліотеки для о
 def all_orders(request):
     user = request.user
     user_data = request.user.get_user_data()
-    # if user and user.is_authenticated and user.get_role_name() == 'visitor':
     orders = Order.objects.all()
     orders.status = 'Open'
     return render(request, 'order/all_orders.html', {'orders': orders, 'user_data': user_data})
-    # else:
-    #     return render(request, 'order/error.html')
 
 
 def my_orders(request):
@@ -47,7 +43,6 @@ def create_order(request):
         return render(request, 'order/create_order.html', {'form': form})
     else:
         return render(request, 'order/error.html')
-
 
 
 def close_order(request, order_id):
@@ -82,6 +77,6 @@ def edit_order(request, order_id):
 
 def delete_order(request, order_id):
     order = Order.objects.get(id=order_id)
-    # Perform the deletion logic here
+    # Виконуємо логіку видалення тут
     order.delete()
     return redirect('all_orders')
