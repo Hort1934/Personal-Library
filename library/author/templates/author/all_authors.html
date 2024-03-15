@@ -68,8 +68,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            opacity: 0; /* Initially hide the container */
-            transition: opacity 0.5s ease-in-out; /* Smooth transition when showing */
+            opacity: 0; /* Спочатку сховайте контейнер */
+            transition: opacity 0.5s ease-in-out; /* Плавний перехід при показі */
         }
 
         .author-list {
@@ -103,7 +103,7 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      z-index: 999; /* Убеждаемся, что контейнер находится поверх других элементов */
+      z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
     }
     </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -128,9 +128,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="/user_profile">User Profile</a>
             </li>
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">FAQ</a>-->
-<!--            </li>-->
             <li class="nav-item">
                 <a class="nav-link" href="/about">About</a>
             </li>
@@ -166,7 +163,7 @@
                         </button>
                     </td>
                 </tr>
-            <!-- Модальное окно для подтверждения удаления -->
+            <!-- Модальне вікно для підтвердження видалення -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -188,11 +185,11 @@
 </div>
 
             <script>
-  // Функция для установки ссылки на удаление и запуска модального окна
+  // Функція для встановлення посилання на видалення і запуску модального вікна
   function confirmDelete(authorId) {
     var deleteLink = document.getElementById('deleteAuthorLink');
-    deleteLink.href = "/authors/delete/" + authorId; // Установка ссылки на удаление с id автора
-    $('#confirmDeleteModal').modal('show'); // Запуск модального окна
+    deleteLink.href = "/authors/delete/" + authorId; // Встановлення посилання на видалення з id автора
+    $('#confirmDeleteModal').modal('show'); // Запуск модального вікна
   }
 </script>
 
@@ -202,7 +199,7 @@
         <p></p>
     </table>
 
-    <!-- Display pagination links -->
+    <!-- Показувати посилання на сторінки -->
     <div class="pagination justify-content-center">
         <span class="step-links">
             {% if authors.has_previous %}
@@ -234,28 +231,28 @@
   {% endfor %}
 </div>
 
-<!-- Add this block at the end of your template -->
+<!-- Додайте цей блок в кінці вашого шаблону -->
 <script>
-  // Wait for the DOM to be ready
+  // Зачекайте, поки DOM буде готовий
   document.addEventListener("DOMContentLoaded", function () {
-    // Function to hide messages after 3 seconds
+    // Функція приховування повідомлень через 3 секунди
     function hideMessages() {
       var messagesContainer = document.getElementById("messages-container");
 
-      // Check if the messages container exists
+      // Перевірити, чи існує контейнер повідомлень
       if (messagesContainer) {
-        // Hide the messages container
+        // Приховати контейнер повідомлень
         messagesContainer.style.display = "none";
       }
     }
 
-    // Delay the execution of hideMessages function after 3000 milliseconds (3 seconds)
+    // Затримати виконання функції hideMessages через 3000 мілісекунд (3 секунди)
     setTimeout(hideMessages, 3000);
   });
 </script>
 
 
-<!-- Модальное окно для контакта -->
+<!-- Модальне вікно для контакту -->
 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -309,7 +306,7 @@
   });
 </script>
 <script>
-    // Show the container once the page is fully loaded
+    // Показати контейнер після повного завантаження сторінки
     window.addEventListener('load', function() {
         document.querySelector('.container').style.opacity = 1;
     });
