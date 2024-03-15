@@ -1,7 +1,5 @@
 from django.core.validators import MinValueValidator
-
 from .models import Book
-
 from django import forms
 
 
@@ -16,8 +14,8 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ['name', 'description', 'count', 'date_of_issue', 'image']
 
-    # Добавьте поле для изображения
+    # Додайте поле для зображення
     image = forms.ImageField(required=False, label='Image')
 
-    # Если вы хотите добавить валидатор для поля count, вы можете сделать это так
+    # Якщо ви хочете додати валідатор для поля count, ви можете зробити це так
     count = forms.IntegerField(validators=[MinValueValidator(0)])
