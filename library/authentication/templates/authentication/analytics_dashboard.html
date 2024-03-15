@@ -8,23 +8,23 @@
 </head>
 <body>
     <div style="width: 80%; margin: auto;">
-        <!-- График распределения ролей пользователей -->
+        <!-- Графік розподілу ролей користувачів -->
         <canvas id="userRoleChart"></canvas>
     </div>
 
     <div style="width: 80%; margin: auto; margin-top: 20px;">
-        <!-- График регистрации пользователей по годам -->
+        <!-- Графік реєстрації користувачів за роками -->
         <canvas id="userRegistrationByYearChart"></canvas>
     </div>
 
     <div style="width: 80%; margin: auto; margin-top: 20px;">
-        <!-- График регистрации пользователей по дням недели -->
+        <!-- Графік реєстрації користувачів за днями тижня -->
         <canvas id="userRegistrationByDayChart"></canvas>
     </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // График распределения ролей пользователей
+        // Графік розподілу ролей користувачів
         var ctxRole = document.getElementById('userRoleChart').getContext('2d');
         var roleLabels = {{ role_labels|safe }};
         var roleValues = {{ role_values|safe }};
@@ -64,7 +64,7 @@
             }
         });
 
-        // График регистрации пользователей по годам
+        // Графік реєстрації користувачів за роками
         var ctxYear = document.getElementById('userRegistrationByYearChart').getContext('2d');
         var years = {{ years|safe }};
         var registrationCountsByYear = {{ registration_counts_by_year|safe }};
@@ -93,7 +93,7 @@
             }
         });
 
-        // График регистрации пользователей по дням недели
+        // Графік реєстрації користувачів за днями тижня
         var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
         var dayNames = {{ day_names|safe }};
         var registrationCountsByDay = {{ registration_counts_by_day|safe }};

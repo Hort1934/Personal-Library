@@ -18,19 +18,6 @@ class BookAdmin(admin.ModelAdmin):
             'fields': ('description', 'count'),
         }),
     )
-    # list_display = ('id', 'name', 'description', 'count', 'date_of_issue')
-    # list_filter = ('date_of_issue',)
-    # search_fields = ('name', 'description')
-    # readonly_fields = ('id', 'name', 'date_of_issue')
-    #
-    # fieldsets = (
-    #     ('Fixed Information', {
-    #         'fields': ('id', 'name', 'date_of_issue'),
-    #     }),
-    #     ('Variable Information', {
-    #         'fields': ('description', 'count'),
-    #     }),
-    # )
 
 
 class OrderAdmin(admin.ModelAdmin):

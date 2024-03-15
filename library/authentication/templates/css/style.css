@@ -16,8 +16,6 @@ body {
         background-position: center center; /* Вирівнювання фонового зображення по центру */
       }
 
-/* Add these styles to your existing styles or create a new CSS file */
-
 nav.horizontal-menu {
     background-color: #333;
 }
@@ -45,7 +43,7 @@ nav.horizontal-menu a:hover {
     background-color: #555;
 }
 
-/* Styles for Dropdown Menu */
+/* Стилі для випадаючого меню */
 nav.horizontal-menu ul.dropdown-content {
     display: none;
     position: absolute;
@@ -66,8 +64,6 @@ nav.horizontal-menu ul.dropdown-content li {
 nav.horizontal-menu ul.dropdown-content li a {
     padding: 10px;
 }
-
-/* Add these styles to your existing styles or create a new CSS file */
 
 body {
     font-family: Arial, sans-serif;

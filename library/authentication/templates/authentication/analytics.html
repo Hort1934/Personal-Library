@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Role Distribution</title>
-    <!-- Подключение библиотеки Chart.js -->
+    <!-- Підключення бібліотеки Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -14,14 +14,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Получение контекста канваса
+            // Отримання контексту канвасу
             var ctx = document.getElementById('userRoleChart').getContext('2d');
 
-            // Данные для графика (переданные из представления)
+            // Дані для графіка (передані з подання)
             var roleLabels = {{ role_labels|safe }};
             var roleCounts = {{ role_counts|safe }};
 
-            // Создание графика
+            // Створення графіка
             var myChart = new Chart(ctx, {
                 type: 'pie',
                 data: {

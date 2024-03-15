@@ -9,11 +9,10 @@ ROLE_CHOICES = (
     (1, 'librarian'),
 )
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         """
-        Create and save a User with the given email and password.
+        Створіть та збережіть Користувача з вказаною адресою електронної пошти та паролем.
         """
         if not email:
             raise ValueError(('The Email must be set'))
@@ -25,7 +24,7 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **extra_fields):
         """
-        Create and save a SuperUser with the given email and password.
+        Створіть та збережіть суперкористувача з вказаною адресою електронної пошти та паролем.
         """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -41,27 +40,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
     """
-        This class represents a basic user. \n
-        Attributes:
-        -----------
-        param first_name: Describes first name of the user
-        type first_name: str max length=20
-        param last_name: Describes last name of the user
-        type last_name: str max length=20
-        param middle_name: Describes middle name of the user
-        type middle_name: str max length=20
-        param email: Describes the email of the user
-        type email: str, unique, max length=100
-        param password: Describes the password of the user
-        type password: str
-        param created_at: Describes the date when the user was created. Can't be changed.
-        type created_at: int (timestamp)
-        param updated_at: Describes the date when the user was modified
-        type updated_at: int (timestamp)
-        param role: user role, default role (0, 'visitor')
-        type updated_at: int (choices)
-        param is_active: user role, default value False
-        type updated_at: bool test
+        Цей клас представляє базового користувача.
     """
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
@@ -84,72 +63,55 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
         """
-        Magic method is redefined to show all information about CustomUser.
-        :return: user id, user first_name, user middle_name, user last_name,
-                 user email, user updated_at, user created_at,
-                 user role, user is_active
+        Метод Magic перевизначено для відображення всієї інформації про CustomUser.
         """
-        # return f"'id': {self.id}, 'first_name': '{self.first_name}', 'middle_name': '{self.middle_name}', 'last_name': '{self.last_name}', 'email': '{self.email}', 'created_at': {int(self.created_at.timestamp())}, 'updated_at': {int(self.updated_at.timestamp())}, 'role': {self.role}, 'is_active': {self.is_active}"
         return f"{self.first_name} {self.last_name}"
 
     def __repr__(self):
         """
-        This magic method is redefined to show class and id of CustomUser object.
-        :return: class, id
+        Цей магічний метод перевизначено для показу класу та ідентифікатора об'єкта CustomUser.
         """
         return f"{CustomUser.__name__}(id={self.id})"
 
     def get_role_name(self):
         """
-        Returns the role name of the user.
+        Повертає ім'я ролі користувача.
         """
         return ROLE_CHOICES[self.role][1]
 
     def has_module_perms(self, app_label):
         """
-        Returns True if the user has permissions to access the given app.
+        Повертає True, якщо користувач має дозволи на доступ до даної програми.
         """
         return self.is_superuser
 
     def has_perm(self, perm, obj=None):
         """
-        Returns True if the user has the specified permission.
+        Повертає True, якщо користувач має вказаний дозвіл.
         """
         return self.is_superuser
 
     def get_short_name(self):
         """
-        Returns the short name for the user.
+        Повертає коротке ім'я користувача.
         """
         return self.first_name
 
     @staticmethod
     def get_by_id(user_id):
-        """
-        :param user_id: SERIAL: the id of a user to be found in the DB
-        :return: user object or None if a user with such ID does not exist
-        """
         custom_user = CustomUser.objects.filter(id=user_id).first()
         return custom_user if custom_user else None
 
     @staticmethod
     def get_by_email(email):
         """
-        Returns user by email
-        :param email: email by which we need to find the user
-        :type email: str
-        :return: user object or None if a user with such ID does not exist
+        Повертає користувачеві електронну пошту
         """
         custom_user = CustomUser.objects.filter(email=email).first()
         return custom_user if custom_user else None
 
     @staticmethod
     def delete_by_id(user_id):
-        """
-        :param user_id: an id of a user to be deleted
-        :type user_id: int
-        :return: True if object existed in the db and was removed or False if it didn't exist
-        """
         user_to_delete = CustomUser.objects.filter(id=user_id).first()
         if user_to_delete:
             CustomUser.objects.filter(id=user_id).delete()
@@ -174,22 +136,6 @@ class CustomUser(AbstractBaseUser):
         return None
 
     def to_dict(self):
-        """
-        :return: user id, user first_name, user middle_name, user last_name,
-                 user email, user password, user updated_at, user created_at, user is_active
-        :Example:
-        | {
-        |   'id': 8,
-        |   'first_name': 'fn',
-        |   'middle_name': 'mn',
-        |   'last_name': 'ln',
-        |   'email': 'ln@mail.com',
-        |   'created_at': 1509393504,
-        |   'updated_at': 1509402866,
-        |   'role': 0
-        |   'is_active:' True
-        | }
-        """
         return {'id': self.id,
                 'first_name': f'{self.first_name}',
                 'middle_name': f'{self.middle_name}',
@@ -208,20 +154,7 @@ class CustomUser(AbstractBaseUser):
                role=None,
                is_active=None):
         """
-        Updates user profile in the database with the specified parameters.\n
-        :param first_name: first name of a user
-        :type first_name: str
-        :param middle_name: middle name of a user
-        :type middle_name: str
-        :param last_name: last name of a user
-        :type last_name: str
-        :param password: password of a user
-        :type password: str
-        :param role: role id
-        :type role: int
-        :param is_active: activation state
-        :type is_active: bool
-        :return: None
+        Оновлює профіль користувача у базі даних із вказаними параметрами.
         """
         user_to_update = CustomUser.objects.filter(email=self.email).first()
         if first_name != None and len(first_name) <= 20:
@@ -241,19 +174,19 @@ class CustomUser(AbstractBaseUser):
     @staticmethod
     def get_all():
         """
-        returns data for json request with QuerySet of all users
+        Повертає дані для json-запиту з QuerySet всіх користувачів
         """
         return CustomUser.objects.all()
 
     def get_role_name(self):
         """
-        returns str role name
+        Повертає str ім'я ролі
         """
         return ROLE_CHOICES[self.role][1]
 
     def get_user_data(self):
         """
-        Returns a dictionary containing user data.
+        Повертає словник, що містить дані користувача.
         """
         role_name = 'Visitor' if self.role == 0 else 'Librarian'
 

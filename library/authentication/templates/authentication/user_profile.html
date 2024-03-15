@@ -60,7 +60,7 @@
       color: red;
     }
 
-    /* Media queries for responsiveness */
+    /* Медійні запити для оперативності реагування */
     @media screen and (max-width: 768px) {
       .user-info-list li strong {
         width: 120px;
@@ -89,24 +89,23 @@
       top: -150px;
       left: 0;
       right: 0;
-      z-index: 1; /* Optional, for initial positioning */
+      z-index: 1; /* Необов'язково, для початкового позиціонування */.
     }
 
-    /* Adjust styling for form fields to make them more compact */
+    /* Налаштуйте стиль полів форми, щоб зробити їх компактнішими */.
     .edit-form-container input[type="text"],
     .edit-form-container input[type="email"],
     .edit-form-container select {
       width: 100%;
-      padding: 5px; /* Adjust padding to reduce spacing between fields */
-      margin-bottom: 5px; /* Adjust margin between fields */
+      padding: 5px; /* Налаштуйте відступи, щоб зменшити відстань між полями */
+      margin-bottom: 5px; /* Налаштуйте відступ між полями */
     }
 
-    /* Other styling rules for the edit form */
+    /* Інші правила стилів для форми редагування */
 
-    /* Styling for dashboard section */
+    /* Стилізація для панелі приладів */
     #dashboardSection {
       display: none;
-      /*margin-top: 20px;*/
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
@@ -119,14 +118,6 @@
       width: 100%;
     }
 
-     /*Button to toggle dashboard visibility */
-    /*#toggleDashboard {*/
-    /*  margin-left: 20px;*/
-    /*  position: fixed;*/
-    /*  top: 10px;*/
-    /*  left: 10px;*/
-    /*  z-index: 9999;*/
-    /*}*/
   </style>
 
   <div class="profile-container">
@@ -147,9 +138,9 @@
 <p></p>
 
 
-  <!-- Dashboard Section -->
+    <!-- Розділ приладової панелі -->
   <div id="dashboardSection">
-    <!-- Include your dashboard HTML code here -->
+    <!-- Додайте сюди HTML-код вашої інформаційної панелі -->
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -160,19 +151,19 @@
     </head>
     <body>
 
-            <!-- График распределения ролей пользователей -->
+            <!-- Графік розподілу ролей користувачів -->
     <div style="float: left; width: 50%;">
         <canvas id="userRoleChart" style="max-height: 250px"></canvas>
         <div style="text-align: center">Graph of user role distribution</div>
     </div>
 
-    <!-- График регистрации пользователей по годам -->
+    <!-- Графік реєстрації користувачів за роками -->
     <div style="float: right; width: 50%; text-align: right;">
         <canvas id="userRegistrationByYearChart" style="max-height: 250px; max-width: 500px"></canvas>
         <div style="text-align: center">Schedule of user registration by year</div>
     </div>
 
-    <!-- График регистрации пользователей по дням недели -->
+    <!-- Графік реєстрації користувачів за днями тижня -->
     <div style="clear: both; text-align: center;">
         <canvas id="userRegistrationByDayChart" style="max-height: 300px; max-width: 500px; margin-left: 350px"></canvas>
         <div style="text-align: center">User registration schedule by day of the week</div>
@@ -180,7 +171,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // График распределения ролей пользователей
+            // Графік розподілу ролей користувачів
             var ctxRole = document.getElementById('userRoleChart').getContext('2d');
             var roleLabels = {{ role_labels|safe }};
             var roleValues = {{ role_values|safe }};
@@ -220,7 +211,7 @@
                 }
             });
 
-            // График регистрации пользователей по годам
+            // Графік реєстрації користувачів за роками
             var ctxYear = document.getElementById('userRegistrationByYearChart').getContext('2d');
             var years = {{ years|safe }};
             var registrationCountsByYear = {{ registration_counts_by_year|safe }};
@@ -249,7 +240,7 @@
                 }
             });
 
-            // График регистрации пользователей по дням недели
+            // Графік реєстрації користувачів за днями тижня
             var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
             var dayNames = {{ day_names|safe }};
             var registrationCountsByDay = {{ registration_counts_by_day|safe }};
