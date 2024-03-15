@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
     path("create/", views.create_author, name='create_author'),
     path('', views.all_authors, name='all_authors'),
