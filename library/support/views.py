@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 def support(request):
+    user_data = request.user.get_user_data()
     if request.method == 'POST':
         # Обработка формы отправки вопроса
         subject = request.POST.get('subject', '')
@@ -17,4 +18,4 @@ def support(request):
         # После отправки вопроса перенаправляем пользователя на страницу поддержки
         return HttpResponseRedirect(reverse('support'))
 
-    return render(request, 'support.html')
+    return render(request, 'support.html', {'user_data': user_data})
