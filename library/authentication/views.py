@@ -1,6 +1,6 @@
 from django.conf import settings
-from django.contrib.auth.hashers import make_password
-from django.http import HttpResponseNotFound
+from django.contrib.auth.hashers import make_password, check_password
+from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -12,11 +12,8 @@ import matplotlib.pyplot as plt
 from .models import CustomUser
 from collections import Counter
 import calendar
-from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm, LoginForm, ProfileEditForm
-from django.contrib.auth.hashers import check_password
 from django.core.mail import send_mail
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -26,7 +23,6 @@ def main(request):
 
 def auth(request):
     user_data = request.user.get_user_data()
-
     return render(request, "authentication/auth.html", {'user_data': user_data})
 
 
@@ -42,7 +38,6 @@ def register_form(request):
             error_message = '<p><div><font size="4" color: white>Unsuccessful registration. Invalid information.</font></div>'
             messages.error(request, mark_safe(error_message))
         else:
-            # Використовуйте make_password для шифрування пароля
             hashed_password = make_password(form.cleaned_data['password'])
 
             user = CustomUser.create(
@@ -71,7 +66,6 @@ def login_form(request):
         if form.is_valid():
             user = CustomUser.get_by_email(form.cleaned_data['email'])
             if user and check_password(form.cleaned_data['password'], user.password):
-                # Використовуйте check_password для порівняння зашифрованих паролів
                 login(request, user)
                 success_message = '<p><div css="margin-top: 70"><font size="4" css="color: white">Login successful.</font></div>'
                 messages.success(request, mark_safe(success_message))
@@ -119,22 +113,22 @@ def user_profile(request):
 @csrf_exempt
 def submit_question(request):
     if request.method == 'POST':
-        # Получение текста вопроса из запроса
+        # Отримання тексту запитання із запиту
         question_text = request.POST.get('question_text', '')
 
-        # Отправка электронного письма
+        # Надсилання електронного листа
         send_mail(
             'New Question',
             question_text,
-            settings.EMAIL_HOST_USER,  # Sender's email
-            ['hort19345@gmail.com'],  # Recipient's email
+            settings.EMAIL_HOST_USER,  # Email відправника
+            ['hort19345@gmail.com'],  # Email одержувача
             fail_silently=False,
         )
 
-        # Возвращаем успешный ответ
+        # Повертаємо успішну відповідь
         return JsonResponse({'status': 'success'})
 
-    # Возвращаем ошибку, если запрос не является POST
+    # Повертаємо помилку, якщо запит не є POST
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
@@ -143,8 +137,8 @@ def user_role_distribution(request):
     roles = [user.get_role_name() for user in users]
     role_counts = {role: roles.count(role) for role in set(roles)}
 
-    role_labels = list(role_counts.keys())  # Метки ролей
-    role_values = list(role_counts.values())  # Количество пользователей по ролям
+    role_labels = list(role_counts.keys())  # Мітки ролей
+    role_values = list(role_counts.values())  # Кількість користувачів за ролями
 
     return render(request, 'authentication/analytics.html', {
         'role_labels': role_labels,
@@ -181,22 +175,22 @@ def user_registration_by_day(request):
 
 
 def analytics_dashboard(request):
-    # Получаем данные для всех трех графиков
+    # Отримуємо дані для всіх трьох графіків
     users = CustomUser.objects.all()
 
-    # Распределение ролей пользователей
+    # Розподіл ролей користувачів
     roles = [user.get_role_name() for user in users]
     role_counts = Counter(roles)
     role_labels = list(role_counts.keys())
     role_values = list(role_counts.values())
 
-    # Регистрация пользователей по годам
+    # Реєстрація користувачів за роками
     registration_years = [user.created_at.year for user in users]
     year_counts = Counter(registration_years)
     years = sorted(year_counts.keys())
     registration_counts_by_year = [year_counts[year] for year in years]
 
-    # Регистрация пользователей по дням недели
+    # Реєстрація користувачів за днями тижня
     registration_days = [user.created_at.weekday() for user in users]
     day_counts = Counter(registration_days)
     day_names = list(calendar.day_name)
@@ -214,22 +208,22 @@ def analytics_dashboard(request):
 
 @login_required
 def user_profile(request):
-    # Получаем данные для всех трех графиков
+    # Отримуємо дані для всіх трьох графіків
     users = CustomUser.objects.all()
 
-    # Распределение ролей пользователей
+    # Розподіл ролей користувачів
     roles = [user.get_role_name() for user in users]
     role_counts = Counter(roles)
     role_labels = list(role_counts.keys())
     role_values = list(role_counts.values())
 
-    # Регистрация пользователей по годам
+    # Реєстрація користувачів за роками
     registration_years = [user.created_at.year for user in users]
     year_counts = Counter(registration_years)
     years = sorted(year_counts.keys())
     registration_counts_by_year = [year_counts[year] for year in years]
 
-    # Регистрация пользователей по дням недели
+    # Реєстрація користувачів за днями тижня
     registration_days = [user.created_at.weekday() for user in users]
     day_counts = Counter(registration_days)
     day_names = list(calendar.day_name)

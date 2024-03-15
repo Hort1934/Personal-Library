@@ -8,7 +8,6 @@ urlpatterns = [
     path("about/", views.about, name='about'),
     path("register/", views.register_form, name='register'),
     path("login/", views.login_form, name='login'),
-    # path("un_login/", views.un_login_form, name='un_login'),
     path("logout/", views.logout_request, name= "logout"),
     path('all/', views.all_users, name='all_users'),
     path('view/', views.view_user, name='view_user'),
@@ -20,5 +19,4 @@ urlpatterns = [
     path('analytics_3/', views.user_registration_by_day, name='analytics_3'),
     path('analytics_dashboard/', views.analytics_dashboard, name='analytics_dashboard'),
     path('edit_profile/', views.user_profile, name='edit_profile'),
-
 ]
