@@ -118,9 +118,9 @@ def edit_book(request, book_id):
         form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             book_instance = form.save(commit=False)
-            # Проверяем, загружено ли новое изображение
+            # Перевіряємо, чи завантажено нове зображення
             if 'image' in request.FILES:
-                # Обрабатываем и сохраняем новое изображение
+                # Обробляємо та зберігаємо нове зображення
                 handle_uploaded_image(request.FILES['image'], book_instance)
             book_instance.save()
             return redirect('view_book', book_id=book_id)
@@ -130,7 +130,7 @@ def edit_book(request, book_id):
 
 
 def handle_uploaded_image(image, book_instance):
-    # Определите путь, куда сохранить изображение
+    # Визначте шлях, куди зберегти зображення
     image_path = os.path.join(settings.MEDIA_ROOT, 'images', image.name)
     with open(image_path, 'wb+') as destination:
         for chunk in image.chunks():
@@ -148,10 +148,6 @@ def delete_book(request, book_id):
         return HttpResponseRedirect(reverse('all_books'))
 
     return render(request, 'book/delete_book.html', {'book': book})
-
-
-# def export_books_csv_site(request):
-#     return render(request, 'book/export_books.html')
 
 
 def export_books_csv(request):
