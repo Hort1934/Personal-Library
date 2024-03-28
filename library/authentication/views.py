@@ -44,7 +44,7 @@ def register_form(request):
                 form.cleaned_data['email'],
                 form.cleaned_data['password'],
                 form.cleaned_data['first_name'],
-                form.cleaned_data['middle_name'],
+                # form.cleaned_data['middle_name'],
                 form.cleaned_data['last_name'],
                 form.cleaned_data.get('role', 0)
             )
