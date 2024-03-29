@@ -14,18 +14,22 @@ from .models import Book, User
 from django.conf import settings
 import os
 from django.contrib.auth.decorators import login_required
+from django import forms
+from .models import Book
+from author.models import Author
 
 
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['name', 'description', 'count', 'date_of_issue']
+        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'author']
 
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
+    author = forms.ModelChoiceField(queryset=Author.objects.all(), required=False, label='Author', empty_label=None)
+
     description = forms.CharField(required=True,
                                   widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'css': 'resize:none;'}))
-    count = forms.IntegerField(required=True, validators=[MinValueValidator(0)],
-                               widget=forms.NumberInput(attrs={'css': 'width: 5em;'}))
+    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '10','minlength': '10'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
 
 
@@ -101,11 +105,28 @@ def user_books(request, user_id):
     return render(request, 'book/user_books.html', {'user': user, 'books': books})
 
 
+from django.shortcuts import get_object_or_404
+
+
 def add_book(request):
     if request.method == 'POST':
-        form = BookForm(request.POST)
+        form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # Сохраняем форму, но пока без сохранения в базу данных
+            book_instance = form.save(commit=False)
+
+            # Теперь сохраняем книгу в базу данных
+            book_instance.save()
+
+            # Получаем ID сохраненной книги
+            book_id = book_instance.id
+
+            # Проверяем, есть ли выбранный автор в форме
+            if 'author' in request.POST:
+                author_id = request.POST['author']
+                author = get_object_or_404(Author, pk=author_id)
+                book_instance.authors.add(author)  # Добавляем автора к книге
+
             return redirect('all_books')
     else:
         form = BookForm()

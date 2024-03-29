@@ -102,7 +102,7 @@ class Book(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128, blank=True)
     description = models.CharField(max_length=256, blank=True)
-    count = models.IntegerField(default=10)
+    isbn = models.IntegerField(blank=True)
     date_of_issue = models.DateField(null=True, blank=True)
 
     def __str__(self):

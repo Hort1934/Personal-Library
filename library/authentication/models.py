@@ -44,7 +44,7 @@ class CustomUser(AbstractBaseUser):
     """
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    middle_name = models.CharField(max_length=20)
+    # middle_name = models.CharField(max_length=20)
     email = models.CharField(max_length=100, unique=True)
     password = models.CharField(default=None, max_length=255)
     created_at = models.DateTimeField(editable=False, auto_now=datetime.datetime.now())
@@ -119,17 +119,16 @@ class CustomUser(AbstractBaseUser):
         return False
 
     @staticmethod
-    def create(email, password, first_name=None, middle_name=None, last_name=None, role='0'):
+    def create(email, password, first_name=None, last_name=None, role='0'):
         try:
             role = int(role)
         except ValueError:
             role = 0
 
-        if len(first_name) <= 20 and len(middle_name) <= 20 and len(last_name) <= 20 and len(email) <= 100 and len(
+        if len(first_name) <= 20 and len(last_name) <= 20 and len(email) <= 100 and len(
                 email.split('@')) == 2 and len(CustomUser.objects.filter(email=email)) == 0:
             hashed_password = make_password(password)  # Шифруємо пароль перед збереженням в БД
             custom_user = CustomUser(email=email, password=hashed_password, first_name=first_name,
-                                     middle_name=middle_name,
                                      last_name=last_name, role=role)
             custom_user.save()
             return custom_user
@@ -138,7 +137,7 @@ class CustomUser(AbstractBaseUser):
     def to_dict(self):
         return {'id': self.id,
                 'first_name': f'{self.first_name}',
-                'middle_name': f'{self.middle_name}',
+                # 'middle_name': f'{self.middle_name}',
                 'last_name': f'{self.last_name}',
                 'email': f'{self.email}',
                 'created_at': int(self.created_at.timestamp()),
@@ -149,7 +148,7 @@ class CustomUser(AbstractBaseUser):
     def update(self,
                first_name=None,
                last_name=None,
-               middle_name=None,
+               # middle_name=None,
                password=None,
                role=None,
                is_active=None):
@@ -161,8 +160,8 @@ class CustomUser(AbstractBaseUser):
             user_to_update.first_name = first_name
         if last_name != None and len(last_name) <= 20:
             user_to_update.last_name = last_name
-        if middle_name != None and len(middle_name) <= 20:
-            user_to_update.middle_name = middle_name
+        # if middle_name != None and len(middle_name) <= 20:
+        #     user_to_update.middle_name = middle_name
         if password != None:
             user_to_update.password = password
         if role != None:
@@ -193,7 +192,7 @@ class CustomUser(AbstractBaseUser):
         return {
             'id': self.id,
             'first_name': self.first_name,
-            'middle_name': self.middle_name,
+            # 'middle_name': self.middle_name,
             'last_name': self.last_name,
             'email': self.email,
             'created_at': self.created_at,

@@ -147,7 +147,7 @@
 
             <div class="checkbox-group">
                 <input type="checkbox" name="export_count" id="export_count" checked>
-                <label for="export_count">Count</label>
+                <label for="export_count">Author</label>
             </div>
 
             <div class="checkbox-group">
@@ -181,7 +181,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Count</th>
+                    <th scope="col">Author</th>
                     <th scope="col">Date of issue</th>
                     {% if user_data.role == "Librarian" %}
                         <th scope="col">Actions</th>
@@ -189,32 +189,37 @@
                 </tr>
             </thead>
             <tbody>
-                {% for book in books %}
-                    <tr>
-                        <th scope="row">{{ book.id }}</th>
-                        <td><a href="/books/?id={{ book.id }}">{{ book.name }}</a></td>
-                        <td>{{ book.description }}</td>
-                        <td>{{ book.count }}</td>
-                        <td>{{ book.date_of_issue }}</td>
-                        {% if user_data.role == "Librarian" %}
-                            <td>
-                                <a href="/books/edit/{{ book.id }}" class="btn btn-warning">
-                                    <i class="fa fa-edit"></i> Edit
-                                </a>
-
-                                <a href="/book/{{ book.id }}/delete" class="btn btn-danger">
-                                    <i class="fa fa-trash fa-spin"></i> Delete
-                                </a>
-                            </td>
-                        {% endif %}
-
-                    </tr>
+    {% for book in books %}
+        <tr>
+            <th scope="row">{{ book.id }}</th>
+            <td><a href="/books/?id={{ book.id }}">{{ book.name }}</a></td>
+            <td>{{ book.description }}</td>
+            <td>
+                {% for author in book.author.all %}
+                    {{ author.name }}{% if not forloop.last %}, {% endif %}
                 {% empty %}
-                    <tr>
-                        <td colspan="6" class="not-found">No books available.</td>
-                    </tr>
+                    No authors
                 {% endfor %}
-            </tbody>
+            </td>
+            <td>{{ book.date_of_issue }}</td>
+            {% if user_data.role == "Librarian" %}
+                <td>
+                    <a href="/books/edit/{{ book.id }}" class="btn btn-warning">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+
+                    <a href="/book/{{ book.id }}/delete" class="btn btn-danger">
+                        <i class="fa fa-trash fa-spin"></i> Delete
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="6" class="not-found">No books available.</td>
+        </tr>
+    {% endfor %}
+</tbody>
         </table>
         <div class="pagination justify-content-center">
             <form class="form-inline" method="GET" action="">
