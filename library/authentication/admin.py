@@ -6,7 +6,7 @@ from .models import CustomUser
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'count', 'date_of_issue')
+    list_display = ('id', 'name', 'description', 'date_of_issue', 'image', 'isbn')
     list_filter = ('id', 'name', 'authors')
     search_fields = ('name', 'authors__name', 'authors__surname')
 
