@@ -195,12 +195,13 @@
             <td><a href="/books/?id={{ book.id }}">{{ book.name }}</a></td>
             <td>{{ book.description }}</td>
             <td>
-                {% for author in book.author.all %}
-                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                {% for author in book.authors.all %}
+                    {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
                 {% empty %}
                     No authors
                 {% endfor %}
             </td>
+
             <td>{{ book.date_of_issue }}</td>
             {% if user_data.role == "Librarian" %}
                 <td>

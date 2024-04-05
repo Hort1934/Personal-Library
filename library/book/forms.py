@@ -13,11 +13,11 @@ class BookFilterForm(forms.Form):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'author']
+        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'authors']
 
     # Додайте поле для зображення
     image = forms.ImageField(required=False, label='Image')
-    author = forms.ModelChoiceField(queryset=Author.objects.all(), required=False, label='Author', empty_label=None)
+    authors = forms.ModelMultipleChoiceField(queryset=Author.objects.all(), required=False, label='Authors')
 
     # Якщо ви хочете додати валідатор для поля count, ви можете зробити це так
     count = forms.IntegerField(validators=[MinValueValidator(0)])

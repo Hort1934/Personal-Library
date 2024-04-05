@@ -6,16 +6,12 @@ from .models import CustomUser
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'date_of_issue', 'image', 'isbn')
-    list_filter = ('id', 'name', 'authors')
-    search_fields = ('name', 'authors__name', 'authors__surname')
-
+    list_display = ('name', 'description', 'date_of_issue', 'isbn')  # Добавляем 'isbn' в список отображаемых полей
+    list_filter = ('date_of_issue',)  # Добавляем фильтр по дате выпуска
+    search_fields = ('name', 'description', 'isbn')  # Добавляем поля поиска по имени, описанию и ISBN
     fieldsets = (
-        ('Fixed Information', {
-            'fields': ('name', 'date_of_issue'),
-        }),
-        ('Variable Information', {
-            'fields': ('description', 'count'),
+        ('Information', {
+            'fields': ('name', 'description', 'date_of_issue', 'isbn', 'image', 'authors')  # Добавляем 'image' и 'isbn'
         }),
     )
 
