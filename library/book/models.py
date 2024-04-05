@@ -38,8 +38,10 @@ class Book(models.Model):
 
     # count = models.IntegerField(default=10)
     date_of_issue = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
-    isbn = models.CharField(max_length=13, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)  # Поле для изображения
+    isbn = models.CharField(max_length=13, blank=True)  # Поле для ISBN
+    authors = models.ManyToManyField('author.Author', related_name='book_authors', blank=True)
+
 
     def __str__(self):
         """
@@ -78,7 +80,7 @@ class Book(models.Model):
         return True
 
     @staticmethod
-    def create(name, description, count=10, authors=None):
+    def create(name, description, authors=None):
         """
         param name: Describes name of the book
         type name: str max_length=128
@@ -96,7 +98,6 @@ class Book(models.Model):
         book = Book()
         book.name = name
         book.description = description
-        book.count = count
         if (authors is not None):
             for elem in authors:
                 book.authors.add(elem)

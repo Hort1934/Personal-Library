@@ -78,7 +78,13 @@
         <h3>{{ book.name }}</h3>
         <p>Description: {{ book.description }}</p>
         <p>ISBN: {{ book.isbn }}</p>
-        <p>Author: {{ book.author }}</p>
+        <p>Author:
+            {% for author in book.authors.all %}
+                {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                No authors
+            {% endfor %}
+        </p>
         <p>Date of issue: {{ book.date_of_issue }}</p>
 
         {% if book.image %}
