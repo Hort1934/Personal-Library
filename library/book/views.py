@@ -35,18 +35,15 @@ class BookForm(forms.ModelForm):
 
 @login_required
 def all_books(request):
-    books = Book.objects.all()
     user_data = request.user.get_user_data()
-    search_id = request.GET.get('id')
+    search_name = request.GET.get('name')
 
-    if search_id:
-        try:
-            book_id = int(search_id)
-            book = get_object_or_404(Book, id=book_id)
-            return view_book(request, book.id)
-        except (ValueError, Http404):
-            messages.error(request, f"Book not found for ID: {search_id}. Please enter a valid numeric ID.")
-            return render(request, 'book/all_books.html', {'books': books})
+    if search_name:
+        # Ищем книги по названию, содержащему введенную пользователем строку
+        books = Book.objects.filter(name__icontains=search_name)
+    else:
+        # Если строка поиска не указана, отображаем все книги
+        books = Book.objects.all()
 
     # Отримання номера сторінки з параметра запиту
     page = request.GET.get('page')

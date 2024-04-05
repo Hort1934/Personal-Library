@@ -105,12 +105,14 @@
 </style>
 <div class="container" style="margin-top: 80px">
     <form class="search-form" method="GET" action="">
-        <input type="text" class="search-input" name="id" placeholder="Search by ID">
+        <input type="text" class="search-input" name="name" placeholder="Search by Name">
         <button type="submit" class="search-button">Search</button>
         {% if invalid_id %}
             <p class="error-message">{{ invalid_id }}</p>
         {% endif %}
     </form>
+
+
     <p></p>
     <form class="search-form" method="GET" action="">
         {# Your existing code for the search form #}
