@@ -15,11 +15,8 @@ class Author(models.Model):
 
 
     def __str__(self):
-        """
-        Метод Magic перевизначено, щоб показати всю інформацію про автора.
-        """
-        return f"\'id\': {self.pk}, \'name\': \'{self.name}\'," \
-               f" \'surname\': \'{self.surname}\', \'patronymic\': \'{self.patronymic}\'"
+        # Возвращаем строку, которая состоит из имени и фамилии, разделенных пробелом
+        return f"{self.name} {self.surname}"
 
     def __repr__(self):
         """

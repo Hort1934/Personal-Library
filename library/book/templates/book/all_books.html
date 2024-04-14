@@ -121,46 +121,13 @@
                 <a href="/books/add" class="btn btn-primary">Add Book</a>
             {% endif %}
             <a href="/books/analytics" class="btn btn-success">Analytics</a>
-            <p></p>
+            <a href="/books/analytics" class="btn btn-success">Analytics</a>
             <a href="/books/filter" class="btn btn-primary">Filter Book</a>
-            <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>
+<!--            <a href="#" class="btn btn-success" onclick="showOverlay()">Export to CSV</a>-->
         {% endif %}
     </form>
 
     <!-- Блок, який буде накладатися -->
-    <div class="overlay-block" id="overlayBlock">
-        <form method="GET" action="{% url 'export_books_csv' %}" class="export-form">
-            <label>Select columns to export:</label>
-
-            <div class="checkbox-group">
-                <input type="checkbox" name="export_id" id="export_id" checked>
-                <label for="export_id">ID</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" name="export_name" id="export_name" checked>
-                <label for="export_name">Name</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" name="export_description" id="export_description" checked>
-                <label for="export_description">Description</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" name="export_count" id="export_count" checked>
-                <label for="export_count">Author</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" name="export_date_of_issue" id="export_date_of_issue" checked>
-                <label for="export_date_of_issue">Date of Issue</label>
-            </div>
-
-            <button type="submit" class="btn btn-success">Export to CSV</button>
-            <button type="button" class="btn btn-danger" onclick="closeOverlay()">Close</button>
-        </form>
-    </div>
 
     <script>
         function closeOverlay() {
@@ -180,7 +147,7 @@
         <table class="table-light">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
+<!--                    <th scope="col">ID</th>-->
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Author</th>
@@ -193,8 +160,8 @@
             <tbody>
     {% for book in books %}
         <tr>
-            <th scope="row">{{ book.id }}</th>
-            <td><a href="/books/?id={{ book.id }}">{{ book.name }}</a></td>
+<!--            <th scope="row">{{ book.id }}</th>-->
+            <td><a href="/books/{{ book.id }}">{{ book.name }}</a></td>
             <td>{{ book.description }}</td>
             <td>
                 {% for author in book.authors.all %}

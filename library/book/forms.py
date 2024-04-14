@@ -19,5 +19,5 @@ class BookForm(forms.ModelForm):
     image = forms.ImageField(required=False, label='Image')
     authors = forms.ModelMultipleChoiceField(queryset=Author.objects.all(), required=False, label='Authors')
 
-    # Якщо ви хочете додати валідатор для поля count, ви можете зробити це так
-    count = forms.IntegerField(validators=[MinValueValidator(0)])
+    # # Якщо ви хочете додати валідатор для поля count, ви можете зробити це так
+    # count = forms.IntegerField(validators=[MinValueValidator(0)])

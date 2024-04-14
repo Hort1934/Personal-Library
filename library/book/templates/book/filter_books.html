@@ -117,11 +117,6 @@
             <label for="description">Description:</label>
             <input type="text" id="description" name="description">
             <br>
-            <label for="count">Count:</label>
-            <input type="text" id="count" name="count" readonly>
-            <div id="count-slider"></div>
-            <input type="hidden" id="count_min" name="count_min" value="0">
-            <input type="hidden" id="count_max" name="count_max" value="100">
             <br>
             <button type="submit"><font size="3">Filter</font></button>
         </form>
@@ -150,9 +145,14 @@
             <h3>Filtered Books:</h3>
             {% for book in books %}
                 <h4>{{ book.title }}</h4>
-                <p>Id: {{ book.id }}</p>
+<!--                <p>Id: {{ book.id }}</p>-->
                 <p>Name: {{ book.name }}</p>
-                <p>Count: {{ book.count }}</p>
+                <p>Author:
+                {% for author in book.authors.all %}
+                    {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No authors
+                {% endfor %}</p>
                 <p>Description: {{ book.description }}</p>
                 <hr>
             {% empty %}

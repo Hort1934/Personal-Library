@@ -25,11 +25,21 @@ class BookForm(forms.ModelForm):
         fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'author']
 
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
-    author = forms.ModelChoiceField(queryset=Author.objects.all(), required=False, label='Author', empty_label=None)
+
+    # Определяем отображение автора с использованием выбора `name` и `surname`
+    # В поле author используется ModelChoiceField, показывающий список объектов Author
+    # и отображающий только `name` и `surname`
+    author = forms.ModelChoiceField(
+        queryset=Author.objects.all(),
+        widget=forms.Select,
+        required=True,
+        empty_label=None,
+        label='Author',
+    )
 
     description = forms.CharField(required=True,
                                   widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'css': 'resize:none;'}))
-    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '10','minlength': '10'}))
+    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '10', 'minlength': '10'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
 
 
@@ -72,8 +82,8 @@ def view_book(request, book_id):
 def filter_books(request):
     name = request.GET.get('name')
     description = request.GET.get('description')
-    count_min = request.GET.get('count_min')
-    count_max = request.GET.get('count_max')
+    # count_min = request.GET.get('count_min')
+    # count_max = request.GET.get('count_max')
 
     # Фільтрація за назвою і описом
     books = Book.objects.all()
@@ -84,14 +94,14 @@ def filter_books(request):
     if description:
         books = books.filter(description__icontains=description)
 
-    # Фільтрація за кількістю книг
-    if count_min is not None and count_max is not None:
-        try:
-            count_min = int(count_min)
-            count_max = int(count_max)
-            books = books.filter(count__range=(count_min, count_max))
-        except ValueError:
-            messages.error(request, "Invalid count range. Please enter valid numeric values.")
+    # # Фільтрація за кількістю книг
+    # if count_min is not None and count_max is not None:
+    #     try:
+    #         count_min = int(count_min)
+    #         count_max = int(count_max)
+    #         books = books.filter(count__range=(count_min, count_max))
+    #     except ValueError:
+    #         messages.error(request, "Invalid count range. Please enter valid numeric values.")
 
     return render(request, 'book/filter_books.html', {'books': books})
 
@@ -169,20 +179,22 @@ def delete_book(request, book_id):
 
 
 def export_books_csv(request):
+    # Устанавливаем тип содержимого для CSV-файла
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="books.csv"'
     response.write(codecs.BOM_UTF8)
 
+    # Создаем писателя CSV
     writer = csv.writer(response)
 
-    # Отримання значень вибраних колонок з форми
+    # Получаем значения выбранных столбцов из формы запроса
     export_id = request.GET.get('export_id') == 'on'
     export_name = request.GET.get('export_name') == 'on'
     export_description = request.GET.get('export_description') == 'on'
-    export_count = request.GET.get('export_count') == 'on'
+    export_author = request.GET.get('export_author') == 'on'
     export_date_of_issue = request.GET.get('export_date_of_issue') == 'on'
 
-    # Запис колонок в CSV-файл відповідно до вибору користувача
+    # Составляем заголовок CSV-файла в зависимости от выбранных столбцов
     header = []
     if export_id:
         header.append('ID')
@@ -190,14 +202,17 @@ def export_books_csv(request):
         header.append('Name')
     if export_description:
         header.append('Description')
-    if export_count:
-        header.append('Count')
+    if export_author:
+        header.append('Author')
     if export_date_of_issue:
         header.append('Date of Issue')
 
+    # Записываем заголовок в CSV-файл
     writer.writerow(header)
 
+    # Получаем все книги для экспорта
     books = Book.objects.all()
+
     for book in books:
         row = []
         if export_id:
@@ -206,14 +221,21 @@ def export_books_csv(request):
             row.append(book.name)
         if export_description:
             row.append(book.description)
-        if export_count:
-            row.append(book.count)
+        if export_author:
+            # Получаем всех авторов книги
+            authors = book.author.all() if hasattr(book, 'author') else []
+            # Объединяем имена и фамилии авторов в одну строку, разделяя запятыми
+            author_names = ", ".join(f"{author.name} {author.surname}" for author in authors)
+            row.append(author_names)
         if export_date_of_issue:
             row.append(book.date_of_issue)
 
+        # Записываем строку в CSV-файл
         writer.writerow(row)
 
+    # Возвращаем HTTP-ответ с содержимым CSV-файла
     return response
+
 
 
 def analytics(request):
@@ -225,7 +247,7 @@ def analytics(request):
 
     # Аналітика інтеракцій
     books_per_user = {user.name: user.get_all_books().count() for user in User.objects.all()}
-    popular_books = Book.objects.order_by('-count')[:5]
+    # popular_books = Book.objects.order_by('-count')[:5]
 
     # Темпоральна аналітика
     # Припустимо, що у книги є поле `date_of_issue`
@@ -236,7 +258,7 @@ def analytics(request):
         'total_users': total_users,
         'total_books': total_books,
         'books_per_user': books_per_user,
-        'popular_books': popular_books,
+        # 'popular_books': popular_books,
         'books_issued_by_month': books_issued_by_month,
     }
     return render(request, 'book/analytics.html', context)
