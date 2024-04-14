@@ -22,13 +22,10 @@ from author.models import Author
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'author']
+        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'link']
 
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
 
-    # Определяем отображение автора с использованием выбора `name` и `surname`
-    # В поле author используется ModelChoiceField, показывающий список объектов Author
-    # и отображающий только `name` и `surname`
     author = forms.ModelChoiceField(
         queryset=Author.objects.all(),
         widget=forms.Select,
@@ -39,8 +36,11 @@ class BookForm(forms.ModelForm):
 
     description = forms.CharField(required=True,
                                   widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'css': 'resize:none;'}))
-    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '10', 'minlength': '10'}))
+    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '13'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
+
+    # Додаємо нове поле `link`
+    link = forms.URLField(required=False, widget=forms.URLInput(attrs={'maxlength': '200'}))
 
 
 @login_required
@@ -119,20 +119,25 @@ def add_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            # Сохраняем форму, но пока без сохранения в базу данных
+            # Зберігаємо форму, але поки без збереження в базу даних
             book_instance = form.save(commit=False)
 
-            # Теперь сохраняем книгу в базу данных
+            # Тепер зберігаємо книгу в базу даних
             book_instance.save()
 
-            # Получаем ID сохраненной книги
+            # Отримуємо ID збереженої книги
             book_id = book_instance.id
 
-            # Проверяем, есть ли выбранный автор в форме
+            # Перевіряємо, чи є вибраний автор у формі
             if 'author' in request.POST:
                 author_id = request.POST['author']
                 author = get_object_or_404(Author, pk=author_id)
-                book_instance.authors.add(author)  # Добавляем автора к книге
+                book_instance.authors.add(author)  # Додаємо автора до книги
+
+            # Сохранение поля link
+            if 'link' in request.POST:
+                book_instance.link = request.POST['link']
+                book_instance.save()
 
             return redirect('all_books')
     else:
@@ -146,10 +151,15 @@ def edit_book(request, book_id):
         form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             book_instance = form.save(commit=False)
-            # Перевіряємо, чи завантажено нове зображення
+            # Перевірка та збереження поля link
+            if 'link' in request.POST:
+                book_instance.link = request.POST['link']
+                book_instance.save()
+
+            # Обробка зображення
             if 'image' in request.FILES:
-                # Обробляємо та зберігаємо нове зображення
                 handle_uploaded_image(request.FILES['image'], book_instance)
+
             book_instance.save()
             return redirect('view_book', book_id=book_id)
     else:

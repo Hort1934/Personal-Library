@@ -91,6 +91,16 @@
             <img src="{{ book.image.url }}" alt="{{ book.name }}">
         {% endif %}
 
+        <p>
+            Download or view the book:
+            {% if book.link %}
+                <a href="{{ book.link }}" target="_blank">Click here</a>
+            {% else %}
+                No link available
+            {% endif %}
+        </p>
+
+
         <p></p>
         <a href="/books/" class="return-button">Return to Book List</a>
         <a href="/book/{{ book.id }}/delete" class="delete-button">
