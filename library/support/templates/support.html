@@ -82,7 +82,7 @@
 
     .ask-question-container {
       position: fixed;
-      bottom: 20px;
+      bottom: 0;
       right: 20px;
       z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
     }
@@ -165,13 +165,14 @@
   <!-- Include the Google Maps API script -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOX23EtcR8pRkS0eghUbqeZqF0Td42-hE&callback=initMap" async defer></script>
 
-<div class="ask-question-container">
-  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">
-    Contact Us
-  </button>
-</div>
+<!--<div class="ask-question-container">-->
+<!--  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">-->
+<!--    Contact Us-->
+<!--  </button>-->
+<!--</div>-->
 
 <!-- Модальне вікно для контакту -->
+
 <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
