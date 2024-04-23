@@ -75,8 +75,9 @@ def all_books(request):
 
 
 def view_book(request, book_id):
+    user_data = request.user.get_user_data()
     book = get_object_or_404(Book, id=book_id)
-    return render(request, 'book/view_book.html', {'book': book})
+    return render(request, 'book/view_book.html', {'book': book, 'user_data': user_data})
 
 
 def filter_books(request):

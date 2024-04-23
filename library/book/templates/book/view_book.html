@@ -12,7 +12,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: palegoldenrod;
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -22,7 +22,7 @@
         .container {
             width: 95%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 100px auto;
             padding: 2rem;
             background-color: #fff;
             border: 1px solid #ccc;
@@ -103,8 +103,10 @@
 
         <p></p>
         <a href="/books/" class="return-button">Return to Book List</a>
+        {% if user_data.role == "Librarian" %}
         <a href="/book/{{ book.id }}/delete" class="delete-button">
             <i class="fa fa-trash fa-spin"></i> Delete
+            {% endif %}
         </a>
     </div>
 </body>

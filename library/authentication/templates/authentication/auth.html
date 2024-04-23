@@ -65,10 +65,10 @@
 
 
 {% block content %}
-    <h2 class="fade-in-out" style="color: gray">Welcome to the Book Accounting System</h2>
+    <h2 class="fade-in-out" style="color: rebeccapurple">Welcome to the Book Accounting System</h2>
     {% if user.is_authenticated %}
         <div class="container fade-in-out">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
-        <p class="text-center fade-in-out"><a href="/logout" style="color: gray;">Logout</a></p>
+        <p class="text-center fade-in-out"><a href="/logout" style="color: red;">Logout</a></p>
     {% else %}
         <p class="text-center fade-in-out">If you already have an account, <a href="/login">Login</a> or <a href="/register">Sign Up</a></p>
     {% endif %}

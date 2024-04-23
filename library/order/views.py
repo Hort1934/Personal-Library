@@ -27,13 +27,13 @@ def create_order(request):
             form = OrderForm(request.POST)
             if form.is_valid():
                 order = form.save(commit=False)
-                if order.book.count > 0:
+                if order.book:
                     order.user = user  # Прив'язка до поточного користувача
                     order.created_at = timezone.now()
                     order.status = '1'
                     order.save()
 
-                    order.book.count -= 1
+                    # order.book.count -= 1
                     order.book.save()
                     return redirect('my_orders')
                 else:
