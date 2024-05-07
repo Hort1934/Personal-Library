@@ -82,7 +82,7 @@ def logout_request(request):
     logout(request)
     info_message = '<p><div><font size="4" css="color: white">You have successfully logged out.</font></div>'
     messages.info(request, mark_safe(info_message))
-    return redirect("login")
+    return redirect("/")
 
 
 def all_users(request):

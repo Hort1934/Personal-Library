@@ -78,6 +78,7 @@
         <h3>{{ book.name }}</h3>
         <p>Description: {{ book.description }}</p>
         <p>ISBN: {{ book.isbn }}</p>
+        <p>Genre: {{ book.genre }}</p>
         <p>Author:
             {% for author in book.authors.all %}
                 {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}

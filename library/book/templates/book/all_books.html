@@ -148,7 +148,7 @@
                 <tr>
 <!--                    <th scope="col">ID</th>-->
                     <th scope="col">Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Genre</th>
                     <th scope="col">Author</th>
                     <th scope="col">Date of issue</th>
                     {% if user_data.role == "Librarian" %}
@@ -161,7 +161,7 @@
         <tr>
 <!--            <th scope="row">{{ book.id }}</th>-->
             <td><a href="/books/{{ book.id }}">{{ book.name }}</a></td>
-            <td>{{ book.description }}</td>
+            <td>{{ book.genre }}</td>
             <td>
                 {% for author in book.authors.all %}
                     {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}

@@ -27,6 +27,7 @@ class Book(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128, blank=True)
     description = models.CharField(max_length=256, blank=True)
+    genre = models.CharField(max_length=128, blank=True)
     date_of_issue = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)  # Поле для зображення
     isbn = models.CharField(max_length=13, blank=True)  # Поле для ISBN

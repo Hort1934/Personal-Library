@@ -13,6 +13,7 @@ urlpatterns = [
     path('book/<int:book_id>/delete/', views.delete_book, name='delete_book'),
     # path('export/csv/', views.export_books_csv, name='export_books_csv'),
     path('books/analytics/', views.analytics, name='analytics'),
+
 ]
 
 if settings.DEBUG:

@@ -83,10 +83,8 @@ def view_book(request, book_id):
 def filter_books(request):
     name = request.GET.get('name')
     description = request.GET.get('description')
-    # count_min = request.GET.get('count_min')
-    # count_max = request.GET.get('count_max')
+    genre = request.GET.get('genre')  # Get the genre from the request parameters
 
-    # Фільтрація за назвою і описом
     books = Book.objects.all()
 
     if name:
@@ -95,16 +93,11 @@ def filter_books(request):
     if description:
         books = books.filter(description__icontains=description)
 
-    # # Фільтрація за кількістю книг
-    # if count_min is not None and count_max is not None:
-    #     try:
-    #         count_min = int(count_min)
-    #         count_max = int(count_max)
-    #         books = books.filter(count__range=(count_min, count_max))
-    #     except ValueError:
-    #         messages.error(request, "Invalid count range. Please enter valid numeric values.")
+    if genre:  # Filter by genre if provided
+        books = books.filter(genre=genre)
 
     return render(request, 'book/filter_books.html', {'books': books})
+
 
 
 def user_books(request, user_id):
@@ -248,13 +241,20 @@ def export_books_csv(request):
     return response
 
 
+from django.db.models.functions import ExtractYear
 
+# views.py
 def analytics(request):
     # Аналітика користувачів
     total_users = User.objects.count()
 
     # Аналітика книг
+
     total_books = Book.objects.count()
+
+    # Аналітика за виходом книг з часом
+    books_issued_over_time = Book.objects.annotate(year=ExtractYear('date_of_issue')).values('year').annotate(
+        total=Count('id'))
 
     # Аналітика інтеракцій
     books_per_user = {user.name: user.get_all_books().count() for user in User.objects.all()}
@@ -265,11 +265,17 @@ def analytics(request):
     books_issued_by_month = Book.objects.extra({'month': "EXTRACT(month FROM date_of_issue)"}).values('month').annotate(
         total=Count('id'))
 
+    # Аналітика по жанрам
+    genres_count = Book.objects.values('genre').annotate(total=Count('id'))
+
     context = {
         'total_users': total_users,
         'total_books': total_books,
         'books_per_user': books_per_user,
         # 'popular_books': popular_books,
         'books_issued_by_month': books_issued_by_month,
+        'genres_count': genres_count,
+        'total_books': total_books,
+        'books_issued_over_time': books_issued_over_time,
     }
     return render(request, 'book/analytics.html', context)
