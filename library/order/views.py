@@ -80,3 +80,19 @@ def delete_order(request, order_id):
     # Виконуємо логіку видалення тут
     order.delete()
     return redirect('all_orders')
+
+from django.shortcuts import render
+from .models import Order, Book
+from django.db.models import Count
+
+def book_analytics(request):
+    # Получение топ-10 книг по популярности
+    top_books = Order.objects.values('book_id').annotate(total_orders=Count('book_id')).order_by('-total_orders')[:10]
+
+    # Получение объектов книг для отображения в шаблоне
+    top_books_data = []
+    for item in top_books:
+        book = Book.objects.get(pk=item['book_id'])
+        top_books_data.append({'book': book, 'total_orders': item['total_orders']})
+
+    return render(request, 'order/analytics.html', {'top_books_data': top_books_data})

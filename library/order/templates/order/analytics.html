@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Books Analytics</title>
+</head>
+<body>
+    <h1>Top 10 Books Analytics</h1>
+
+    <table border="1">
+        <tr>
+            <th>Book Name</th>
+            <th>Total Orders</th>
+        </tr>
+        {% for item in top_books_data %}
+        <tr>
+            <td>{{ item.book.name }}</td>
+            <td>{{ item.total_orders }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

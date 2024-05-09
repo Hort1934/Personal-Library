@@ -279,3 +279,5 @@ def analytics(request):
         'books_issued_over_time': books_issued_over_time,
     }
     return render(request, 'book/analytics.html', context)
+
+

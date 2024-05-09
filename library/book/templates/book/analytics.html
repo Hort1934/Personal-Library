@@ -47,12 +47,26 @@
             position: relative;
             margin-top: 20px;
         }
+        .total-books {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .total-books p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
 
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Analytics Dashboard</h1>
+    <h2>Books</h2>
+    <div class="total-books">
+        <p>Total Books: {{ total_books }}</p>
+    </div>
 
 
         <!-- Аналітика виходу книг -->
@@ -99,8 +113,8 @@ var chartBooksIssuedOverTime = new Chart(ctxBooksIssuedOverTime, {
 
 
 
-    <h2>Books</h2>
-    <p>Total Books: {{ total_books }}</p>
+
+
 
     <!-- Аналітика по жанрам -->
     <!-- Аналітика по жанрам -->
