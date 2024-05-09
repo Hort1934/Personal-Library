@@ -8,7 +8,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: palegoldenrod;
+            background-color: white;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -76,6 +76,7 @@
         .author-list {
             width: 65%;
             padding-top: 100px;
+
         }
 
         .create-author-form {
@@ -105,6 +106,16 @@
       bottom: 20px;
       right: 20px;
       z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
+    }
+    .thead-black {
+        width: 95%;
+        max-width: 800px;
+        margin: 100px auto;
+        padding: 2rem;
+        background-color: bisque;
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -139,7 +150,7 @@
         <div class="container">
     <div class="author-list">
         <table class="table-light">
-            <thead class="thead-light">
+            <thead class="thead-black">
             <tr>
                 <th>ID</th>
                 <th>Name</th>

@@ -9,8 +9,7 @@
 
     body {
             font-family: Arial, sans-serif;
-            /*background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");*/
-            background-color: palegoldenrod;
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -62,7 +61,7 @@
     }
 
     button {
-      background-color: #007bff;
+      background-color: black;
       color: white;
       padding: 10px 20px;
       border: none;
@@ -79,6 +78,17 @@
     .map {
       flex: 1;
       max-width: calc(100% - 400px);
+      position: relative; /* Додаємо позиціонування relative */
+    }
+
+    .map-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Прозорість */
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
     }
 
     .ask-question-container {
@@ -92,40 +102,42 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/auth">Main</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                {% if user_data.role == "Librarian" %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/authors">All Authors</a>
-                    </li>
-                {% endif %}
+    <a class="navbar-brand" href="/auth">Main</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            {% if user_data.role == "Librarian" %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/books">All Books</a>
+                    <a class="nav-link" href="/authors">All Authors</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/all_orders">All Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Support</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user_profile">User Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="/books">All Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/all_orders">All Orders</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Support</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user_profile">User Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 
   <header>
   </header>
-  <main style="margin-top: 50px">
-    <form style="color: rebeccapurple">
+  <main style="margin-top: 20px">
+
+    <form style="color: black">
       <h2>How can we help you today?</h2>
       <p>We are here to help you with any questions or problems you may have. Please feel free to contact us using the form below.</p>
 
@@ -142,8 +154,8 @@
 
     </form>
 
-    <div class="map" id="google-map">
-      <!-- Google Map will be displayed here -->
+    <div class="map" style="margin-bottom: 0; background-image: url('https://media1.thehungryjpeg.com/thumbs2/ori_3505890_4459abd13544493c03bf70f7a8e35f69327d337c_online-education-web-e-book-shop-library-vector-isometric-concept.jpg'); background-size: cover; background-repeat: no-repeat;">
+
     </div>
   </main>
 
@@ -151,25 +163,20 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <script>
-    function initMap() {
-      var mapOptions = {
-        center: { lat: 50.382775, lng: 30.4946684 }, // Set the initial map center coordinates
-        zoom: 18, // Set the initial zoom level
-      };
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentLocation = window.location.pathname; // Отримуємо поточну URL-адресу сторінки
+        var navLinks = document.querySelectorAll(".nav-link"); // Отримуємо всі елементи з класом "nav-link"
 
-      // Create a new map object
-      var map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
-    }
-  </script>
+        navLinks.forEach(function(link) {
+            var href = link.getAttribute("href"); // Отримуємо значення атрибуту href
 
-  <!-- Include the Google Maps API script -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOX23EtcR8pRkS0eghUbqeZqF0Td42-hE&callback=initMap" async defer></script>
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            if (href === currentLocation) { // Порівнюємо href з поточним URL-адресою
+                link.parentNode.classList.add("active"); // Додаємо клас "active" батьківському елементу
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

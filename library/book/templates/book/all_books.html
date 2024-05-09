@@ -44,7 +44,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: palegoldenrod;
+        background-color: white;
         background-size: cover; /* Розмір фону - вписати весь вікно браузера */
         background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
         background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -102,6 +102,10 @@
         z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
     }
 
+    .table-light th {
+        color: black; /* Цвет текста заголовков таблицы */
+        background: #cecece;
+    }
 </style>
 <div class="container" style="margin-top: 80px">
     <form class="search-form" method="GET" action="">
@@ -143,6 +147,8 @@
     {% endif %}
     {% if books %}
         <p></p>
+    <div class="container">
+    <div class="author-list">
         <table class="table-light">
             <thead>
                 <tr>
@@ -211,7 +217,8 @@
                 <button type="submit" class="btn btn-primary">Go</button>
             </form>
         </div>
-
+    </div>
+</div>
     {% else %}
         <p class="not-found">Book not found.</p>
     {% endif %}

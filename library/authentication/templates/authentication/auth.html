@@ -23,6 +23,11 @@
     .fade-in-out {
         animation: fade 5s infinite; /* Змініть тривалість (5 с) за потреби */.
     }
+                                                                  .card-img {
+      max-width: 300px; /* Set maximum width for the image */
+      display: block; /* Center the image */
+      margin: 0 auto; /* Center the image horizontally */
+      margin-bottom: 20px; /* Add some space below the image */
 </style>
 
 {% extends "authentication/index.html" %}
@@ -65,7 +70,9 @@
 
 
 {% block content %}
+
     <h2 class="fade-in-out" style="color: rebeccapurple">Welcome to the Book Accounting System</h2>
+
     {% if user.is_authenticated %}
         <div class="container fade-in-out">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
         <p class="text-center fade-in-out"><a href="/logout" style="color: red;">Logout</a></p>

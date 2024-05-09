@@ -2,21 +2,39 @@
 
       body {
       font-family: Arial, sans-serif;
-        background-color: oldlace;
+        background-color: white;
         background-size: cover; /* Розмір фону - вписати весь вікно браузера */
         background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
         background-attachment: fixed; /* Фіксований фон при прокручуванні */
         background-position: center center; /* Вирівнювання фонового зображення по центру */
       }
-      .container {
-      width: 350px;
-      margin: 50px auto;
-      padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+      /* CSS */
+      /* CSS */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Розмір контейнера на весь екран */
+    width: 100%;
+}
+
+.left-column {
+    flex: 2;
+}
+
+.right-column {
+    flex: 2;
+}
+
+/* Зробимо зображення адаптивним для різних розмірів екрану */
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Забезпечимо збереження пропорцій зображення */
+}
+
+
+
       h1 {
       text-align: center;
       color: #333;
@@ -273,17 +291,25 @@
         color: #fff; /* Зміна кольору тексту при наведенні */
     }
 
-    </style>
-<!-- Ваш HTML-код -->
-{% block content %}
-    <h2 style="color: rebeccapurple">Welcome to the Book Accounting System</h2>
 
-    {% if user.is_authenticated %}
-        <!-- Якщо користувач автентифікований, показати повідомлення про вітаємо -->
-        <div class="container">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
-        <p class="text-center"><a href="/logout" style="color: ivory">Logout</a></p>
-    {% else %}
-        <!-- Якщо користувач не автентифікований, показати кнопку для входу -->
-        <p class="text-center">If you already have an account <a href="/login" class="login-button">Login</a>
-    {% endif %}
+    </style>
+{% block content %}
+    <div class="container">
+        <div class="left-column">
+            <!-- Зображення -->
+            <img src="https://cdn.dribbble.com/users/1338711/screenshots/6811291/going-to-the-bookstore.jpg" alt="Bookstore Image" style="width: 100%;">
+        </div>
+        <div class="right-column">
+            <h2 style="color: rebeccapurple; margin-top: 20px;">Welcome to the Book Accounting System</h2>
+
+            {% if user.is_authenticated %}
+                <!-- Якщо користувач автентифікований, показати повідомлення про вітаємо -->
+                <div class="container">Hello <strong>{{ user.first_name }}</strong> with email: {{ user.email }}</div>
+                <p class="text-center"><a href="/logout" style="color: ivory">Logout</a></p>
+            {% else %}
+                <!-- Якщо користувач не автентифікований, показати кнопку для входу -->
+                <p class="text-center">If you already have an account <a href="/login" class="login-button">Login</a> or <a href="/register" class="login-button">Register</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
