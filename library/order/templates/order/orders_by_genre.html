@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        .dashboard-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .chart-container {
+            width: 45%;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<!--    <h1>Dashboard</h1>-->
+    <div class="dashboard-container">
+        <div class="chart-container">
+            <h2>Most favorite books by genre</h2>
+            <canvas id="ordersByGenreChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Підключіть бібліотеку Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Отримайте дані для графіку
+        var genres = [];
+        var ordersCount = [];
+        {% for order in orders_by_genre %}
+            genres.push('{{ order.book__genre }}');
+            ordersCount.push('{{ order.total_orders }}');
+        {% endfor %}
+
+        // Створіть дані для графіка
+        var chartData = {
+            labels: genres,
+            datasets: [{
+                label: 'Most favorite books by genre',
+                data: ordersCount,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Створіть графік
+        var ctx = document.getElementById('ordersByGenreChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Genres', // Текст по осі X
+                    font: {
+                        size: 16, // Розмір шрифту
+                        weight: 'bold', // Товщина шрифту
+                        family: 'Arial', // Сімейство шрифтів
+                        color: 'rgba(0, 0, 0, 0.7)' // Колір тексту
+                    }
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Number of books', // Текст по осі Y
+                    font: {
+                        size: 16, // Розмір шрифту
+                        weight: 'bold', // Товщина шрифту
+                        family: 'Arial', // Сімейство шрифтів
+                        color: 'rgba(0, 0, 0, 0.7)' // Колір тексту
+                    }
+                },
+                beginAtZero: true
+            }
+        }
+    }
+        });
+    </script>
+</body>
+</html>
