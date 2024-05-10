@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>User Profile</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
 
@@ -20,7 +20,7 @@
       margin: 50px auto;
       padding: 20px;
       background-color: #fff;
-      border: 1px solid #ccc;
+      border: 1px solid #ffffff;
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
@@ -294,7 +294,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 {% if user_data.role == "Librarian" %}
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="/authors">All Authors</a>
                     </li>
                 {% endif %}
@@ -425,7 +425,7 @@
     .edit-form-container select {
       width: 100%;
       padding: 5px; /* Налаштуйте відступи, щоб зменшити відстань між полями */
-      margin-bottom: 5px; /* Налаштуйте відступ між полями */
+      margin: auto auto auto auto; /* Налаштуйте відступ між полями */
     }
 
     /* Інші правила стилів для форми редагування */
@@ -434,7 +434,7 @@
     #dashboardSection {
       display: none;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #ffffff;
       border-radius: 5px;
       max-width: 80%;
       margin: auto;
@@ -493,10 +493,10 @@
     </div>
 
     <!-- Графік реєстрації користувачів за днями тижня -->
-    <div style="clear: both; text-align: center;">
-        <canvas id="userRegistrationByDayChart" style="max-height: 300px; max-width: 500px; margin-left: 250px"></canvas>
-        <div style="text-align: center">User registration schedule by day of the week</div>
-    </div>
+<!--    <div style="clear: both; text-align: center;">-->
+<!--        <canvas id="userRegistrationByDayChart" style="max-height: 300px; max-width: 500px; margin-left: 250px"></canvas>-->
+<!--        <div style="text-align: center">User registration schedule by day of the week</div>-->
+<!--    </div>-->
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -570,38 +570,38 @@
             });
 
             // Графік реєстрації користувачів за днями тижня
-            var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
-            var dayNames = {{ day_names|safe }};
-            var registrationCountsByDay = {{ registration_counts_by_day|safe }};
-            var dayChart = new Chart(ctxDay, {
-                type: 'bar',
-                data: {
-                    labels: dayNames,
-                    datasets: [{
-                        label: 'User Registration by Day',
-                        data: registrationCountsByDay,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
+            // var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
+            // var dayNames = {{ day_names|safe }};
+            // var registrationCountsByDay = {{ registration_counts_by_day|safe }};
+            // var dayChart = new Chart(ctxDay, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: dayNames,
+            //         datasets: [{
+            //             label: 'User Registration by Day',
+            //             data: registrationCountsByDay,
+            //             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            //             borderColor: 'rgba(54, 162, 235, 1)',
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: true
+            //                 }
+            //             }]
+            //         }
+            //     }
+            // });
         });
     </script>
     </body>
     </html>
-  </div>
+
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -640,3 +640,4 @@
   });
 </script>
 
+</div>
