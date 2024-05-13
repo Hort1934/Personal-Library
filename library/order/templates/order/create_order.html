@@ -69,7 +69,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Create Order</h2>
+        <h2>Create preferences</h2>
         {% if error %}
             <p>{{ error }}</p>
         {% endif %}
@@ -84,7 +84,8 @@
             {% if form.errors.plated_end_at %}
                 <p style="color: red;">{{ form.errors.plated_end_at }}</p>
             {% endif %}
-            <button type="submit" class="submit-button">Create Order</button>
+            <br>
+            <button type="submit" class="submit-button">Create preferences</button>
         </form>
         <a href="{% url 'all_orders' %}" class="return-button">Back</a>
     </div>

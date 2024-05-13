@@ -62,54 +62,54 @@
 </head>
 <body>
 <div class="container">
-    <h1>Analytics Dashboard</h1>
-    <h2>Books</h2>
-    <div class="total-books">
-        <p>Total Books: {{ total_books }}</p>
-    </div>
+    <h1 style="text-decoration: underline">Analytics Dashboard</h1>
+    <h2>Number of books in the system by genre</h2>
+<!--    <div class="total-books">-->
+<!--        <p>Total Books: {{ total_books }}</p>-->
+<!--    </div>-->
 
 
         <!-- Аналітика виходу книг -->
     <!-- Аналітика за виходом книг -->
-<h2>Books Issued Over Time</h2>
-<canvas id="booksIssuedOverTimeChart" width="400" height="200"></canvas>
+<!--<h2>Books Issued Over Time</h2>-->
+<!--<canvas id="booksIssuedOverTimeChart" width="400" height="200"></canvas>-->
 
-    <script>
-        // Отримайте дані для графіку за виходом книг з часом
-var years = [];
-var booksIssuedOverTime = [];
-{% for entry in books_issued_over_time %}
-    years.push('{{ entry.year }}');
-    booksIssuedOverTime.push('{{ entry.total }}');
-{% endfor %}
+<!--    <script>-->
+<!--        // Отримайте дані для графіку за виходом книг з часом-->
+<!--var years = [];-->
+<!--var booksIssuedOverTime = [];-->
+<!--{% for entry in books_issued_over_time %}-->
+<!--    years.push('{{ entry.year }}');-->
+<!--    booksIssuedOverTime.push('{{ entry.total }}');-->
+<!--{% endfor %}-->
 
-// Дані для графіку
-var booksIssuedOverTimeData = {
-    labels: years,
-    datasets: [{
-        label: 'Books Issued Over Time',
-        data: booksIssuedOverTime,
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-    }]
-};
+<!--// Дані для графіку-->
+<!--var booksIssuedOverTimeData = {-->
+<!--    labels: years,-->
+<!--    datasets: [{-->
+<!--        label: 'Books Issued Over Time',-->
+<!--        data: booksIssuedOverTime,-->
+<!--        backgroundColor: 'rgba(54, 162, 235, 0.2)',-->
+<!--        borderColor: 'rgba(54, 162, 235, 1)',-->
+<!--        borderWidth: 1-->
+<!--    }]-->
+<!--};-->
 
-// Створення графіку
-var ctxBooksIssuedOverTime = document.getElementById('booksIssuedOverTimeChart').getContext('2d');
-var chartBooksIssuedOverTime = new Chart(ctxBooksIssuedOverTime, {
-    type: 'line',
-    data: booksIssuedOverTimeData,
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+<!--// Створення графіку-->
+<!--var ctxBooksIssuedOverTime = document.getElementById('booksIssuedOverTimeChart').getContext('2d');-->
+<!--var chartBooksIssuedOverTime = new Chart(ctxBooksIssuedOverTime, {-->
+<!--    type: 'line',-->
+<!--    data: booksIssuedOverTimeData,-->
+<!--    options: {-->
+<!--        scales: {-->
+<!--            y: {-->
+<!--                beginAtZero: true-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
+<!--});-->
 
-    </script>
+<!--    </script>-->
 
 
 
@@ -129,51 +129,75 @@ var chartBooksIssuedOverTime = new Chart(ctxBooksIssuedOverTime, {
 
 <script>
     // Отримайте дані для графіку
-    var genres = [];
-    var booksByGenre = [];
-    {% for genre_data in genres_count %}
-        genres.push('{{ genre_data.genre }}');
-        booksByGenre.push('{{ genre_data.total }}');
-    {% endfor %}
+var genres = [];
+var booksByGenre = [];
+{% for genre_data in genres_count %}
+    genres.push('{{ genre_data.genre }}');
+    booksByGenre.push('{{ genre_data.total }}');
+{% endfor %}
 
-    // Початкові дані для графіку
-    var initialData = {
-        labels: genres,
-        datasets: [{
-            label: 'Books by Genre',
-            data: booksByGenre,
-            backgroundColor: 'rgba(126,54,235,0.2)',
-            borderColor: 'rgb(175,54,235)',
-            borderWidth: 1
-        }]
-    };
+// Початкові дані для графіку
+var initialData = {
+    labels: genres,
+    datasets: [{
+        label: 'Number of books in the system by genre',
+        data: booksByGenre,
+        backgroundColor: 'rgba(126,54,235,0.2)',
+        borderColor: 'rgb(175,54,235)',
+        borderWidth: 1
+    }]
+};
 
-    // Створіть графік за допомогою Chart.js
-    var ctx = document.getElementById('booksByGenreChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: initialData,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+// Створіть графік за допомогою Chart.js
+var ctx = document.getElementById('booksByGenreChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: initialData,
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Genres', // Текст по осі X
+                    font: {
+                        size: 16, // Розмір шрифту
+                        weight: 'bold', // Товщина шрифту
+                        family: 'Arial', // Сімейство шрифтів
+                        color: 'rgba(0, 0, 0, 0.7)' // Колір тексту
+                    }
                 }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Number of books', // Текст по осі Y
+                    font: {
+                        size: 16, // Розмір шрифту
+                        weight: 'bold', // Товщина шрифту
+                        family: 'Arial', // Сімейство шрифтів
+                        color: 'rgba(0, 0, 0, 0.7)' // Колір тексту
+                    }
+                },
+                beginAtZero: true
             }
         }
-    });
-
-    // Оновлення графіка за жанром
-    function updateChart(genre) {
-        var url = '/update_chart/?genre=' + genre;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                myChart.data.labels = data.labels;
-                myChart.data.datasets[0].data = data.booksCount;
-                myChart.update();
-            });
     }
+});
+
+
+// Оновлення графіка за жанром
+function updateChart(genre) {
+    var url = '/update_chart/?genre=' + genre;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            myChart.data.labels = data.labels;
+            myChart.data.datasets[0].data = data.booksCount;
+            myChart.update();
+        });
+}
+
 </script>
 
 

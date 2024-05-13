@@ -96,3 +96,8 @@ def book_analytics(request):
         top_books_data.append({'book': book, 'total_orders': item['total_orders']})
 
     return render(request, 'order/analytics.html', {'top_books_data': top_books_data})
+
+
+def orders_by_genre(request):
+    orders_by_genre = Order.orders_by_genre()
+    return render(request, 'order/orders_by_genre.html', {'orders_by_genre': orders_by_genre})

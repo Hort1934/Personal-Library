@@ -97,6 +97,18 @@
       right: 20px;
       z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
     }
+
+    .active-support {
+      text-decoration: underline;
+      color: green;
+    }
+
+    .nav-item active{
+        color: #000000;
+    background-color: #ffffff;
+    border-radius: 25px;
+    }
+
   </style>
 
 </head>
@@ -117,10 +129,11 @@
                 <a class="nav-link" href="/books">All Books</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/all_orders">All Orders</a>
+                <a class="nav-link" href="/all_orders">All favorites</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Support</a>
+                <a class="nav-link" href="#" style="color: #000000; background-color: #ffffff;
+                border-radius: 25px;">Support</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/user_profile">User Profile</a>
@@ -165,17 +178,20 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var currentLocation = window.location.pathname; // Отримуємо поточну URL-адресу сторінки
+        var currentLocation = window.location.pathname; // Отримуємо поточний шлях
         var navLinks = document.querySelectorAll(".nav-link"); // Отримуємо всі елементи з класом "nav-link"
 
         navLinks.forEach(function(link) {
             var href = link.getAttribute("href"); // Отримуємо значення атрибуту href
 
-            if (href === currentLocation) { // Порівнюємо href з поточним URL-адресою
-                link.parentNode.classList.add("active"); // Додаємо клас "active" батьківському елементу
+            // Вирізаємо домен з посилань і порівнюємо шляхи
+            if (href === currentLocation || href === window.location.href) {
+                link.parentNode.classList.add("active");
+                link.classList.add("active-support");
             }
         });
     });
+
 </script>
 
 </body>

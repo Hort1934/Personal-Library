@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Orders</title>
+    <title>All preferences</title>
     <style>
         * {
             box-sizing: border-box;
@@ -92,7 +92,7 @@
 <body>
     <div class="container">
         {% for order in orders %}
-            <h3>Order №: {{ order.id }}</h3>
+            <h3>Preferences №: {{ order.id }}</h3>
 <!--            <p>Status: {{ order.status }}</p>-->
             <p>Name: {{ order.book.name }}</p>
             <p>Plated end at: {{ order.plated_end_at }}</p>
@@ -104,7 +104,7 @@
         {% empty %}
             <p class="no-orders">No orders available for the current user.</p>
         {% endfor %}
-        <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>
+        <a href="{% url 'all_orders' %}" class="return-button">Return to All Preferences</a>
     </div>
 </body>
 </html>

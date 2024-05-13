@@ -97,11 +97,17 @@ class Order(models.Model):
             a.delete()
             return True
 
+    @staticmethod
+    def orders_by_genre():
+        orders_by_genre = Order.objects.values('book__genre').annotate(total_orders=models.Count('id'))
+        return orders_by_genre
+
 
 class Book(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128, blank=True)
     description = models.CharField(max_length=256, blank=True)
+    genre = models.CharField(max_length=128, blank=True)
     isbn = models.IntegerField(blank=True)
     date_of_issue = models.DateField(null=True, blank=True)
 

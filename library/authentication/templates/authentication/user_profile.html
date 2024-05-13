@@ -1,10 +1,337 @@
-{% extends "authentication/index.html" %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
 
-{% block title %}User Profile{% endblock %}
+      body {
+      font-family: Arial, sans-serif;
+        background-color: white;
+        background-size: cover; /* Розмір фону - вписати весь вікно браузера */
+        background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
+        background-attachment: fixed; /* Фіксований фон при прокручуванні */
+        background-position: center center; /* Вирівнювання фонового зображення по центру */
+      }
+      .container {
+      width: 350px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 0;
+      }
+      p {
+      text-align: center;
+      color: #777;
+      margin-bottom: 20px;
+      }
+      label {
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+      width: 95%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      }
+      hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border: 0;
+      border-top: 1px solid #ccc;
+      }
+      form {
+      width:35rem;
+      margin: auto;
+      color:whitesmoke;
+      }
+      a {
+      color: #337ab7;
+      text-decoration: none;
+      }
+      button[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      }
+      button[type="submit"]:hover {
+      background-color: #45a049;
+      }
 
-{% block content %}
+        p {
+            font-size: large;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            {#margin-top: 3rem;}
+        }
+        h2 {
+            color: #45a049;
+            text-align: center;
+            margin-top: 15rem;
+        }
+        .button-container button {
+            margin: 0 1rem;
+            padding: 0.75rem 1.5rem;
+            font-size: large;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Додайте перехід для більш плавної анімації */.
+    }
 
+        .button-container button:hover {
+            transform: scale(1.1); /* Застосувати ефект масштабування при наведенні */
+        }
+
+        .shadowbox {
+          width: 15em;
+          border: 1px solid #333;
+          box-shadow: 8px 8px 5px #444;
+          padding: 8px 12px;
+          background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+        }
+
+      /* Горизонтальне меню */
+.horizontal-menu {
+    background-color: #333; /* Колір фону меню */
+    padding: 0; /* Видаліть внутрішній відступ */
+}
+
+.horizontal-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Центрування тексту */
+}
+
+.horizontal-menu ul li {
+    display: inline;
+    margin-right: 20px; /* Відступ між пунктами меню */
+}
+
+.horizontal-menu ul li a {
+    color: #fff; /* Колір тексту */
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px; /* Зовнішні відступи пункту меню */
+    border: 2px solid transparent; /* Границя для ефекту при наведенні */
+    transition: border 0.3s; /* Анімація при зміні границі */
+}
+
+.horizontal-menu ul li a:hover {
+    background-color: #45a049; /* Колір фону при наведенні */
+    border: 2px solid #fff; /* Зміна границі при наведенні */
+}
+
+
+/* Додати тінь для підсвічування */
+.horizontal-menu ul li a::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #45a049;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0); /* Початкова ширина тіні 0 */
+    transform-origin: left;
+    transition: transform 0.3s; /* Анімація збільшення ширини тіні */
+}
+
+.horizontal-menu ul li a:hover::after {
+    transform: scaleX(1); /* Збільшення ширини тіні при наведенні */
+}
+
+/* Стилі для горизонтального меню */
+.horizontal-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Зробимо всі елементи меню блоками в один ряд */
+}
+
+.horizontal-menu ul li {
+    margin-right: 20px; /* Відступ між пунктами меню */
+}
+
+.horizontal-menu ul li a {
+    color: #fff; /* Колір тексту */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.horizontal-menu ul li a:hover {
+    text-decoration: underline; /* Підкреслення при наведенні */
+}
+
+/* Стилі для випадаючого списку */
+.dropdown {
+    position: relative;
+}
+
+.dropdown a {
+    background-color: #333;
+    color: #fff;
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.li {
+    background-color: #333;
+    color: #fff;
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown ul {
+    display: none;
+    position: absolute;
+    background-color: #111;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 0;
+}
+
+.dropdown ul li {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown ul li a {
+    color: #fff;
+}
+
+.dropdown:hover ul {
+    display: block;
+}
+
+.dropdown:hover a {
+    background-color: #555;
+}
+/* Стилі для навігаційного меню з плавним підкресленням при наведенні */
+.navbar-nav .nav-item .nav-link {
+    position: relative;
+}
+
+.navbar-nav .nav-item .nav-link::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #45a049;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover::before {
+    transform: scaleX(1);
+}
+/* Стилі для головного пункту меню "Main" */
+.navbar-brand::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover::before {
+    transform: scaleX(1);
+}
+
+.ask-question-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
+}
+
+
+    </style>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/auth">Main</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if user_data.role == "Librarian" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/authors">All Authors</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/books">All Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/all_orders">All favorites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/support">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: #000000; background-color: #ffffff;
+                border-radius: 25px;">User Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% block content %}{% endblock %}
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <h2 style="margin-top: 60px">User Profile</h2>
   <ul class="user-info-list" style="margin-left: 25px">
     <li>
@@ -98,7 +425,7 @@
     .edit-form-container select {
       width: 100%;
       padding: 5px; /* Налаштуйте відступи, щоб зменшити відстань між полями */
-      margin-bottom: 5px; /* Налаштуйте відступ між полями */
+      margin: auto auto auto auto; /* Налаштуйте відступ між полями */
     }
 
     /* Інші правила стилів для форми редагування */
@@ -107,7 +434,7 @@
     #dashboardSection {
       display: none;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #ffffff;
       border-radius: 5px;
       max-width: 80%;
       margin: auto;
@@ -166,10 +493,10 @@
     </div>
 
     <!-- Графік реєстрації користувачів за днями тижня -->
-    <div style="clear: both; text-align: center;">
-        <canvas id="userRegistrationByDayChart" style="max-height: 300px; max-width: 500px; margin-left: 250px"></canvas>
-        <div style="text-align: center">User registration schedule by day of the week</div>
-    </div>
+<!--    <div style="clear: both; text-align: center;">-->
+<!--        <canvas id="userRegistrationByDayChart" style="max-height: 300px; max-width: 500px; margin-left: 250px"></canvas>-->
+<!--        <div style="text-align: center">User registration schedule by day of the week</div>-->
+<!--    </div>-->
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -243,38 +570,38 @@
             });
 
             // Графік реєстрації користувачів за днями тижня
-            var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
-            var dayNames = {{ day_names|safe }};
-            var registrationCountsByDay = {{ registration_counts_by_day|safe }};
-            var dayChart = new Chart(ctxDay, {
-                type: 'bar',
-                data: {
-                    labels: dayNames,
-                    datasets: [{
-                        label: 'User Registration by Day',
-                        data: registrationCountsByDay,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
+            // var ctxDay = document.getElementById('userRegistrationByDayChart').getContext('2d');
+            // var dayNames = {{ day_names|safe }};
+            // var registrationCountsByDay = {{ registration_counts_by_day|safe }};
+            // var dayChart = new Chart(ctxDay, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: dayNames,
+            //         datasets: [{
+            //             label: 'User Registration by Day',
+            //             data: registrationCountsByDay,
+            //             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            //             borderColor: 'rgba(54, 162, 235, 1)',
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: true
+            //                 }
+            //             }]
+            //         }
+            //     }
+            // });
         });
     </script>
     </body>
     </html>
-  </div>
+
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -313,4 +640,4 @@
   });
 </script>
 
-{% endblock %}
+</div>
