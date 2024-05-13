@@ -9,6 +9,7 @@ class RegistrationForm(forms.Form):
     # middle_name = forms.CharField(required=False)
     last_name = forms.CharField()
     # role = forms.ChoiceField(choices=[(0, 'Visitor'), (1, 'Librarian')])
+#     test
 
 
 class LoginForm(forms.Form):
