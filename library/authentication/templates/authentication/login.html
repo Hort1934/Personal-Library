@@ -275,25 +275,25 @@
     </style>
 {% block content %}
     {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-<form method="post">
-    {% csrf_token %}
-    <div class="container-xxl" style="max-width: 300px; margin: 0 auto 100px auto;">
-        <h2 class="text-white">Login</h2>
-        <label class="text-white">{{ form.email.label_tag }}</label>
-        {{ form.email }}
-        <br><br>
-        <label class="text-white">{{ form.password.label_tag }}</label>
-        {{ form.password }}
-        <hr>
-        <button type="submit" class="btn btn-primary">Login</button>
-        <p class="text-center" style="font-size: 14px; color: rebeccapurple">Don't have an account? <a href="/register">Create an account</a>.</p>
-    </div>
-</form>
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <img src="https://th.bing.com/th/id/OIG1.MuFRwbeeQ5zGLJjZQ9ty?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="Logo" style="display: block; margin: 111px auto 20px; width: 200px; height: auto;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="container-xxl" style="max-width: 300px; margin: -40% auto 100px auto;">
+            <h2 class="text-white">Login</h2>
+            <label class="text-white">{{ form.email.label_tag }}</label>
+            {{ form.email }}
+            <br><br>
+            <label class="text-white">{{ form.password.label_tag }}</label>
+            {{ form.password }}
+            <hr>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <p class="text-center" style="font-size: 14px; color: rebeccapurple">Don't have an account? <a href="/register">Create an account</a>.</p>
+        </div>
+    </form>
 {% endblock %}
-

@@ -161,20 +161,17 @@
                     " - " + $("#count-slider").slider("values", 1));
             });
         </script>
-
-
         {% if books %}
             <h3>Filtered Books:</h3>
             {% for book in books %}
                 <h4>{{ book.title }}</h4>
-<!--                <p>Id: {{ book.id }}</p>-->
                 <p><a href="/books/{{ book.id }}">{{ book.name }}</a></p>
-                <p>Author:
-                {% for author in book.authors.all %}
-                    {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
-                {% empty %}
-                    No authors
-                {% endfor %}</p>
+<!--                <p>Author:-->
+<!--                {% for author in book.authors.all %}-->
+<!--                    {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}-->
+<!--                {% empty %}-->
+<!--                    No authors-->
+<!--                {% endfor %}</p>-->
                 <p>Genre: {{ book.genre }}</p>
                 <hr>
             {% empty %}

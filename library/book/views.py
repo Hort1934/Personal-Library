@@ -83,7 +83,7 @@ def view_book(request, book_id):
 def filter_books(request):
     name = request.GET.get('name')
     description = request.GET.get('description')
-    genre = request.GET.get('genre')  # Get the genre from the request parameters
+    genre = request.GET.get('genre')
 
     books = Book.objects.all()
 
@@ -93,7 +93,7 @@ def filter_books(request):
     if description:
         books = books.filter(description__icontains=description)
 
-    if genre:  # Filter by genre if provided
+    if genre:
         books = books.filter(genre=genre)
 
     return render(request, 'book/filter_books.html', {'books': books})
@@ -113,22 +113,17 @@ def add_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            # Зберігаємо форму, але поки без збереження в базу даних
             book_instance = form.save(commit=False)
 
-            # Тепер зберігаємо книгу в базу даних
             book_instance.save()
 
-            # Отримуємо ID збереженої книги
             book_id = book_instance.id
 
-            # Перевіряємо, чи є вибраний автор у формі
             if 'author' in request.POST:
                 author_id = request.POST['author']
                 author = get_object_or_404(Author, pk=author_id)
-                book_instance.authors.add(author)  # Додаємо автора до книги
+                book_instance.authors.add(author)
 
-            # Сохранение поля link
             if 'link' in request.POST:
                 book_instance.link = request.POST['link']
                 book_instance.save()
