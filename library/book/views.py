@@ -204,7 +204,7 @@ def export_books_csv(request):
     if export_author:
         header.append('Author')
     if export_date_of_issue:
-        header.append('Date of Issue')
+        header.append('Date of Publication')
 
     # Записываем заголовок в CSV-файл
     writer.writerow(header)

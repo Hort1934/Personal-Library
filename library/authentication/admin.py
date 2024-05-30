@@ -25,7 +25,7 @@ class BookAdmin(admin.ModelAdmin):
         response['Content-Disposition'] = f'attachment; filename="books_{datetime.date.today()}.csv"'
 
         writer = csv.writer(response)
-        writer.writerow(['Name', 'Description', 'Date of Issue', 'Link'])
+        writer.writerow(['Name', 'Description', 'Date of Publication', 'Link'])
 
         for book in queryset:
             writer.writerow([book.name, book.description, book.date_of_issue, book.link])
