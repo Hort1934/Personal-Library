@@ -1,7 +1,6 @@
-{#{% extends "authentication/index.html" %}#}
+{% load static %}
 <title>Login page</title>
-{#{% block title %}Login form{% endblock %}#}
-   <style>
+<style>
 
       body {
       font-family: Arial, sans-serif;
@@ -81,7 +80,6 @@
         .button-container {
             display: flex;
             justify-content: center;
-            {#margin-top: 3rem;#}
         }
         h2 {
             color: #45a049;
@@ -277,11 +275,11 @@
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}
-    <img src="https://th.bing.com/th/id/OIG1.MuFRwbeeQ5zGLJjZQ9ty?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="Logo" style="display: block; margin: 111px auto 20px; width: 200px; height: auto;">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" style="display: block; margin: 111px auto 20px; width: 200px; height: auto; border-radius: 100px">
     <form method="post">
         {% csrf_token %}
         <div class="container-xxl" style="max-width: 300px; margin: -40% auto 100px auto;">
