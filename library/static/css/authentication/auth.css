@@ -1,0 +1,29 @@
+ .navbar-nav .nav-link {
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+        transform: scale(1.1);
+    }
+
+    .fade-in {
+        animation: fadeInAnimation 1s ease-in forwards;
+        opacity: 0;
+    }
+
+    /* Анімація зникання/виникнення */
+    @keyframes fade {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    /* Застосувати анімацію до елементів з класом 'fade-in-out' */.
+    .fade-in-out {
+        animation: fade 5s infinite; /* Змініть тривалість (5 с) за потреби */.
+    }
+                                                                  .card-img {
+      max-width: 300px; /* Set maximum width for the image */
+      display: block; /* Center the image */
+      margin: 0 auto; /* Center the image horizontally */
+      margin-bottom: 20px; /* Add some space below the image */

@@ -1,0 +1,26 @@
+ body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa; /* Light gray background */
+    }
+    .container {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    .card {
+      background-color: #fff; /* White card background */
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+      padding: 20px;
+    }
+    .card-title {
+      color: #007bff; /* Blue title color */
+    }
+    .card-text {
+      color: #333; /* Dark text color */
+    }
+    .card-img {
+      max-width: 300px; /* Set maximum width for the image */
+      display: block; /* Center the image */
+      margin: 0 auto; /* Center the image horizontally */
+      margin-bottom: 20px; /* Add some space below the image */
+    }
