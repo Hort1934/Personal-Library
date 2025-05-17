@@ -22,31 +22,38 @@ from author.models import Author
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'author']
+        fields = ['name', 'description', 'isbn', 'date_of_issue', 'image', 'link']
 
     name = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '50'}))
-    author = forms.ModelChoiceField(queryset=Author.objects.all(), required=False, label='Author', empty_label=None)
+
+    author = forms.ModelChoiceField(
+        queryset=Author.objects.all(),
+        widget=forms.Select,
+        required=True,
+        empty_label=None,
+        label='Author',
+    )
 
     description = forms.CharField(required=True,
                                   widget=forms.Textarea(attrs={'rows': 5, 'cols': 40, 'css': 'resize:none;'}))
-    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '10','minlength': '10'}))
+    isbn = forms.CharField(required=True, widget=forms.TextInput(attrs={'maxlength': '13'}))
     date_of_issue = forms.DateField(required=True, widget=forms.SelectDateWidget(years=range(1900, 2024)))
+
+    # Додаємо нове поле `link`
+    link = forms.URLField(required=False, widget=forms.URLInput(attrs={'maxlength': '200'}))
 
 
 @login_required
 def all_books(request):
-    books = Book.objects.all()
     user_data = request.user.get_user_data()
-    search_id = request.GET.get('id')
+    search_name = request.GET.get('name')
 
-    if search_id:
-        try:
-            book_id = int(search_id)
-            book = get_object_or_404(Book, id=book_id)
-            return view_book(request, book.id)
-        except (ValueError, Http404):
-            messages.error(request, f"Book not found for ID: {search_id}. Please enter a valid numeric ID.")
-            return render(request, 'book/all_books.html', {'books': books})
+    if search_name:
+        # Ищем книги по названию, содержащему введенную пользователем строку
+        books = Book.objects.filter(name__icontains=search_name)
+    else:
+        # Если строка поиска не указана, отображаем все книги
+        books = Book.objects.all()
 
     # Отримання номера сторінки з параметра запиту
     page = request.GET.get('page')
@@ -68,17 +75,16 @@ def all_books(request):
 
 
 def view_book(request, book_id):
+    user_data = request.user.get_user_data()
     book = get_object_or_404(Book, id=book_id)
-    return render(request, 'book/view_book.html', {'book': book})
+    return render(request, 'book/view_book.html', {'book': book, 'user_data': user_data})
 
 
 def filter_books(request):
     name = request.GET.get('name')
     description = request.GET.get('description')
-    count_min = request.GET.get('count_min')
-    count_max = request.GET.get('count_max')
+    genre = request.GET.get('genre')
 
-    # Фільтрація за назвою і описом
     books = Book.objects.all()
 
     if name:
@@ -87,16 +93,11 @@ def filter_books(request):
     if description:
         books = books.filter(description__icontains=description)
 
-    # Фільтрація за кількістю книг
-    if count_min is not None and count_max is not None:
-        try:
-            count_min = int(count_min)
-            count_max = int(count_max)
-            books = books.filter(count__range=(count_min, count_max))
-        except ValueError:
-            messages.error(request, "Invalid count range. Please enter valid numeric values.")
+    if genre:
+        books = books.filter(genre=genre)
 
     return render(request, 'book/filter_books.html', {'books': books})
+
 
 
 def user_books(request, user_id):
@@ -112,20 +113,20 @@ def add_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            # Сохраняем форму, но пока без сохранения в базу данных
             book_instance = form.save(commit=False)
 
-            # Теперь сохраняем книгу в базу данных
             book_instance.save()
 
-            # Получаем ID сохраненной книги
             book_id = book_instance.id
 
-            # Проверяем, есть ли выбранный автор в форме
             if 'author' in request.POST:
                 author_id = request.POST['author']
                 author = get_object_or_404(Author, pk=author_id)
-                book_instance.authors.add(author)  # Добавляем автора к книге
+                book_instance.authors.add(author)
+
+            if 'link' in request.POST:
+                book_instance.link = request.POST['link']
+                book_instance.save()
 
             return redirect('all_books')
     else:
@@ -139,10 +140,15 @@ def edit_book(request, book_id):
         form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             book_instance = form.save(commit=False)
-            # Перевіряємо, чи завантажено нове зображення
+            # Перевірка та збереження поля link
+            if 'link' in request.POST:
+                book_instance.link = request.POST['link']
+                book_instance.save()
+
+            # Обробка зображення
             if 'image' in request.FILES:
-                # Обробляємо та зберігаємо нове зображення
                 handle_uploaded_image(request.FILES['image'], book_instance)
+
             book_instance.save()
             return redirect('view_book', book_id=book_id)
     else:
@@ -172,20 +178,22 @@ def delete_book(request, book_id):
 
 
 def export_books_csv(request):
+    # Устанавливаем тип содержимого для CSV-файла
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="books.csv"'
     response.write(codecs.BOM_UTF8)
 
+    # Создаем писателя CSV
     writer = csv.writer(response)
 
-    # Отримання значень вибраних колонок з форми
+    # Получаем значения выбранных столбцов из формы запроса
     export_id = request.GET.get('export_id') == 'on'
     export_name = request.GET.get('export_name') == 'on'
     export_description = request.GET.get('export_description') == 'on'
-    export_count = request.GET.get('export_count') == 'on'
+    export_author = request.GET.get('export_author') == 'on'
     export_date_of_issue = request.GET.get('export_date_of_issue') == 'on'
 
-    # Запис колонок в CSV-файл відповідно до вибору користувача
+    # Составляем заголовок CSV-файла в зависимости от выбранных столбцов
     header = []
     if export_id:
         header.append('ID')
@@ -193,14 +201,17 @@ def export_books_csv(request):
         header.append('Name')
     if export_description:
         header.append('Description')
-    if export_count:
-        header.append('Count')
+    if export_author:
+        header.append('Author')
     if export_date_of_issue:
-        header.append('Date of Issue')
+        header.append('Date of Publication')
 
+    # Записываем заголовок в CSV-файл
     writer.writerow(header)
 
+    # Получаем все книги для экспорта
     books = Book.objects.all()
+
     for book in books:
         row = []
         if export_id:
@@ -209,37 +220,59 @@ def export_books_csv(request):
             row.append(book.name)
         if export_description:
             row.append(book.description)
-        if export_count:
-            row.append(book.count)
+        if export_author:
+            # Получаем всех авторов книги
+            authors = book.author.all() if hasattr(book, 'author') else []
+            # Объединяем имена и фамилии авторов в одну строку, разделяя запятыми
+            author_names = ", ".join(f"{author.name} {author.surname}" for author in authors)
+            row.append(author_names)
         if export_date_of_issue:
             row.append(book.date_of_issue)
 
+        # Записываем строку в CSV-файл
         writer.writerow(row)
 
+    # Возвращаем HTTP-ответ с содержимым CSV-файла
     return response
 
 
+from django.db.models.functions import ExtractYear
+
+# views.py
 def analytics(request):
     # Аналітика користувачів
     total_users = User.objects.count()
 
     # Аналітика книг
+
     total_books = Book.objects.count()
+
+    # Аналітика за виходом книг з часом
+    books_issued_over_time = Book.objects.annotate(year=ExtractYear('date_of_issue')).values('year').annotate(
+        total=Count('id'))
 
     # Аналітика інтеракцій
     books_per_user = {user.name: user.get_all_books().count() for user in User.objects.all()}
-    popular_books = Book.objects.order_by('-count')[:5]
+    # popular_books = Book.objects.order_by('-count')[:5]
 
     # Темпоральна аналітика
     # Припустимо, що у книги є поле `date_of_issue`
     books_issued_by_month = Book.objects.extra({'month': "EXTRACT(month FROM date_of_issue)"}).values('month').annotate(
         total=Count('id'))
 
+    # Аналітика по жанрам
+    genres_count = Book.objects.values('genre').annotate(total=Count('id'))
+
     context = {
         'total_users': total_users,
         'total_books': total_books,
         'books_per_user': books_per_user,
-        'popular_books': popular_books,
+        # 'popular_books': popular_books,
         'books_issued_by_month': books_issued_by_month,
+        'genres_count': genres_count,
+        'total_books': total_books,
+        'books_issued_over_time': books_issued_over_time,
     }
     return render(request, 'book/analytics.html', context)
+
+

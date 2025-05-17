@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Orders</title>
+    <title>All preferences</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,7 +11,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -21,7 +21,7 @@
         .container {
             width: 95%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 100px auto;
             padding: 2rem;
             background-color: #fff;
             border: 1px solid #ccc;
@@ -92,8 +92,8 @@
 <body>
     <div class="container">
         {% for order in orders %}
-            <h3>Order ID: {{ order.id }}</h3>
-            <p>Status: {{ order.status }}</p>
+            <h3>Preferences №: {{ order.id }}</h3>
+<!--            <p>Status: {{ order.status }}</p>-->
             <p>Name: {{ order.book.name }}</p>
             <p>Plated end at: {{ order.plated_end_at }}</p>
             <hr>
@@ -104,7 +104,7 @@
         {% empty %}
             <p class="no-orders">No orders available for the current user.</p>
         {% endfor %}
-        <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>
+        <a href="{% url 'all_orders' %}" class="return-button">Return to All Preferences</a>
     </div>
 </body>
 </html>

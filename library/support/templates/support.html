@@ -9,7 +9,7 @@
 
     body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -61,7 +61,7 @@
     }
 
     button {
-      background-color: #007bff;
+      background-color: black;
       color: white;
       padding: 10px 20px;
       border: none;
@@ -78,53 +78,79 @@
     .map {
       flex: 1;
       max-width: calc(100% - 400px);
+      position: relative; /* Додаємо позиціонування relative */
+    }
+
+    .map-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Прозорість */
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
     }
 
     .ask-question-container {
       position: fixed;
-      bottom: 20px;
+      bottom: 0;
       right: 20px;
       z-index: 999; /* Переконуємося, що контейнер знаходиться поверх інших елементів */
     }
+
+    .active-support {
+      text-decoration: underline;
+      color: green;
+    }
+
+    .nav-item active{
+        color: #000000;
+    background-color: #ffffff;
+    border-radius: 25px;
+    }
+
   </style>
 
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="/auth">Main</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                {% if user_data.role == "Librarian" %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/authors">All Authors</a>
-                    </li>
-                {% endif %}
+    <a class="navbar-brand" href="/auth">Main</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            {% if user_data.role == "Librarian" %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/books">All Books</a>
+                    <a class="nav-link" href="/authors">All Authors</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/all_orders">All Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Support</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user_profile">User Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="/books">All Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/all_orders">All favorites</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#" style="color: #000000; background-color: #ffffff;
+                border-radius: 25px;">Support</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user_profile">User Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 
   <header>
   </header>
-  <main>
-    <form style="color: white">
+  <main style="margin-top: 20px">
+
+    <form style="color: black">
       <h2>How can we help you today?</h2>
       <p>We are here to help you with any questions or problems you may have. Please feel free to contact us using the form below.</p>
 
@@ -141,8 +167,8 @@
 
     </form>
 
-    <div class="map" id="google-map">
-      <!-- Google Map will be displayed here -->
+    <div class="map" style="margin-bottom: 0; background-image: url('https://media1.thehungryjpeg.com/thumbs2/ori_3505890_4459abd13544493c03bf70f7a8e35f69327d337c_online-education-web-e-book-shop-library-vector-isometric-concept.jpg'); background-size: cover; background-repeat: no-repeat;">
+
     </div>
   </main>
 
@@ -150,84 +176,23 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <script>
-    function initMap() {
-      var mapOptions = {
-        center: { lat: 50.382775, lng: 30.4946684 }, // Set the initial map center coordinates
-        zoom: 18, // Set the initial zoom level
-      };
-
-      // Create a new map object
-      var map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
-    }
-  </script>
-
-  <!-- Include the Google Maps API script -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOX23EtcR8pRkS0eghUbqeZqF0Td42-hE&callback=initMap" async defer></script>
-
-<div class="ask-question-container">
-  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#contactModal">
-    Contact Us
-  </button>
-</div>
-
-<!-- Модальне вікно для контакту -->
-<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <!-- Форма для контакта -->
-        <form>
-          <div class="form-group">
-            <label for="contactMessage">Your Message:</label>
-            <textarea class="form-control col-2" id="contactMessage" rows="4" style="max-width: 80%;"></textarea>
-          </div>
-        </form>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send Message</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-  jQuery(document).ready(function () {
-    document.getElementById('questionForm').addEventListener('submit', function (event) {
-      event.preventDefault();
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentLocation = window.location.pathname; // Отримуємо поточний шлях
+        var navLinks = document.querySelectorAll(".nav-link"); // Отримуємо всі елементи з класом "nav-link"
 
-      var questionText = document.getElementById('question').value;
+        navLinks.forEach(function(link) {
+            var href = link.getAttribute("href"); // Отримуємо значення атрибуту href
 
-      jQuery.ajax({
-        type: 'POST',
-        url: '/submit_question',
-        data: {
-          'question_text': questionText,
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-        },
-        success: function (response) {
-          console.log('Question submitted successfully!');
-        },
-        error: function (error) {
-          console.error('Error submitting question:', error);
-        }
-      });
+            // Вирізаємо домен з посилань і порівнюємо шляхи
+            if (href === currentLocation || href === window.location.href) {
+                link.parentNode.classList.add("active");
+                link.classList.add("active-support");
+            }
+        });
     });
-  });
-</script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</script>
 
 </body>
 </html>

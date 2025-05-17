@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Orders</title>
+    <title>All Preferences</title>
     <style>
         * {
             box-sizing: border-box;
-        } 
+        }
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -53,7 +53,7 @@
         }
 
         .no-orders {
-            /* No orders message styles */
+            margin-left: 15px;
         }
 
         .action-buttons {
@@ -94,6 +94,7 @@
 
         .order-card:hover {
             transform: translateY(-5px);
+            background-color: lightgray; /* Добавляем изменение цвета при наведении */
         }
 
         .order-card img {
@@ -122,7 +123,8 @@
                 <a class="nav-link" href="/books">All Books</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/all_orders">All Orders</a>
+                <a class="nav-link" href="#" style="color: #000000; background-color: #ffffff;
+                border-radius: 25px;">All favorites</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/support">Support</a>
@@ -136,29 +138,37 @@
         </ul>
     </div>
 </nav>
+{% block content %}
 <div class="container" style="margin-top: 80px">
-        <div class="action-buttons">
-            {% if user_data.role == "Visitor" %}
-                <a href="{% url 'create_order' %}">Create Order</a>
-                <a href="{% url 'my_orders' %}">My Orders</a>
-            {% endif %}
-        </div>
-        {% if user %}
-        <!-- Змініть шаблон для виведення інформації про користувача -->
-        {% for order in orders %}
-            <h3>Order №: {{ order.id }}</h3>
-            <p>Status: {{ order.status }}</p>
-            <p>Name: {{ order.book.name }}</p>
-            <p>Created at order: {{ order.created_at }}</p>
-            <p>Plated end at: {{ order.plated_end_at }}</p>
-            <p>Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>  <!-- Додаємо інформацію про користувача -->
-            <hr>
-
-        {% empty %}
-            <p class="no-orders">No orders available.</p>
-        {% endfor %}
-{% endif %}
+    <div class="action-buttons">
+        {% if user_data.role == "Visitor" %}
+            <a href="{% url 'create_order' %}" class="btn btn-primary">Add preferences</a>
+            <a href="{% url 'my_orders' %}" class="btn btn-secondary">My favorites</a>
+        {% endif %}
+        <a href="{% url 'orders_by_genre' %}" class="btn btn-secondary">Analytics</a>
     </div>
+
+    {% if user %}
+        <div class="row">
+            {% for order in orders %}
+                <div class="col-md-4">
+                    <div class="card order-card">
+                        <div class="card-body">
+                            <h6 class="card-title">Preference №: {{ order.id }}</h6>
+                            <p class="card-text">Name: {{ order.book.name }}</p>
+                            <p class="card-text">Created at order: {{ order.created_at }}</p>
+                            <p class="card-text">Planned end at: {{ order.plated_end_at }}</p>
+                            <p class="card-text">Ordered by: {{ order.user.first_name }} {{ order.user.last_name }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="no-orders">No orders available.</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
 
 <!-- Контейнер для кнопки "Contact" -->
 <div class="ask-question-container">

@@ -20,7 +20,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -113,18 +113,35 @@
         <form method="GET" action="{% url 'filter_books' %}">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name">
+<!--            <br>-->
+<!--            <label for="description">Description:</label>-->
+<!--            <input type="text" id="description" name="description">-->
             <br>
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description">
+            <label for="genre">Genre:</label>
+            <select id="genre" name="genre">
+                <option value="">All</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Romance">Romance</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Horror">Horror</option>
+                <option value="Historical Fiction">Historical Fiction</option>
+                <option value="Diary">Diary</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Young Adult">Young Adult</option>
+                <option value="Non-fiction">Non-fiction</option>
+                <option value="Science">Science</option>
+                <option value="Philosophy">Philosophy</option>
+                <option value="Poetry">Poetry</option>
+                <option value="Classics">Classics</option>
+                <option value="Drama">Drama</option>
+                <!-- Add more options for other genres as needed -->
+            </select>
             <br>
-            <label for="count">Count:</label>
-            <input type="text" id="count" name="count" readonly>
-            <div id="count-slider"></div>
-            <input type="hidden" id="count_min" name="count_min" value="0">
-            <input type="hidden" id="count_max" name="count_max" value="100">
             <br>
             <button type="submit"><font size="3">Filter</font></button>
         </form>
+
 
         <script>
             // Ініціалізація ползунка
@@ -144,16 +161,18 @@
                     " - " + $("#count-slider").slider("values", 1));
             });
         </script>
-
-
         {% if books %}
             <h3>Filtered Books:</h3>
             {% for book in books %}
                 <h4>{{ book.title }}</h4>
-                <p>Id: {{ book.id }}</p>
-                <p>Name: {{ book.name }}</p>
-                <p>Count: {{ book.count }}</p>
-                <p>Description: {{ book.description }}</p>
+                <p><a href="/books/{{ book.id }}">{{ book.name }}</a></p>
+<!--                <p>Author:-->
+<!--                {% for author in book.authors.all %}-->
+<!--                    {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}-->
+<!--                {% empty %}-->
+<!--                    No authors-->
+<!--                {% endfor %}</p>-->
+                <p>Genre: {{ book.genre }}</p>
                 <hr>
             {% empty %}
                 <p class="no-results">No books match the filter criteria.</p>

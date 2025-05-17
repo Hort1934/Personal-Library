@@ -9,7 +9,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -18,14 +18,14 @@
 
         .container {
             width: 95%;
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 600px;
+            max-height: 500px;
             padding: 2rem;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem; /* Відрегульований верхній відступ для кращого інтервалу між рядками */
+            margin-top: 1rem; /* Відрегульований верхній відступ для кращого інтервалу між рядками */
         }
 
         h1 {
@@ -75,7 +75,7 @@
     </style>
 
     <div class="container">
-        <h1>Edit Author</h1>
+        <h3>Edit Author</h3>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

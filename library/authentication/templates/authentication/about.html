@@ -1,20 +1,80 @@
-{% extends "authentication/index.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/authentication/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Підключення Font Awesome CSS (переконайтеся, що ви маєте доступ до Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>About</title>
+</head>
 
-{% block content %}
-    <h5><img src="https://nubip.edu.ua/sites/all/themes/nauu/images/redesign2/nubip-logo-gerb.png?20022021" alt=""
-             style="margin: 80px 10px 0px 400px"></h5>
-    <h5 style="color: black; margin: auto 100px auto 140px">
-        <p style="color: black">**About us**</p>
-            We offer innovative software for automating library processes,
-        including a book collection management system.
-        <br>Our solution helps libraries effectively manage their resources, track book circulation, and
-        provide a high level of customer service.
-        <br>Our book collection management system includes advanced search capabilities, automated
-        record keeping, as well as analysis and reporting tools. It allows librarians to focus on providing
-        high-quality services instead of spending time on routine administrative tasks.
-        <br>We pride ourselves on helping libraries use technology to improve efficiency and
-         service improvement.
-        <br>With our software, libraries can provide their
-         users access to the right information at the right time. We invite you to learn more about ours
-         products and services.</h5>
-{% endblock %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/auth">Main</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            {% if user_data.role == "Librarian" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/authors">All Authors</a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="/books">All Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/all_orders">All favorites</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/support">Support</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user_profile">User Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #000000; background-color: #ffffff;
+                border-radius: 25px;">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <img src="{% static 'images/logo.png' %}" alt="NUBiP Logo" class="card-img">
+      <p class="card-text">
+        At the heart of our program lies a commitment to innovation in library management. Our software serves as a comprehensive solution for automating library processes, specifically tailored to efficiently manage book collections.
+      </p>
+      <h6 class="card-subtitle mb-2 text-muted">Authorship and Design</h6>
+      <p class="card-text">
+        This program is the brainchild of Ihor Marchenko, who envisioned a platform that revolutionizes the way libraries operate in the digital age. The design ethos behind our program is centered on user-friendliness and accessibility, ensuring that patrons and librarians alike can navigate seamlessly through its features.
+      </p>
+      <h6 class="card-subtitle mb-2 text-muted">Theme and Functionality</h6>
+      <p class="card-text">
+        The overarching theme of our program revolves around empowering users with unrestricted access to a vast array of literary resources. It serves as a digital hub where individuals can freely browse, read, and bookmark books of interest.
+      </p>
+      <h6 class="card-subtitle mb-2 text-muted">Library Management System</h6>
+      <p class="card-text">
+        Our system offers a robust library management system, streamlining processes such as book circulation tracking and resource allocation. Librarians benefit from advanced search functionalities, automated record-keeping, and insightful analytics tools. By automating routine administrative tasks, our program enables librarians to focus on delivering exceptional service to patrons.
+      </p>
+      <h6 class="card-subtitle mb-2 text-muted">Program Description</h6>
+      <p class="card-text">
+        Our program is a multifaceted web platform designed to provide users with a rich reading experience. Key features include:
+        <ul>
+          <li>Book Catalog: A comprehensive catalog of books available for users to explore, search, and access.</li>
+          <li>Bookmarking: Users can bookmark their favorite books for easy access at a later time.</li>
+          <li>Personalized Profiles: Each user has their own personalized profile, where they can track their reading history and manage their preferences.</li>
+          <li>Support Page: A dedicated support page where users can reach out to developers for assistance or provide feedback.</li>
+          <li>Analytics Tools: In-depth analytics and reporting tools provide valuable insights to librarians, enabling them to optimize library resources and services.</li>
+        </ul>
+        Our program aims to leverage technology to enhance library efficiency and service quality, ultimately ensuring that users have access to the right information at the right time.
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

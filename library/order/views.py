@@ -27,13 +27,13 @@ def create_order(request):
             form = OrderForm(request.POST)
             if form.is_valid():
                 order = form.save(commit=False)
-                if order.book.count > 0:
+                if order.book:
                     order.user = user  # Прив'язка до поточного користувача
                     order.created_at = timezone.now()
                     order.status = '1'
                     order.save()
 
-                    order.book.count -= 1
+                    # order.book.count -= 1
                     order.book.save()
                     return redirect('my_orders')
                 else:
@@ -80,3 +80,24 @@ def delete_order(request, order_id):
     # Виконуємо логіку видалення тут
     order.delete()
     return redirect('all_orders')
+
+from django.shortcuts import render
+from .models import Order, Book
+from django.db.models import Count
+
+def book_analytics(request):
+    # Получение топ-10 книг по популярности
+    top_books = Order.objects.values('book_id').annotate(total_orders=Count('book_id')).order_by('-total_orders')[:10]
+
+    # Получение объектов книг для отображения в шаблоне
+    top_books_data = []
+    for item in top_books:
+        book = Book.objects.get(pk=item['book_id'])
+        top_books_data.append({'book': book, 'total_orders': item['total_orders']})
+
+    return render(request, 'order/analytics.html', {'top_books_data': top_books_data})
+
+
+def orders_by_genre(request):
+    orders_by_genre = Order.orders_by_genre()
+    return render(request, 'order/orders_by_genre.html', {'orders_by_genre': orders_by_genre})

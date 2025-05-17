@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Order</title>
+    <title>Edit Preferences</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -15,7 +15,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -25,7 +25,7 @@
         .container {
             width: 95%;
             max-width: 500px; /* Increased max-width for larger window */
-            margin: 0 auto;
+            margin: 100px auto;
             padding-top: 50px;
             padding: 2rem;
             background-color: #fff;
@@ -63,7 +63,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Edit Order</h2>
+        <h2>Edit Preferences</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.book.label_tag }}: {{ form.book }}<br><br>
@@ -71,7 +71,7 @@
             Plated end at: <input type="date" id="datepicker" name="plated_end_at" class="input-field" value="{{ form.instance.plated_end_at|date:'Y-m-d' }}"><br><br>
             <button type="submit">Save</button>
         </form>
-        <a href="{% url 'all_orders' %}" class="return-button">Return to All Orders</a>
+        <a href="{% url 'all_orders' %}" class="return-button">Return to All Preferences</a>
     </div>
 </body>
 </html>

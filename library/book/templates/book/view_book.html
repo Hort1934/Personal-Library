@@ -12,7 +12,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -22,7 +22,7 @@
         .container {
             width: 95%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 100px auto;
             padding: 2rem;
             background-color: #fff;
             border: 1px solid #ccc;
@@ -78,6 +78,7 @@
         <h3>{{ book.name }}</h3>
         <p>Description: {{ book.description }}</p>
         <p>ISBN: {{ book.isbn }}</p>
+        <p>Genre: {{ book.genre }}</p>
         <p>Author:
             {% for author in book.authors.all %}
                 {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
@@ -85,16 +86,28 @@
                 No authors
             {% endfor %}
         </p>
-        <p>Date of issue: {{ book.date_of_issue }}</p>
+        <p>Date of publication: {{ book.date_of_issue }}</p>
 
         {% if book.image %}
             <img src="{{ book.image.url }}" alt="{{ book.name }}">
         {% endif %}
 
+        <p>
+            Download or view the book:
+            {% if book.link %}
+                <a href="{{ book.link }}" target="_blank">Click here</a>
+            {% else %}
+                No link available
+            {% endif %}
+        </p>
+
+
         <p></p>
         <a href="/books/" class="return-button">Return to Book List</a>
+        {% if user_data.role == "Librarian" %}
         <a href="/book/{{ book.id }}/delete" class="delete-button">
             <i class="fa fa-trash fa-spin"></i> Delete
+            {% endif %}
         </a>
     </div>
 </body>

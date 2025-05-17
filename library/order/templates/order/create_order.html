@@ -12,7 +12,7 @@
         body {
             margin-top: 15%;
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
@@ -22,10 +22,10 @@
         .container {
             width: 95%;
             max-width: 500px;
-            margin: 0 auto;
+            margin: auto auto auto auto;
             padding: 2rem;
             background-color: #fff;
-            border: 1px solid #ccc;
+            border: 1px solid black;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -69,7 +69,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Create Order</h2>
+        <h2>Create preferences</h2>
         {% if error %}
             <p>{{ error }}</p>
         {% endif %}
@@ -84,7 +84,8 @@
             {% if form.errors.plated_end_at %}
                 <p style="color: red;">{{ form.errors.plated_end_at }}</p>
             {% endif %}
-            <button type="submit" class="submit-button">Create Order</button>
+            <br>
+            <button type="submit" class="submit-button">Create preferences</button>
         </form>
         <a href="{% url 'all_orders' %}" class="return-button">Back</a>
     </div>

@@ -1,3 +1,4 @@
+<!-- analytics.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +9,12 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url("https://mir-s3-cdn-cf.behance.net/project_modules/fs/7099fc28008799.56e41b31e770e.gif");
+            background-color: white;
             background-size: cover; /* Розмір фону - вписати весь вікно браузера */
             background-repeat: no-repeat; /* Заборонити повторення фонового зображення */
             background-attachment: fixed; /* Фіксований фон при прокручуванні */
             background-position: center center; /* Вирівнювання фонового зображення по центру */
-      }
+        }
 
         .container {
             max-width: 800px;
@@ -41,65 +42,108 @@
         canvas {
             margin-top: 20px;
         }
+
+        .chart-container {
+            position: relative;
+            margin-top: 20px;
+        }
+        .total-books {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .total-books p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Analytics Dashboard</h1>
+<div class="container">
+    <h1 style="text-decoration: underline">Analytics Dashboard</h1>
+    <h2>Number of books in the system by genre</h2>
 
-        <h2>Books</h2>
-        <p>Total Books: {{ total_books }}</p>
-
-        <h2>Interactions</h2>
-        <ul>
-            {% for user, books_count in books_per_user.items %}
-                <li>{{ user }}: {{ books_count }} books</li>
-            {% endfor %}
-        </ul>
-
-        <h2>Popular Books</h2>
-        <ul>
-            {% for book in popular_books %}
-                <li>{{ book.name }} ({{ book.count }} copies)</li>
-            {% endfor %}
-        </ul>
-
-        <h2>Temporal Analysis</h2>
-        <canvas id="booksIssuedChart" width="400" height="200"></canvas>
+    <!-- Графік книг за жанром -->
+    <div class="chart-container">
+        <canvas id="booksByGenreChart" width="400" height="200"></canvas>
     </div>
+</div>
 
-    <script>
-            // Отримайте дані для графіку
-            var months = [];
-            var booksIssued = [];
-            {% for month_data in books_issued_by_month %}
-                months.push('{{ month_data.month }}');
-                booksIssued.push('{{ month_data.total }}');
-            {% endfor %}
+<script>
+    // Отримайте дані для графіку
+var genres = [];
+var booksByGenre = [];
+{% for genre_data in genres_count %}
+    genres.push('{{ genre_data.genre }}');
+    booksByGenre.push('{{ genre_data.total }}');
+{% endfor %}
 
-            // Створіть графік за допомогою Chart.js
-            var ctx = document.getElementById('booksIssuedChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: months,
-                    datasets: [{
-                        label: 'Books Issued',
-                        data: booksIssued,
-                        backgroundColor: 'rgba(126,54,235,0.2)',
-                        borderColor: 'rgb(175,54,235)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+// Початкові дані для графіку
+var initialData = {
+    labels: genres,
+    datasets: [{
+        label: 'Number of books in the system by genre',
+        data: booksByGenre,
+        backgroundColor: 'rgba(126,54,235,0.2)',
+        borderColor: 'rgb(175,54,235)',
+        borderWidth: 1
+    }]
+};
+
+// Створіть графік за допомогою Chart.js
+var ctx = document.getElementById('booksByGenreChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: initialData,
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Genres', // Текст по осі X
+                    font: {
+                        size: 16, // Розмір шрифту
+                        weight: 'bold', // Товщина шрифту
+                        family: 'Arial', // Сімейство шрифтів
+                        color: 'rgba(0, 0, 0, 0.7)' // Колір тексту
                     }
                 }
-            });
-        </script>
-    </div>
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Number of books', // Текст по осі Y
+                    font: {
+                        size: 16, // Розмір шрифту
+                        weight: 'bold', // Товщина шрифту
+                        family: 'Arial', // Сімейство шрифтів
+                        color: 'rgba(0, 0, 0, 0.7)' // Колір тексту
+                    }
+                },
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+// Оновлення графіка за жанром
+function updateChart(genre) {
+    var url = '/update_chart/?genre=' + genre;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            myChart.data.labels = data.labels;
+            myChart.data.datasets[0].data = data.booksCount;
+            myChart.update();
+        });
+}
+
+</script>
+
+
 </body>
 </html>
